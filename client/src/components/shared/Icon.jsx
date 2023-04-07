@@ -8,14 +8,23 @@ import { fab,
 import {
   faCheck,
     faChevronLeft,
+    faChevronRight,
     faEllipsisH,
+    faUsers,
+    faArchive,
+    faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
     fab,
     faChevronLeft,
+    faChevronRight,
     faCheck,
-    faEllipsisH,    
+    faEllipsisH, 
+    faUsers,
+    faArchive,
+    faUser,
+
     );
 
 const IconWrapper = styled.div``;

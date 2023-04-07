@@ -6,6 +6,7 @@ import closeIcon from '../../icons/closeIcon.png';
 import './InfoBar.css';
 import { Icon } from '../shared';
 import styled from "styled-components";
+import { Link } from 'react-router-dom';
 
 const BackIcon = styled(Icon)`
   padding-right: 12px;
@@ -18,7 +19,9 @@ const InfoBar = ({ room }) => (
     <div className="leftInnerContainer">
 
       {/* <img className="onlineIcon" src={onlineIcon} alt="online icon" /> */}
-      <a href="/"><BackIcon name={"chevron-left"} />   </a>
+      <Link onClick={null} to={`/main`}>
+        <BackIcon name={"chevron-left"} />
+      </Link>
       {/* <BackIcon name={"chevron-left"} />       */}
       <h3>{room}</h3>
     </div>
