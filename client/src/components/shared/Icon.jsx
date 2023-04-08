@@ -13,6 +13,8 @@ import {
     faUsers,
     faArchive,
     faUser,
+    faTimes,
+    faComment
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -24,7 +26,8 @@ library.add(
     faUsers,
     faArchive,
     faUser,
-
+    faTimes,
+    faComment,
     );
 
 const IconWrapper = styled.div``;

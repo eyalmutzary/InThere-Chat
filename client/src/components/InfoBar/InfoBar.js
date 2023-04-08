@@ -14,7 +14,7 @@ const BackIcon = styled(Icon)`
 `
 
 
-const InfoBar = ({ room }) => (
+const InfoBar = ({ room, setRoomDetailsModal }) => (
   <div className="infoBar">
     <div className="leftInnerContainer">
 
@@ -26,7 +26,7 @@ const InfoBar = ({ room }) => (
       <h3>{room}</h3>
     </div>
     <div className="rightInnerContainer">
-      <BackIcon name={"ellipsis-h"} />
+      <BackIcon name={"ellipsis-h"} onClick={() => setRoomDetailsModal(true)}/>
     </div>
   </div>
 );

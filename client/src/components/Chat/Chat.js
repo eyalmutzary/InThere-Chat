@@ -8,6 +8,7 @@ import InfoBar from '../InfoBar/InfoBar';
 import Input from '../Input/Input';
 
 import './Chat.css';
+import RoomDetails from "./RoomDetails";
 
 // const ENDPOINT = 'https://project-chat-application.herokuapp.com/';
 const ENDPOINT = 'http://localhost:5000/'
@@ -20,6 +21,7 @@ const Chat = ({ location }) => {
   const [users, setUsers] = useState('');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [roomDetailsModal, setRoomDetailsModal] = useState(false);
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
@@ -57,11 +59,13 @@ const Chat = ({ location }) => {
   return (
     <div className="outerContainer">
       <div className="container">
-          <InfoBar room={room} />
+          <InfoBar room={room} setRoomDetailsModal={setRoomDetailsModal}/>
           <Messages messages={messages} name={name} />
           <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
       </div>
       <TextContainer users={users}/>
+
+      {roomDetailsModal && <RoomDetails users={users} setRoomDetailsModal={setRoomDetailsModal}/>}
     </div>
   );
 }
