@@ -1,17 +1,18 @@
-# Realtime Chat Application
-
-### [Live Site](https://realtime-chat-application.netlify.com)
-
-![Chat Application](https://i.ytimg.com/vi/ZwFA3YMfkoc/maxresdefault.jpg)
+# InThere Chat Application
 
 ## Introduction
-This is a code repository for the corresponding video tutorial. 
 
-In this video, we will create a full Realtime Chat Application. We're going to use  React on the front end, with NodeJS + Socket.io web socket library on the back end. 
+InThere is a chat app that connects users based on their current location, making it a great tool for use during trips. The app uses geolocation technology to match users with chat groups located in their vicinity, which can help travelers meet new people and discover local hotspots.
 
-By the end of this video, you will have a strong understanding of how to send and receive messages using web sockets and Socket.io to make any real-time application.
+Whether traveling for business or pleasure, InThere enables users to engage in real-time conversations with people who are physically present in the same area. This feature can be particularly beneficial for solo travelers, who can use the app to find like-minded individuals or connect with locals who can offer recommendations on things to see and do. Overall, InThere provides a unique and convenient platform for individuals to connect with others who share similar interests and are located nearby, making it an essential tool for anyone looking to enhance their travel experiences.
 
-## Launch your development career with project-based coaching - https://www.jsmastery.pro
+## Usage
 
 Setup:
-- run ```npm i && npm start``` for both client and server side to start the development server
+
+- Run `npm i && npm start` for both client and server side to start the development server
+- Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+## Creators:
+
+Made By: Eyal Mutzary, Gilad Omesy and Shai Hazan
