@@ -76,7 +76,10 @@ const ButtonEnterChat = styled(Button)`
     font-size: 1.5rem;
 
 `
-// const accessKey = 'lEu62fkcS8hU5TQF0QubLhammumwxIwli2CEthFsYvo';
+const Image = styled.img`
+    width: 100vw;
+    padding:40px;
+`
 
 // Dummy data
 const ConversationItemsDummyData = [
@@ -160,10 +163,23 @@ const Main = ({history}) => {
                 </ZLink>
             </CurrentPlaceWrapper>
 
-            <SubTitle>All conversations:</SubTitle>
+            <SubTitle>Active Conversations:</SubTitle>
             {ConversationItems}
         </ContentContainer>}
+
+        {currentTab === TABS_OPTIONS.PRIVATES && 
+        <ContentContainer>
+            <Image src={"https://static.vecteezy.com/system/resources/previews/002/315/143/non_2x/under-construction-symbol-sign-free-vector.jpg"} />
+        </ContentContainer>}
         <NavBar currentTab={currentTab} setCurrentTab={setCurrentTab} />
+
+        {currentTab === TABS_OPTIONS.ARCHIVE &&
+        <ContentContainer>
+            <SubTitle>Archive:</SubTitle>
+            {ConversationItems}
+            {ConversationItems}
+            {ConversationItems}
+        </ContentContainer>}
     </Container>
 
 )};
