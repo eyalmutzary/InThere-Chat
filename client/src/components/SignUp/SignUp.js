@@ -8,6 +8,33 @@ import countryList from 'react-select-country-list'
 import Logo from '../../assets/logo.png'
 import { Link, useHistory } from 'react-router-dom';
 
+const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      backgroundColor: 'black',
+      color:'white',
+      border: 'none',
+      boxShadow: 'none'
+    }),
+    option: (provided) => ({ 
+        ...provided,
+        color: 'white',
+    }),
+    singleValue: (provided) => ({
+        ...provided,
+        color: '#fff',
+      }),
+    dropdownIndicator: (provided) => ({
+        ...provided,
+        color: 'white',
+      }),
+      menu: (provided) => ({
+        ...provided,
+        backgroundColor: 'black',
+      }),
+    // other styles for other components of react-select can be added here
+  };
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -15,11 +42,12 @@ const Container = styled.div`
   text-align: center;
   height: 100vh;
   align-items: center;
-  background-color: #e6f3ff;
+  background-color: ${({theme}) => theme.colors.background};
+  color: ${({theme}) => theme.colors.black};
 `
 const Title = styled.div`
-    font-size: 1.5rem;
-    color: #0069cc;
+    font-size: 1.8rem;
+    color: ${({theme}) => theme.colors.main1};
     font-weight: bold;
 `
 const InputWrapper = styled.div`
@@ -35,6 +63,8 @@ const Input = styled.input`
     font-size: 1.3rem;
     padding: 12px;
     border-radius: 8px;
+    background-color: ${({theme}) => theme.colors.white};
+    color: ${({theme}) => theme.colors.black};
 `
 const InputLabel = styled.div`
     margin-bottom: 8px;
@@ -45,24 +75,15 @@ const Form = styled.form``
 const SelectCountry = styled(Select)`
     width: 80vw;
     font-size: 1.3rem;
+    background-color: ${({theme}) => theme.colors.white};
 `
-// const Button = styled.button`
-//     /* width: 40vw; */
-//     font-size: 1.5rem;
-//     background-color: #0069cc;
-//     color: white;
-//     border: none;
-//     border-radius: 8px;
-//     padding: 12px 24px 12px 24px;
-//     margin: 20px;
-// `
 
 const LoginButton = styled.button`
     font-size: 1.5rem;
-    color: #0069cc;
+    color: ${({theme}) => theme.colors.main1};
     border: none;
     background-color: transparent;
-    border-bottom: 1px solid #0069cc;
+    border-bottom: 1px solid ${({theme}) => theme.colors.main1};
     margin-top: 30px;
 `
 
@@ -130,7 +151,8 @@ const SignUp = ({history}) => {
                     placeholder={"Phone number"} 
                     onKeyPress={alloweNumbersOnly} 
                     value={phoneNumber} 
-                    onChange={(e) => setPhoneNumber(e.target.value)}/>
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    autoComplete={'off'}/>
             </InputWrapper>
 
             <InputWrapper>
@@ -139,12 +161,12 @@ const SignUp = ({history}) => {
                  placeholder={"Name"}
                  value={name}
                  onChange={(e) => setName(e.target.value)}
-                 />
+                 autoComplete={'off'}/>
             </InputWrapper>
             
             <InputWrapper>
                 <InputLabel>Where are you from?</InputLabel>
-                <SelectCountry options={options} value={country} onChange={(value) => setCountry(value)}  />
+                <SelectCountry options={options} styles={customStyles} value={country} onChange={(value) => setCountry(value)}  />
             </InputWrapper>
             {!isValidForm && <ErrorMessage>Invalid inputs</ErrorMessage>}
 

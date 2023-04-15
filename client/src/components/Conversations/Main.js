@@ -1,52 +1,55 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Icon } from '../shared';
 import styled from "styled-components";
 // import TextField from '@mui/material/TextField';
 import 'react-phone-number-input/style.css'
 import { Link, useHistory } from 'react-router-dom';
-import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import Cookies from 'js-cookie';
 import { authActions } from '../shared/store';
 import ConversationItem from './ConversationItem';
 import NavBar from './NavBar';
+import { photoAPIkey } from '../shared/constants';
 
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background-color: #e6f3ff;
-`
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: ${({theme}) => theme.colors.background};
+    color: ${({theme}) => theme.colors.black};
 
-const TopBar = styled.div`
-    background-color: gray;
-    height: 1000px;
 `
-
-const PlaceImage = styled.img`
-    border-radius: 50%;
-    object-fit: cover;
-    height: 250px;
-    width: 250px;
-    margin: 12px;
-    border: 6px solid #0069cc;
-`
-
 const CurrentPlaceWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    background-color: white;
-    border: 1px solid gray;
-    border-radius: 8px;
-    margin: 20px;
-    /* padding: 12px; */
+    justify-content: flex-end;
+    background-image: url("https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400");
+    background-size: cover;
+    position: relative;
+    height: 40vh;
+    padding-bottom: 12px;
+    margin-bottom: 36px;
+    &:before {
+    content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        background: linear-gradient(to top, rgba(0,0,0,1.5) 0%, transparent 100%);
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+    }
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+
 `
 
 const Text = styled.div`
     font-size: 1.5rem;
+    z-index: 1;
+    color: ${({theme}) => theme.colors.white};
     /* font-weight: bold; */
 `
 const SubTitle = styled.div`
@@ -54,8 +57,26 @@ const SubTitle = styled.div`
     font-weight: bold;
     margin: 12px;
 `
+const ContentContainer = styled.div`
+    padding-bottom: 50px;
+`
 
-const accessKey = 'lEu62fkcS8hU5TQF0QubLhammumwxIwli2CEthFsYvo';
+const ZLink = styled(Link)`
+    z-index: 1;
+`
+
+const ButtonEnterChat = styled(Button)`
+    /* width: 40vw; */ 
+    background-color: transparent;
+    border-bottom: 4px solid ${({theme}) => theme.colors.main1};
+    border-radius: 0;
+    padding: 8px;
+    display: flex;
+    flex-direction: row;
+    font-size: 1.5rem;
+
+`
+// const accessKey = 'lEu62fkcS8hU5TQF0QubLhammumwxIwli2CEthFsYvo';
 
 // Dummy data
 const ConversationItemsDummyData = [
@@ -114,7 +135,7 @@ const Main = ({history}) => {
     // TODO: UNCOMMENT THIS TO GET THE IMAGE OF THE CURRENT LOCATION
     // useEffect(() => {
     //     console.log(user.currentLocation)
-    //     axios.get(`https://api.unsplash.com/search/photos?query=${user.currentLocation}&client_id=${accessKey}`)
+    //     axios.get(`https://api.unsplash.com/search/photos?query=${user.currentLocation}&client_id=${photoAPIkey}`)
     //         .then((response) => {
     //             setImage(response.data.results[0].urls.small)
     //             console.log(response.data.results); // display the photos in the console
@@ -128,21 +149,21 @@ const Main = ({history}) => {
     <Container>
         {/* <NavBar currentTab={currentTab} setCurrentTab={setCurrentTab} /> */}
         {currentTab === TABS_OPTIONS.GROUPS && 
-        <>
-        <CurrentPlaceWrapper>
-            {/* <PlaceImage src={image} /> */}
-            <PlaceImage src={"https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400"} />
-            <Text>Currently in: <strong>{user.currentLocation}</strong></Text>
-            <Link onClick={e => (!user.name || !user.currentLocation || !user.phoneNumber) ? e.preventDefault() : null} to={`/chat?name=${user.name}&room=${user.currentLocation}`}>
-                <Button>Enter Chat!</Button>
-            </Link>
-        </CurrentPlaceWrapper>
+        <ContentContainer>
 
-        <SubTitle>All conversations:</SubTitle>
-        {ConversationItems}
-        </>}
+            <CurrentPlaceWrapper>
+                {/* <PlaceImage src={image} /> */}
+                {/* <PlaceImage src={"https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400"} /> */}
+                {/* <Text>Currently in: <strong>{user.currentLocation}</strong></Text> */}
+                <ZLink onClick={e => (!user.name || !user.currentLocation || !user.phoneNumber) ? e.preventDefault() : null} to={`/chat?name=${user.name}&room=${user.currentLocation}`}>
+                    <ButtonEnterChat>Enter {user.currentLocation} Chat! &nbsp;&nbsp;<Icon name={"chevron-right"}/></ButtonEnterChat>
+                </ZLink>
+            </CurrentPlaceWrapper>
+
+            <SubTitle>All conversations:</SubTitle>
+            {ConversationItems}
+        </ContentContainer>}
         <NavBar currentTab={currentTab} setCurrentTab={setCurrentTab} />
-
     </Container>
 
 )};

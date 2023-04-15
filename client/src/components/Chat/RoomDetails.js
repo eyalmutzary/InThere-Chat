@@ -9,15 +9,19 @@ import { useSelector, useDispatch } from 'react-redux';
 
 
 const Backdrop = styled.div`
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     z-index: 10;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     position: absolute;
+    top:0px;
     height: 100vh;
     width: 100vw;
+        @media (min-width: 320px) and (max-width: 480px) {
+        height: 100%;
+    }
 `
 const ModalWrapper = styled.div`
   position: relative;
@@ -26,11 +30,22 @@ const ModalWrapper = styled.div`
   max-width: 90vw;
   max-height: 70vh;
   overflow: auto;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.background};
   border-radius: 3px;
   color: ${({ theme }) => theme.colors.black};
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   font-size: 20px;
+  
+  @media (min-width: 320px) and (max-width: 480px) {
+    width: 100%;
+    /* height: 100%; */
+    max-height: 80%;
+    overflow: auto;
+  }
+
+  @media (min-width: 480px) and (max-width: 1200px) {
+    width: 60%;
+  }
   
 `;
 const ExitIcon = styled(Icon)`
@@ -100,9 +115,8 @@ const MessageIcon = styled(Icon)`
 
 
 const RoomDetails = ({history, users, setRoomDetailsModal}) => {
-
     const membersList = users && users.map((user) => 
-        <MemberWrapper>
+        <MemberWrapper key={user}>
             <Wrapper>
                 <MemberImage src={"https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400"}/>
                 <MemberDetailsWrapper>
@@ -113,7 +127,7 @@ const RoomDetails = ({history, users, setRoomDetailsModal}) => {
             <MessageIcon name={"comment"}/>
         </MemberWrapper>
     )
-
+    console.log("opened")
     return (
         <Backdrop>
             <ModalWrapper>

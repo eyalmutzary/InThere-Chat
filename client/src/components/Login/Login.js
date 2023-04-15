@@ -18,12 +18,15 @@ const Container = styled.div`
   text-align: center;
   height: 100vh;
   align-items: center;
-  background-color: #e6f3ff;
+  background-color: ${({theme}) => theme.colors.background};
+  color: ${({theme}) => theme.colors.black};
 `
 const Title = styled.div`
-    font-size: 1.5rem;
-    color: #0069cc;
+    font-size: 1.8rem;
+    color: ${({theme}) => theme.colors.main1};
     font-weight: bold;
+    margin-bottom: 30px;
+    
 `
 const InputWrapper = styled.div`
     display: flex;
@@ -38,6 +41,8 @@ const Input = styled.input`
     font-size: 1.3rem;
     padding: 12px;
     border-radius: 8px;
+    background-color: ${({theme}) => theme.colors.white};
+    color: ${({theme}) => theme.colors.black};
 `
 const InputLabel = styled.div`
     margin-bottom: 8px;
@@ -45,17 +50,12 @@ const InputLabel = styled.div`
 `
 const Form = styled.form``
 
-const SelectCountry = styled(Select)`
-    width: 80vw;
-    font-size: 1.3rem;
-`
-
 const LoginButton = styled.button`
     font-size: 1.5rem;
-    color: #0069cc;
+    color: ${({theme}) => theme.colors.main1};
     border: none;
     background-color: transparent;
-    border-bottom: 1px solid #0069cc;
+    border-bottom: 1px solid ${({theme}) => theme.colors.main1};
     margin-top: 30px;
 `
 

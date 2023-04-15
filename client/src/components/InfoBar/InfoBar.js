@@ -13,9 +13,19 @@ const BackIcon = styled(Icon)`
   color: white;
 `
 
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: ${({theme}) => theme.colors.main3};
+  border-radius: 4px 4px 0 0;
+  height: 60px;
+  width: 100%;
+`
+
 
 const InfoBar = ({ room, setRoomDetailsModal }) => (
-  <div className="infoBar">
+  <Container>
     <div className="leftInnerContainer">
 
       {/* <img className="onlineIcon" src={onlineIcon} alt="online icon" /> */}
@@ -28,7 +38,7 @@ const InfoBar = ({ room, setRoomDetailsModal }) => (
     <div className="rightInnerContainer">
       <BackIcon name={"ellipsis-h"} onClick={() => setRoomDetailsModal(true)}/>
     </div>
-  </div>
+  </Container>
 );
 
 export default InfoBar;

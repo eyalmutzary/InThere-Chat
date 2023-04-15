@@ -1,13 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Button, Icon } from '../shared';
+import React, { } from 'react';
+import { Icon } from '../shared';
 import styled from "styled-components";
 // import TextField from '@mui/material/TextField';
-import 'react-phone-number-input/style.css'
-import { Link, useHistory } from 'react-router-dom';
-import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
-import Cookies from 'js-cookie';
-import { authActions } from '../shared/store';
 import { TABS_OPTIONS } from './Main';
 
 
@@ -16,7 +10,9 @@ const Container = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    background-color: white;
+    background-color: ${({theme}) => theme.colors.background};
+    color: ${({theme}) => theme.colors.main1};
+
     width: 100%;
     position: fixed;
     bottom: 0px;
@@ -30,7 +26,6 @@ const NavButton = styled.div`
     border-top: 3px solid ${({ theme, isSelected}) => isSelected ? theme.colors.main2 : theme.colors.white};
     /* background-color: ${({ theme, isSelected}) => isSelected ? theme.colors.main2 : theme.colors.white}; */
     /* color: ${({ theme, isSelected}) => isSelected ? theme.colors.white : theme.colors.main2}; */
-    color: ${({theme}) => theme.colors.main2};
     cursor: pointer;
     width: 100%;
     font-size: 1.5rem;
