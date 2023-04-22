@@ -9,7 +9,7 @@ import { authActions } from '../shared/store';
 import ConversationItem from './ConversationItem';
 import NavBar from './NavBar';
 import { photoAPIkey } from '../shared/constants';
-
+import { default as ProfilePage } from '../ProfilePage/profilePage';
 
 const Container = styled.div`
     display: flex;
@@ -81,6 +81,7 @@ const Image = styled.img`
     padding:40px;
 `
 
+
 // Dummy data
 const ConversationItemsDummyData = [
     {
@@ -150,7 +151,6 @@ const Main = ({history}) => {
 
     return (
     <Container>
-        {/* <NavBar currentTab={currentTab} setCurrentTab={setCurrentTab} /> */}
         {currentTab === TABS_OPTIONS.GROUPS && 
         <ContentContainer>
 
@@ -169,7 +169,7 @@ const Main = ({history}) => {
 
         {currentTab === TABS_OPTIONS.PRIVATES && 
         <ContentContainer>
-            <Image src={"https://static.vecteezy.com/system/resources/previews/002/315/143/non_2x/under-construction-symbol-sign-free-vector.jpg"} />
+            <ProfilePage />
         </ContentContainer>}
         <NavBar currentTab={currentTab} setCurrentTab={setCurrentTab} />
 
