@@ -25,6 +25,11 @@ const colors  ={
     red: '#ff4d4d',
     darkGray: '#a6a6a6',
 
+    yellow: '#F4B400',
+    green: '#0F9D58',
+    orange: '#DB4437',
+    blue: '#4285F4',
+
 }
 
 export default colors

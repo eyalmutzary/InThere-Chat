@@ -23,8 +23,20 @@ const Container = styled.div`
   width: 100%;
 `
 
+const HeartIcon = styled(Icon)`
+  margin-right: 30px;
+  color: ${({theme}) => theme.colors.black};
+  font-size: 1.3rem;
+`
 
-const InfoBar = ({ room, setRoomDetailsModal }) => (
+const RightWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 16px;
+  `
+
+
+const InfoBar = ({ room, setRoomDetailsModal, setLikedMessagesModal }) => (
   <Container>
     <div className="leftInnerContainer">
 
@@ -35,9 +47,12 @@ const InfoBar = ({ room, setRoomDetailsModal }) => (
       {/* <BackIcon name={"chevron-left"} />       */}
       <h3>{room}</h3>
     </div>
-    <div className="rightInnerContainer">
+    {/* <div className="rightInnerContainer"> */}
+    <RightWrapper>
+      <HeartIcon name={"heart"} onClick={() => setLikedMessagesModal(true)}/>
       <BackIcon name={"ellipsis-h"} onClick={() => setRoomDetailsModal(true)}/>
-    </div>
+    </RightWrapper>
+    {/* </div> */}
   </Container>
 );
 

@@ -5,34 +5,15 @@ import styled from "styled-components";
 
 import ReactEmoji from 'react-emoji';
 import { useSelector } from 'react-redux';
+import { Icon } from '../../shared';
 
-
-const MyContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  margin: 16px;
-`
-
-const ForeignContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  margin: 8px;
-`
 
 const MyMessageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: ${({isSentByCurrentUser}) => isSentByCurrentUser ? 'flex-end' : 'flex-start'};
+  align-items: ${({isSentByMe}) => isSentByMe ? 'flex-end' : 'flex-start'};
   margin: 16px;
 `
-
-// const ForeignMessageContainer = styled.div`
-//    display: flex;
-//   flex-direction: column;
-//   align-items: flex-start;
-// `
 
 const MessageWrapper = styled.div`
   padding: 12px;
@@ -44,16 +25,23 @@ const MessageWrapper = styled.div`
 `
 
 const MyMessageWrapper = styled(MessageWrapper)`
-  background-color: ${({theme, isSentByCurrentUser}) => isSentByCurrentUser ? theme.colors.main2 : theme.colors.white};
-  border-radius: 8px 8px 0px 8px;
+  background-color: ${({theme, messageType}) => {
+    switch(messageType){
+      case MESSAGE_TYPES.ME:
+        return theme.colors.blue
+      case MESSAGE_TYPES.LOCAL_USER:
+        return theme.colors.yellow
+      case MESSAGE_TYPES.USER_IN_LOCATION:
+        return theme.colors.orange
+      case MESSAGE_TYPES.NOT_YET_IN_LOCATION_USER:
+        return theme.colors.green
+      default:
+        return theme.colors.white
+    }
+  }};
+  border-radius: ${({messageType}) => messageType === MESSAGE_TYPES.ME ? '8px 8px 0px 8px' : '8px 8px 8px 0px'};
   max-width: max-content;
   /* box-shadow: 2px 4px 2px 0 rgba(0, 0, 0, 0.2); */
-`
-
-const ForeignMessageWapper = styled(MessageWrapper)`
-  background-color: ${({theme}) => theme.colors.white};
-  border-radius: 8px 8px 8px 0px;
-  /* box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2); */
 `
 
 const UsernameText = styled.div`
@@ -70,28 +58,53 @@ const TimeText = styled.div`
   font-size: 0.8em;
   margin: 6px;
   color: ${({theme}) => theme.colors.darkGray};
-
 `
 
+const LikesText = styled.div`
+  font-size: 0.8em;
+  color: ${({theme}) => theme.colors.darkGray};
+  display: flex;
+  padding-left: 8px;
+  padding-right: 8px;
+`
 
+const RowWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+`
 
-const Message = ({ message: { text, user }, name }) => {
+const HeartIcon = styled(Icon)`
+  color: ${({theme}) => theme.colors.red};
+`
+
+export const MESSAGE_TYPES = {
+  ME: 'ME',
+  LOCAL_USER: 'LOCAL_USER',
+  USER_IN_LOCATION: 'USER_IN_LOCATION',
+  NOT_YET_IN_LOCATION_USER: 'NOT_YET_IN_LOCATION_USER',
+  NONE: 'NONE'
+}
+
+const Message = ({ text, name, messageType, likes }) => {
   const loggedUser = useSelector(state => state.auth)
 
-  // const time = new Date().toLocaleTimeString();
-  // const timeWithoutSeconds = time.slice(0, -3);
   const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-  // const trimmedName = name.trim().toLowerCase();
-  const trimmedName = user.trim().toLowerCase();
+  const trimmedName = name.trim().toLowerCase();
+  const isSentByMe = trimmedName === loggedUser.name.trim().toLowerCase();
 
-  const isSentByCurrentUser = trimmedName === loggedUser.name.trim().toLowerCase();
   return (
 
-          <MyMessageContainer isSentByCurrentUser={isSentByCurrentUser}> 
+          <MyMessageContainer isSentByMe={messageType === MESSAGE_TYPES.ME}> 
             <UsernameText>{trimmedName}</UsernameText>
-            <MyMessageWrapper isSentByCurrentUser={isSentByCurrentUser}>
-              <MessageText>{ReactEmoji.emojify(text)}</MessageText>
-            </MyMessageWrapper>
+            <RowWrapper>
+              {messageType === MESSAGE_TYPES.ME && likes > 0 && <LikesText><HeartIcon name={'heart'}/>&nbsp;{likes}</LikesText>}
+              <MyMessageWrapper messageType={messageType}>
+                <MessageText>{ReactEmoji.emojify(text)}</MessageText>
+              </MyMessageWrapper>
+              {messageType !== MESSAGE_TYPES.ME && likes > 0 && <LikesText><HeartIcon name={'heart'}/>&nbsp;{likes}</LikesText>}
+            </RowWrapper>
+
             <TimeText>{time}</TimeText>
           </MyMessageContainer>
 
