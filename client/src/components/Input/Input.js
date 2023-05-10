@@ -36,8 +36,8 @@ const Form = styled.form`
 `
 
 const SendButton = styled.button`
-    color: ${({theme}) => theme.colors.black} !important;
-    background: ${({theme}) => theme.colors.main1};
+    color: ${({theme}) => theme.colors.white} !important;
+    background: ${({theme}) => theme.colors.main2};
     display: inline-block;
     border: none;
     border-radius: 50%;

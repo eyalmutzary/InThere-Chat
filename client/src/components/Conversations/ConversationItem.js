@@ -17,9 +17,11 @@ const Container = styled.div`
   align-items: center;
     justify-content: space-between;
   background-color: white;
-  border-top: 1px solid ${({theme}) => theme.colors.main1};
-  padding: 12px;
-  background-color: ${({theme}) => theme.colors.white};
+  /* border-top: 1px solid ${({theme}) => theme.colors.main1}; */
+  padding: 12px 20px 12px 20px;
+  margin: 8px;
+  background-color: ${({theme}) => theme.colors.lightGray};
+  border-radius: 100px;
 `
 const Image = styled.img`
     border-radius: 50%;
@@ -66,6 +68,12 @@ const BoldName = styled.span`
     font-weight: bold;
     margin-right: 8px;
 `
+const TimeAgo = styled.div`
+    font-size: 1rem;
+    color: ${({theme}) => theme.colors.darkGray};
+    /* margin-right: 8px; */
+    `
+
 
 const ConversationItem = ({history, title, notificationsAmount}) => {
     const user = useSelector(state => state.auth)
@@ -97,7 +105,10 @@ const ConversationItem = ({history, title, notificationsAmount}) => {
 
         
         <RowWrapper>
-            {notificationsAmount > 0 && <Notification>{notificationsAmount}</Notification>}
+            <ColumnWrapper>
+                {notificationsAmount > 0 && <Notification>{notificationsAmount}</Notification>}
+                <TimeAgo>5 min</TimeAgo>        
+            </ColumnWrapper>
             <Icon name="chevron-right"/>
         </RowWrapper>
     </Container>

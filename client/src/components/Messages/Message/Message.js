@@ -6,7 +6,8 @@ import styled from "styled-components";
 import ReactEmoji from 'react-emoji';
 import { useSelector } from 'react-redux';
 import { Icon } from '../../shared';
-
+import {flagDictionary} from '../../shared/constants';
+import { Emoji } from 'emoji-mart';
 
 const MyMessageContainer = styled.div`
   display: flex;
@@ -36,7 +37,7 @@ const MyMessageWrapper = styled(MessageWrapper)`
       case MESSAGE_TYPES.NOT_YET_IN_LOCATION_USER:
         return theme.colors.green
       default:
-        return theme.colors.white
+        return theme.colors.black
     }
   }};
   border-radius: ${({messageType}) => messageType === MESSAGE_TYPES.ME ? '8px 8px 0px 8px' : '8px 8px 8px 0px'};
@@ -48,10 +49,12 @@ const UsernameText = styled.div`
   font-family: Helvetica;
   color: ${({theme}) => theme.colors.darkGray};
   letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
 `
 
 const MessageText = styled.div`
-  font-size: 1.1em;
+  font-size: 1.2em;
 `
 
 const TimeText = styled.div`
@@ -61,7 +64,7 @@ const TimeText = styled.div`
 `
 
 const LikesText = styled.div`
-  font-size: 0.8em;
+  font-size: 0.9em;
   color: ${({theme}) => theme.colors.darkGray};
   display: flex;
   padding-left: 8px;
@@ -77,6 +80,17 @@ const RowWrapper = styled.div`
 const HeartIcon = styled(Icon)`
   color: ${({theme}) => theme.colors.red};
 `
+const FlagIcon = styled.img`
+  height: 28px;
+  width: auto;
+`
+const ProfileImage = styled.img`
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  margin-left: 8px;
+`
+
 
 export const MESSAGE_TYPES = {
   ME: 'ME',
@@ -86,17 +100,22 @@ export const MESSAGE_TYPES = {
   NONE: 'NONE'
 }
 
-const Message = ({ text, name, messageType, likes }) => {
-  const loggedUser = useSelector(state => state.auth)
+const Message = ({ text, name, messageType, likes, country }) => {
+  // const loggedUser = useSelector(state => state.auth)
 
   const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
   const trimmedName = name.trim().toLowerCase();
-  const isSentByMe = trimmedName === loggedUser.name.trim().toLowerCase();
+  // const isSentByMe = trimmedName === loggedUser.name.trim().toLowerCase();
+
+  // console.log(flagDictionary["Israel"]["image"])
 
   return (
 
           <MyMessageContainer isSentByMe={messageType === MESSAGE_TYPES.ME}> 
-            <UsernameText>{trimmedName}</UsernameText>
+            <UsernameText>
+              {trimmedName}&nbsp;&nbsp;
+              {messageType !== MESSAGE_TYPES.ME && flagDictionary[country] && <FlagIcon src={flagDictionary[country]["image"]}/>}
+            </UsernameText>
             <RowWrapper>
               {messageType === MESSAGE_TYPES.ME && likes > 0 && <LikesText><HeartIcon name={'heart'}/>&nbsp;{likes}</LikesText>}
               <MyMessageWrapper messageType={messageType}>

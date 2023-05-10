@@ -13,24 +13,28 @@ const messagesDummyData = [
     name: "user1",
     messageType: MESSAGE_TYPES.USER_IN_LOCATION,
     likes: 12,
+    country: "Israel"
   },
   {
     text: "Send from user not yet in the location",
     name: "user2",
     messageType: MESSAGE_TYPES.NOT_YET_IN_LOCATION_USER,
     likes: 3,
+    country: "United States"
   },
   {
     text: "Send from local user",
     name: "user3",
     messageType: MESSAGE_TYPES.LOCAL_USER,
     likes: 0,
+    country: "Australia"
   },
   {
     text: "Send from me",
     name: "user4",
     messageType: MESSAGE_TYPES.ME,
     likes: 5,
+    country: "Netherlands"
   }
 ]
 

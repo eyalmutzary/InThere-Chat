@@ -10,7 +10,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 0px 12px 12px 12px;
 `
 
 const ContainerCard = styled.div`
@@ -27,7 +27,7 @@ const ProfileContainer = styled(ContainerCard)`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: ${({ theme }) => theme.colors.black};
+    background-color: ${({ theme }) => theme.colors.lightGray};
 `
 const ContentContainer = styled(ContainerCard)`
     background-color: ${({ theme }) => theme.colors.main3};
@@ -45,7 +45,7 @@ const ProfileImage = styled.img`
 const ProfileName = styled.div`
     font-size: 26px;
     font-weight: bold;
-    color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.black};
     margin-top: 20px;
 `
 const OriginFrom = styled.div`
@@ -71,7 +71,7 @@ const CircleButton = styled(Button)`
     display: flex;
     align-items: center;
     justify-content: center;
-    color: ${({ theme }) => theme.colors.black};
+    color: ${({ theme }) => theme.colors.white};
     /* shadow */
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 `
@@ -106,6 +106,7 @@ const ProgressBar = styled.div`
 const Title = styled.div`
     font-size: 22px;
     margin-bottom: 12px;
+    font-weight: bold;
 `
 
 const Text = styled.div`
@@ -113,7 +114,7 @@ const Text = styled.div`
     color: ${({ theme }) => theme.colors.black};
 `
 
-const colors = ['#D943C1', '#F24A4A', '#43D9BE', '#46D943', '#f9d657'];
+const colors = ['#ffd666', '#75d7a7', '#fb766a', '#66a1ff', '#ff9ff3', '#fc427b', '#ff7979', '#6ab04c'];
 
 
 const Tag = styled.div`
@@ -129,6 +130,12 @@ const TagsContainer = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+`
+
+const BackIcon = styled(Icon)`
+    font-size: 30px;
+    color: ${({ theme }) => theme.colors.black};
+    margin: 20px 0 0 20px;
 `
 
 const dummyTags = [
@@ -159,7 +166,7 @@ const dummyTags = [
     },
 ]
 
-const ProfilePage = (props) => {
+const ProfilePage = ({history}) => {
 
     const getRandomColor = useCallback(() => {
         return colors[Math.floor(Math.random()*colors.length)];
@@ -168,6 +175,8 @@ const ProfilePage = (props) => {
     const Tags = dummyTags && dummyTags.map((tag) => { return <Tag key={tag.id} color={getRandomColor()}>{tag.name}</Tag> })
 
     return (
+        <>
+        <BackIcon name={"arrow-left"} onClick={()=> history.goBack()}/>
         <Container>
             <ProfileContainer>
                 <ProfileImage src={"https://images.unsplash.com/photo-1593529467220-9d721ceb9a78?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=430&q=80"}/>
@@ -186,7 +195,7 @@ const ProfilePage = (props) => {
                 </RowWrapper>
             </ProfileContainer>
 
-            <ContentContainer>
+            {/* <ContentContainer>
                 <Title>Level 3: Long tripper</Title>
                 <RowWrapper>
                     <ProgressBarWrapper>
@@ -194,7 +203,7 @@ const ProfilePage = (props) => {
                     </ProgressBarWrapper>
                     <Precentage>50%</Precentage>
                 </RowWrapper>
-            </ContentContainer>
+            </ContentContainer> */}
 
             <ContentContainer>
                 <Title>About Me</Title>
@@ -207,6 +216,7 @@ const ProfilePage = (props) => {
             </TagsContainer>
 
         </Container>
+        </>
 
 )};
 

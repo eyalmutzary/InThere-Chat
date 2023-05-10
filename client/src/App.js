@@ -11,7 +11,7 @@ import Join from './components/Join/Join';
 import SignUp from './components/SignUp/SignUp';
 import Login from './components/Login/Login';
 import Main from './components/Conversations/Main';
-
+import ProfilePage from './components/ProfilePage/profilePage';
 
 
 const App = () => {
@@ -25,6 +25,8 @@ const App = () => {
           <Route path="/signup" component={SignUp} />
           <Route path="/login" component={Login} />
           <Route path="/main" component={Main} />
+          <Route path="/profile" component={ProfilePage} />
+
         </Router>
       </Provider>
     </ThemeProvider>

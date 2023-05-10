@@ -23,34 +23,15 @@ const CurrentPlaceWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     background-image: url("https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400");
     background-size: cover;
     position: relative;
-    height: 40vh;
-    padding-bottom: 12px;
-    margin-bottom: 36px;
-    &:before {
-    content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 100px;
-        background: linear-gradient(to top, rgba(0,0,0,1.5) 0%, transparent 100%);
-        border-bottom-left-radius: 30px;
-        border-bottom-right-radius: 30px;
-    }
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
+    height: 30svh;
+    margin: 12px;
+    border-radius: 30px;
 
-`
 
-const Text = styled.div`
-    font-size: 1.5rem;
-    z-index: 1;
-    color: ${({theme}) => theme.colors.white};
-    /* font-weight: bold; */
 `
 const SubTitle = styled.div`
     font-size: 24px;
@@ -61,26 +42,105 @@ const ContentContainer = styled.div`
     padding-bottom: 50px;
 `
 
-const ZLink = styled(Link)`
-    z-index: 1;
-`
 
-const ButtonEnterChat = styled(Button)`
-    /* width: 40vw; */ 
-    background-color: transparent;
-    border-bottom: 4px solid ${({theme}) => theme.colors.main1};
-    border-radius: 0;
+const ButtonEnterChat = styled.div`
+    /* background-color: transparent; */
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    font-size: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    padding: 8px 16px 8px 16px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+
+    /* border-radius: 0;
     padding: 8px;
     display: flex;
     flex-direction: row;
-    font-size: 1.5rem;
+    font-size: 1.5rem; */
 
 `
 const Image = styled.img`
     width: 100vw;
     padding:40px;
 `
+const RowWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+`
 
+const SearchInput = styled.input`
+    border-radius: 100px;
+    padding: 12px;
+    border: none;
+    background-color: ${({theme}) => theme.colors.lightGray};
+    width: 100%;
+    margin: 8px;
+    font-size: 24px;
+`
+const AddButton = styled.button`
+    color: ${({theme}) => theme.colors.darkGray};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 28px;
+    /* width: 60px;
+    height: auto; */
+    padding: 12px;
+    border-radius: 1000px;
+    border: none;
+    background-color: ${({theme}) => theme.colors.lightGray};
+    margin: 8px;
+`
+const Location = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /* blurred half transparent white background */
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    width: fit-content;
+    font-size: 20px;
+    padding: 8px;
+    border-radius: 8px;
+`
+const ProfileWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+`
+
+const ColumnWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: center;
+`
+const Text = styled.div`    
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 8px;
+`
+const SubText = styled.div`
+    font-size: 18px;
+    /* margin: 12px; */
+    color: ${({theme}) => theme.colors.darkGray};
+`
+const ProfileImage = styled.img`
+    width: 80px;
+    height: 80px;
+    border-radius: 100px;
+    margin: 12px;
+    object-fit: cover;
+`
 
 // Dummy data
 const ConversationItemsDummyData = [
@@ -154,20 +214,33 @@ const Main = ({history}) => {
         {currentTab === TABS_OPTIONS.GROUPS && 
         <ContentContainer>
 
-            <CurrentPlaceWrapper>
+            <ProfileWrapper onClick={()=> history.push('/profile')}>
+                <ProfileImage src={"https://images.unsplash.com/photo-1593529467220-9d721ceb9a78?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=430&q=80"}/>
+                <ColumnWrapper>
+                    <SubText>Welcome back,</SubText>
+                    <Text>Jordana Moore</Text>
+                </ColumnWrapper>
+            </ProfileWrapper>
+
+            <CurrentPlaceWrapper location={user.currentLocation}>
                 {/* <PlaceImage src={image} /> */}
                 {/* <PlaceImage src={"https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400"} /> */}
                 {/* <Text>Currently in: <strong>{user.currentLocation}</strong></Text> */}
-                <ZLink onClick={e => (!user.name || !user.currentLocation || !user.phoneNumber) ? e.preventDefault() : null} to={`/chat?name=${user.name}&room=${user.currentLocation}`}>
-                    <ButtonEnterChat>Enter {user.currentLocation} Chat! &nbsp;&nbsp;<Icon name={"chevron-right"}/></ButtonEnterChat>
-                </ZLink>
+                <Location>You're in {user.currentLocation}</Location>
+                {/* <Link onClick={e => (!user.name || !user.currentLocation || !user.phoneNumber) ? e.preventDefault() : null} to={`/chat?name=${user.name}&room=${user.currentLocation}`}> */}
+                    <ButtonEnterChat onClick={() => history.push(`/chat?name=${user.name}&room=${user.currentLocation}`)}>Enter Chat! &nbsp;&nbsp;<Icon name={"chevron-right"}/></ButtonEnterChat>
+                {/* </Link> */}
             </CurrentPlaceWrapper>
 
-            <SubTitle>Active Conversations:</SubTitle>
+            <RowWrapper>
+                <SearchInput placeholder={"Search..."}/>
+                <AddButton><Icon name={"comment-medical"} /></AddButton>
+            </RowWrapper>
+            
             {ConversationItems}
         </ContentContainer>}
 
-        {currentTab === TABS_OPTIONS.PRIVATES && 
+        {/* {currentTab === TABS_OPTIONS.PRIVATES && 
         <ContentContainer>
             <ProfilePage />
         </ContentContainer>}
@@ -179,7 +252,7 @@ const Main = ({history}) => {
             {ConversationItems}
             {ConversationItems}
             {ConversationItems}
-        </ContentContainer>}
+        </ContentContainer>} */}
     </Container>
 
 )};

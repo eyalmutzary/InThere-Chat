@@ -18,6 +18,8 @@ import {
     faPaperPlane,
     faGlobe,
     faHeart,
+    faCommentMedical,
+    faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -34,6 +36,8 @@ library.add(
     faPaperPlane,
     faGlobe,
     faHeart,
+    faCommentMedical,
+    faArrowLeft,
     );
 
 const IconWrapper = styled.div``;

@@ -74,7 +74,13 @@ const MemberWrapper = styled.div`
     justify-content: space-between;
     padding: 8px;
 `
-
+const ScreenContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: ${({theme}) => theme.colors.background};
+    color: ${({theme}) => theme.colors.black};
+`
 
 const LikedMessages = ({history, messages, setLikedMessagesModal}) => {
     const messageList = messages && messages.map(({...rest}) => 
@@ -85,16 +91,17 @@ const LikedMessages = ({history, messages, setLikedMessagesModal}) => {
     return (
         <Backdrop>
             <ModalWrapper>
-                <TopWrapper>
-                    <Title>Most Liked Messages</Title>
-                    <Icon name={"times"} onClick={() => setLikedMessagesModal(false)}/>
-                </TopWrapper>
-                <MiddleWrapper>
-                    {messageList}
+            <TopWrapper>
+                <Title>Most Liked Messages</Title>
+                <Icon name={"times"} onClick={() => setLikedMessagesModal(false)}/>
+            </TopWrapper>
+            <MiddleWrapper>
+                {messageList}
 
-                </MiddleWrapper>
-            </ModalWrapper>
-        </Backdrop>
+            </MiddleWrapper>
+
+             </ModalWrapper>
+         </Backdrop>
 )};
 
 export default LikedMessages;

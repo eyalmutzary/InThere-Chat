@@ -14,12 +14,6 @@ import { MESSAGE_TYPES } from "../Messages/Message/Message";
 import chatBackground from '../../assets/chatBackground.jpg';
 
 const OuterContainer = styled.div`
-  /* display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #1A1A1D; */
-  
   @media (min-width: 320px) and (max-width: 480px) {
     height: 100%;
   }
@@ -117,7 +111,7 @@ const Chat = ({ location }) => {
 
     socket.emit('join', { name, room }, (error) => {
       if(error) {
-        alert(error);
+        console.log(error);
       }
     });
   }, [ENDPOINT, location.search]);

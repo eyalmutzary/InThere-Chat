@@ -127,7 +127,6 @@ const RoomDetails = ({history, users, setRoomDetailsModal}) => {
             <MessageIcon name={"comment"}/>
         </MemberWrapper>
     )
-    console.log("opened")
     return (
         <Backdrop>
             <ModalWrapper>
