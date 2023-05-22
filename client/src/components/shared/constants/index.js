@@ -1,2 +1,2 @@
 export * from './allConstants';
-export {flagDictionary} from './flagDictionary';
+export { flagDictionary } from './flagDictionary';

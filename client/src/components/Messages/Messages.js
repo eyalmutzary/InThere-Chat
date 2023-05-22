@@ -1,58 +1,44 @@
-import React from 'react';
-
-import ScrollToBottom from 'react-scroll-to-bottom';
-
-import Message, { MESSAGE_TYPES } from './Message/Message';
-
-import './Messages.css';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import ScrollToBottom from 'react-scroll-to-bottom';
+import Message, { MESSAGE_TYPES } from './Message/Message';
+import './Messages.css';
 
-const messagesDummyData = [
-  {
-    text: "Send from user in location",
-    name: "user1",
-    messageType: MESSAGE_TYPES.USER_IN_LOCATION,
-    likes: 12,
-    country: "Israel"
-  },
-  {
-    text: "Send from user not yet in the location",
-    name: "user2",
-    messageType: MESSAGE_TYPES.NOT_YET_IN_LOCATION_USER,
-    likes: 3,
-    country: "United States"
-  },
-  {
-    text: "Send from local user",
-    name: "user3",
-    messageType: MESSAGE_TYPES.LOCAL_USER,
-    likes: 0,
-    country: "Australia"
-  },
-  {
-    text: "Send from me",
-    name: "user4",
-    messageType: MESSAGE_TYPES.ME,
-    likes: 5,
-    country: "Netherlands"
-  }
-]
+function Messages({ messages }) {
+  const loggedUser = useSelector((state) => state.auth);
+  const messagesContainerRef = useRef(null);
 
-const Messages = ({ messages, name }) => {
-  const loggedUser = useSelector(state => state.auth)
-  console.log(messages)
+  const scrollToBottom = () => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
-  // const trimmedName = name.trim().toLowerCase();
-  // const isSentByMe = trimmedName === loggedUser.name.trim().toLowerCase();
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   return (
-  <ScrollToBottom className="messages">
-    {messagesDummyData && messagesDummyData.map(({...rest}) => <Message {...rest} />)}
-    {messages && messages.map(({text, user}, i) => <Message key={i} text={text} name={user.trim().toLowerCase()} likes={0}
-    messageType={
-      user.trim().toLowerCase() === loggedUser.name.trim().toLowerCase() ? MESSAGE_TYPES.ME : MESSAGE_TYPES.USER_IN_LOCATION
-      }/>)}
-  </ScrollToBottom>
-)};
+    <ScrollToBottom className="messages">
+      <div ref={messagesContainerRef}>
+        {messages.map(({ text, user }, index) => {
+          const messageType = user.trim().toLowerCase() === loggedUser.name.trim().toLowerCase()
+            ? MESSAGE_TYPES.ME
+            : MESSAGE_TYPES.USER_IN_LOCATION;
+
+          return (
+            <Message
+              key={`message-${index}`}
+              text={text}
+              name={user.trim().toLowerCase()}
+              likes={0}
+              messagetype={messageType}
+            />
+          );
+        })}
+      </div>
+    </ScrollToBottom>
+  );
+}
 
 export default Messages;

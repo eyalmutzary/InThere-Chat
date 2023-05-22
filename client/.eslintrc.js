@@ -1,64 +1,64 @@
 module.exports = {
-  "extends": "airbnb",
-  "parser": "babel-eslint",
-  "env": {
-    "browser": true,
-    "node": true,
-    "mocha": true
+  extends: 'airbnb',
+  env: {
+    browser: true,
+    node: true,
+    mocha: true,
   },
-  "rules": {
-    "import/prefer-default-export": 0,
-    "max-len": [
+  rules: {
+    'react/prop-types': 0,
+    'import/prefer-default-export': 0,
+    'max-len': [
       2,
-      250
+      250,
     ],
-    "no-multiple-empty-lines": [
-      "error",
+    'no-multiple-empty-lines': [
+      'error',
       {
-        "max": 1,
-        "maxEOF": 1
-      }
+        max: 1,
+        maxEOF: 1,
+      },
     ],
-    "no-underscore-dangle": [
-      "error",
+    'no-underscore-dangle': [
+      'error',
       {
-        "allow": [
-          "_d",
-          "_dh",
-          "_h",
-          "_id",
-          "_m",
-          "_n",
-          "_t",
-          "_text"
-        ]
-      }
-    ],
-    "object-curly-newline": 0,
-    "react/jsx-filename-extension": 0,
-    "react/jsx-one-expression-per-line": 0,
-    "jsx-a11y/click-events-have-key-events": 0,
-    "jsx-a11y/alt-text": 0,
-    "jsx-a11y/no-autofocus": 0,
-    "jsx-a11y/no-static-element-interactions": 0,
-    "react/no-array-index-key": 0,
-    "jsx-a11y/anchor-is-valid": [
-      "error",
-      {
-        "components": [
-          "Link"
+        allow: [
+          '_d',
+          '_dh',
+          '_h',
+          '_id',
+          '_m',
+          '_n',
+          '_t',
+          '_text',
         ],
-        "specialLink": [
-          "to",
-          "hrefLeft",
-          "hrefRight"
+      },
+    ],
+    'object-curly-newline': 0,
+    'react/jsx-filename-extension': 0,
+    'react/jsx-one-expression-per-line': 0,
+    'jsx-a11y/click-events-have-key-events': 0,
+    'jsx-a11y/alt-text': 0,
+    'jsx-a11y/no-autofocus': 0,
+    'jsx-a11y/no-static-element-interactions': 0,
+    'react/no-array-index-key': 0,
+    'jsx-a11y/anchor-is-valid': [
+      'error',
+      {
+        components: [
+          'Link',
         ],
-        "aspects": [
-          "noHref",
-          "invalidHref",
-          "preferButton"
-        ]
-      }
-    ]
-  }
-}
+        specialLink: [
+          'to',
+          'hrefLeft',
+          'hrefRight',
+        ],
+        aspects: [
+          'noHref',
+          'invalidHref',
+          'preferButton',
+        ],
+      },
+    ],
+  },
+};
