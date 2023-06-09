@@ -6,9 +6,9 @@ import { Button } from '../shared';
 import 'react-phone-number-input/style.css';
 import Logo from '../../assets/logo.png';
 import { authActions } from '../shared/store';
+import { Layout } from '../shared/components';
 
-const Container = styled.div`
-  font-family: 'Roboto', sans-serif;
+const Container = styled(Layout)`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -66,7 +66,7 @@ const ErrorMessage = styled.div`
   font-size: 1.3rem;
 `;
 
-function Login() {
+const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [name, setName] = useState('');
   const [isValidForm, setisValidForm] = useState(true);
@@ -148,6 +148,6 @@ function Login() {
     </Container>
 
   );
-}
+};
 
 export default Login;

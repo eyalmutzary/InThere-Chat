@@ -9,17 +9,8 @@ module.exports = {
     'linebreak-style': 0,
     'react/prop-types': 0,
     'import/prefer-default-export': 0,
-    'max-len': [
-      2,
-      250,
-    ],
-    'no-multiple-empty-lines': [
-      'error',
-      {
-        max: 1,
-        maxEOF: 1,
-      },
-    ],
+    'max-len': 0,
+    'no-multiple-empty-lines': 0,
     'no-underscore-dangle': [
       'error',
       {
@@ -66,5 +57,14 @@ module.exports = {
     'no-param-reassign': 0,
     'react/jsx-props-no-spreading': 0,
     'consistent-return': 0,
+    'eol-last': 0,
+    'react/function-component-definition': 0,
+    // 'semi': 0,
+    'react/jsx-curly-brace-presence': 0,
+    // 'quotes': ,
+    'react/jsx-tag-spacing': 0,
+    'react/jsx-closing-tag-location': 0,
+    'react/jsx-indent': 0,
+
   },
 };

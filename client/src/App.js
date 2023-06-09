@@ -10,6 +10,7 @@ import Login from './components/Login/Login';
 import Main from './components/Conversations/Main';
 import ProfilePage from './components/ProfilePage/profilePage';
 import RelevanceMessages from './components/Chat/RelevanceMessages';
+import Welcome from './components/Welcome/Welcome';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
       <Provider store={store}>
         <Router>
           <Routes>
-            <Route path="/" exact element={<Login />} />
+            <Route path="/" exact element={<Welcome />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/relevance" element={<RelevanceMessages />} />
             <Route path="/signup" element={<SignUp />} />
