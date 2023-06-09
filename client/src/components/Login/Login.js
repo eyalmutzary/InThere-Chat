@@ -8,6 +8,7 @@ import Logo from '../../assets/logo.png';
 import { authActions } from '../shared/store';
 
 const Container = styled.div`
+  font-family: 'Roboto', sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -79,13 +80,11 @@ function Login() {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
       const token = 'e87a11528ea378abc061e05fc60e66a5';
-      console.log(lat, lon);
 
       fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${token}`)
         // fetch(`https://secure.geonames.org/findNearbyJSON?lat=${lat}&lng=${lon}&username=eyalmutzary`)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data.name);
           setLocation(data.name);
         });
     });
@@ -99,7 +98,6 @@ function Login() {
       currentLocation: location,
     };
     if (formResult.name !== '' || formResult.phoneNumber !== '') {
-      console.log(formResult);
       setisValidForm(true);
       dispatch(authActions.login(
         {
@@ -112,7 +110,6 @@ function Login() {
       navigate('/main'); // Replace history.push('/main') with navigate('/main')
     } else {
       setisValidForm(false);
-      console.log('Form is not valid');
     }
   };
 

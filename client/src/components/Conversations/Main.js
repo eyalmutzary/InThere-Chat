@@ -171,12 +171,12 @@ function Main() {
     if (serializedUser === null) {
       return navigate('/login');
     }
-    const user = JSON.parse(serializedUser);
+    const { name, phoneNumber, currentLocation } = JSON.parse(serializedUser);
     dispatch(
       authActions.login({
-        name: user.name,
-        phoneNumber: user.phoneNumber,
-        currentLocation: user.currentLocation,
+        name,
+        phoneNumber,
+        currentLocation,
       }),
     );
   }, [dispatch, navigate]);

@@ -6,6 +6,7 @@ module.exports = {
     mocha: true,
   },
   rules: {
+    'linebreak-style': 0,
     'react/prop-types': 0,
     'import/prefer-default-export': 0,
     'max-len': [
@@ -60,5 +61,10 @@ module.exports = {
         ],
       },
     ],
+    'no-unused-vars': 0,
+    'react/no-unescaped-entities': 0,
+    'no-param-reassign': 0,
+    'react/jsx-props-no-spreading': 0,
+    'consistent-return': 0,
   },
 };

@@ -67,8 +67,8 @@ const TimeAgo = styled.div`
     `;
 
 function ConversationItem({ title, notificationsAmount }) {
-  const user = useSelector((state) => state.auth);
-  const [image, setImage] = useState('');
+  // const user = useSelector((state) => state.auth);
+  // const [image, setImage] = useState('');
 
   // TODO: uncomment to get real photos
   //   useEffect(() => {

@@ -44,8 +44,8 @@ let socket;
 function RelevanceMessages() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [name, setName] = useState('');
-  const [room, setRoom] = useState('');
+  // const [name, setName] = useState('');
+  // const [room, setRoom] = useState('');
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -53,8 +53,8 @@ function RelevanceMessages() {
 
     socket = io(ENDPOINT).connect();
 
-    setRoom(room);
-    setName(name);
+    // setRoom(room);
+    // setName(name);
 
     socket.emit('join', { name, room }, (error) => {
       if (error) {
@@ -66,8 +66,8 @@ function RelevanceMessages() {
   }, [ENDPOINT, location.search]);
 
   useEffect(() => {
-    socket.on('message', (message) => {
-      setMessages((messages) => [...messages, message]);
+    socket.on('message', (newMessage) => {
+      setMessages((oldState) => [...messages, newMessage]);
     });
   }, []);
 
