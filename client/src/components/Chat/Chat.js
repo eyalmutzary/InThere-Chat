@@ -8,8 +8,9 @@ import Messages from '../Messages/Messages';
 import InfoBar from '../InfoBar/InfoBar';
 import Input from '../Input/Input';
 import RoomDetails from './RoomDetails';
+import { Layout } from '../shared/components';
 
-const OuterContainer = styled.div`
+const OuterContainer = styled(Layout)`
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -42,10 +43,9 @@ function Chat() {
   // const [name, setName] = useState('');
   const [room, setRoom] = useState('');
   const [users, setUsers] = useState('');
-  const [message, setMessage] = useState('');
+  const [typedMessage, setTypedMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [roomDetailsModal, setRoomDetailsModal] = useState(false);
-
   useEffect(() => {
     const { name, room: loggedRoom } = queryString.parse(location.search);
 
@@ -77,15 +77,15 @@ function Chat() {
   const sendMessage = (event) => {
     event.preventDefault();
 
-    if (message) {
-      console.log('Sending message:', message); // Add this line
+    if (typedMessage) {
+      console.log('Sending message:', typedMessage); // Add this line
 
-      socket.emit('sendMessage', message, (error) => {
+      socket.emit('sendMessage', typedMessage, (error) => {
         if (error) {
           console.log(error);
         } else {
           console.log('Message sent');
-          setMessage('');
+          setTypedMessage('');
         }
       });
     }
@@ -99,10 +99,10 @@ function Chat() {
           <Messages messages={messages} />
         </MessagesContainer>
         <InputContainer>
-          <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
+          <Input message={typedMessage} setMessage={setTypedMessage} sendMessage={sendMessage} />
         </InputContainer>
       </ChatContainer>
-      <TextContainer users={users} />
+      {/* <TextContainer users={users} /> */}
       {roomDetailsModal && <RoomDetails users={users} setRoomDetailsModal={setRoomDetailsModal} />}
     </OuterContainer>
   );

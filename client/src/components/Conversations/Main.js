@@ -7,10 +7,11 @@ import { Icon } from '../shared';
 import { authActions } from '../shared/store';
 import ConversationItem from './ConversationItem';
 import { TABS_OPTIONS } from './NavBar';
+import { Layout } from '../shared/components';
 // import { photoAPIkey } from '../shared/constants';
 // import { default as ProfilePage } from '../ProfilePage/profilePage';
 
-const Container = styled.div`
+const Container = styled(Layout)`
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -126,37 +127,49 @@ const ProfileImage = styled.img`
   margin: 12px;
   object-fit: cover;
 `;
+const Title = styled.div`
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin: 12px;
+  color: ${({ theme }) => theme.colors.black};
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 // Dummy data
 const ConversationItemsDummyData = [
-  {
-    title: 'New York',
-    notificationsAmount: 3,
-  },
-  {
-    title: 'Boston',
-    notificationsAmount: 12,
-  },
-  {
-    title: 'Los Angeles',
-    notificationsAmount: 7,
-  },
-  {
-    title: 'San Francisco',
-    notificationsAmount: 0,
-  },
-  {
-    title: 'Seattle',
-    notificationsAmount: 0,
-  },
-  {
-    title: 'Chicago',
-    notificationsAmount: 0,
-  },
-  {
-    title: 'Miami',
-    notificationsAmount: 0,
-  },
+  // {
+  //   title: 'New York',
+  //   notificationsAmount: 3,
+  // },
+  // {
+  //   title: 'Boston',
+  //   notificationsAmount: 12,
+  // },
+  // {
+  //   title: 'Los Angeles',
+  //   notificationsAmount: 7,
+  // },
+  // {
+  //   title: 'San Francisco',
+  //   notificationsAmount: 0,
+  // },
+  // {
+  //   title: 'Seattle',
+  //   notificationsAmount: 0,
+  // },
+  // {
+  //   title: 'Chicago',
+  //   notificationsAmount: 0,
+  // },
+  // {
+  //   title: 'Miami',
+  //   notificationsAmount: 0,
+  // },
 ];
 
 function Main() {
@@ -168,9 +181,9 @@ function Main() {
 
   useEffect(() => {
     const serializedUser = localStorage.getItem('auth');
-    if (serializedUser === null) {
-      return navigate('/login');
-    }
+    // if (serializedUser === null) {
+    //   return navigate('/login');
+    // }
     const { name, phoneNumber, currentLocation } = JSON.parse(serializedUser);
     dispatch(
       authActions.login({
@@ -211,14 +224,18 @@ function Main() {
             </ButtonEnterChat>
           </CurrentPlaceWrapper>
 
+          {/* <RowWrapper>
+            <Title>Your Events:</Title>
+          </RowWrapper> */}
           <RowWrapper>
-            <SearchInput placeholder="Search..." />
+            <Title>Your Events:</Title>
+            {/* <SearchInput placeholder="Search..." /> */}
             <AddButton>
               <Icon name="comment-medical" />
             </AddButton>
           </RowWrapper>
 
-          {ConversationItems}
+          {ConversationItems.length > 0 ? ConversationItem : <Wrapper><SubText>No upcoming events.</SubText></Wrapper>}
         </ContentContainer>
       )}
     </Container>

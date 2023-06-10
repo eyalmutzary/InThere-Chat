@@ -11,6 +11,7 @@ import Main from './components/Conversations/Main';
 import ProfilePage from './components/ProfilePage/profilePage';
 import RelevanceMessages from './components/Chat/RelevanceMessages';
 import Welcome from './components/Welcome/Welcome';
+import EventFlow from './components/EventFlow/EventFlow';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/main" element={<Main />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/new-event" element={<EventFlow />} />
           </Routes>
         </Router>
       </Provider>
