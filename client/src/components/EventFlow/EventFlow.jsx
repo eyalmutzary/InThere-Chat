@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+// import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import { DatePicker, Space } from 'antd';
+
 import Logo from '../../assets/logo.png';
 import { Layout } from '../shared/components';
 import { DetailsStage, Progress } from './components';
@@ -50,9 +53,11 @@ const EventFlow = () => {
             <Progress stageNum={stage}/> 
             {stage === 1 && <DetailsStage />}
             {/* <DateCalendar
-                defaultValue={dayjs('2022-04-17')}
+                // defaultValue={dayjs('2022-04-17')}
                 views={['year', 'month', 'day']}
             /> */}
+            <DatePicker onChange={() => {}} />
+
         </ColWrapper>
 
         <Button onClick={handleNextStage}>{stage === 4 ? 'Submit' : 'Next'}</Button>
