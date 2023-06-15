@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-// import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-import { DatePicker, Space } from 'antd';
+// import { DateCalendar } from '@mui';
+import { Calendar, DatePicker, Space } from 'antd';
 
 import Logo from '../../assets/logo.png';
 import { Layout } from '../shared/components';
-import { DetailsStage, Progress } from './components';
+import { DetailsStage, Progress, Map, MemberLimit } from './components';
 import { Button } from '../shared';
 // import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 
@@ -29,12 +29,22 @@ const ColWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 
 `;
 
+const MapWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  jutify-content: center;
+`;
 
 const EventFlow = () => {
   const [stage, setStage] = useState(1);
+  const [date, setDate] = useState(null);
+  const [membersLimit, setMembersLimit] = useState('');
+
 
   const handleNextStage = () => {
     if (stage === 4) {
@@ -46,6 +56,7 @@ const EventFlow = () => {
   };
 
 
+  
   return (
     <ScreenContainer>
         <ColWrapper>
@@ -56,8 +67,14 @@ const EventFlow = () => {
                 // defaultValue={dayjs('2022-04-17')}
                 views={['year', 'month', 'day']}
             /> */}
-            <DatePicker onChange={() => {}} />
 
+            {/* <DatePicker onChange={() => {}} /> */}
+            {stage === 2 && <Calendar fullscreen={false} onSelect={(e) => setDate(e.$d)}/>}
+            <MapWrapper>
+                {stage === 3 && <Map />}
+            </MapWrapper>
+            {stage === 4 && <MemberLimit membersLimit={membersLimit} setMembersLimit={setMembersLimit} />}
+            
         </ColWrapper>
 
         <Button onClick={handleNextStage}>{stage === 4 ? 'Submit' : 'Next'}</Button>
