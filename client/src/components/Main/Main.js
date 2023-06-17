@@ -179,7 +179,13 @@ function Main() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       if (currentUser) {
+        dispatch(authActions.setUser({
+          name: currentUser.displayName,
+          phoneNumber: currentUser.phoneNumber,
+          currentLocation: 'New York'
+        }));
         user = currentUser;
+
       } else {
         navigate('/welcome');
       }
