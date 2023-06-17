@@ -1,17 +1,24 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { ThemeProvider } from 'styled-components';
+import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
+import {Provider, useSelector} from 'react-redux';
+import {ThemeProvider} from 'styled-components';
 import store from './components/shared/store';
-import { theme } from './components/shared/theme';
+import {theme} from './components/shared/theme';
 import Chat from './components/Chat/Chat';
-import SignUp from './components/SignUp/SignUp';
-import Login from './components/Login/Login';
-import Main from './components/Conversations/Main';
-import ProfilePage from './components/ProfilePage/profilePage';
+import Main from './components/Main/Main';
+import Profile from './components/Profile/profile';
 import RelevanceMessages from './components/Chat/RelevanceMessages';
 import Welcome from './components/Welcome/Welcome';
 import EventFlow from './components/EventFlow/EventFlow';
+
+function PrivateRoute({element}) {
+  const user = useSelector((state) => state.auth.user);
+
+  if (user) {
+    return element;
+  }
+  return <Navigate to="/"/>;
+}
 
 function App() {
   return (
@@ -19,14 +26,13 @@ function App() {
       <Provider store={store}>
         <Router>
           <Routes>
-            <Route path="/" exact element={<Welcome />} />
-            <Route path="/chat" element={<Chat />} />
-            <Route path="/relevance" element={<RelevanceMessages />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/main" element={<Main />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/new-event" element={<EventFlow />} />
+            <Route path="/chat/*" element={<PrivateRoute element={<Chat />} />} />
+            <Route path="/relevance/*" element={<PrivateRoute element={<RelevanceMessages />} />}/>
+            <Route path="/main/*" element={<PrivateRoute element={<Main />} />}/>
+            <Route path="/profile/*" element={<PrivateRoute element={<Profile />} />}/>
+            <Route path="/new-event/*" element={<PrivateRoute element={<EventFlow />} />}/>
+            <Route path="/*" element={<PrivateRoute element={<Main />} />}/>
+            <Route path="/" element={<Welcome/>}/>
           </Routes>
         </Router>
       </Provider>

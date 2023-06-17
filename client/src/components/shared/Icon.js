@@ -18,6 +18,7 @@ import {
   faHeart,
   faCommentMedical,
   faArrowLeft,
+  faRightFromBracket
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -36,6 +37,7 @@ library.add(
   faHeart,
   faCommentMedical,
   faArrowLeft,
+  faRightFromBracket,
 );
 
 const IconWrapper = styled.div``;

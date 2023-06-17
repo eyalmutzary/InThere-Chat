@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-// import { DateCalendar } from '@mui';
-import { Calendar, DatePicker, Space } from 'antd';
-
+import { Calendar } from 'antd';
 import Logo from '../../assets/logo.png';
-import { Layout } from '../shared/components';
 import { DetailsStage, Progress, Map, MemberLimit } from './components';
 import { Button } from '../shared';
-// import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 
-
-const ScreenContainer = styled(Layout)`
+const ScreenContainer = styled.div`
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -37,7 +32,7 @@ const MapWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  jutify-content: center;
+  justify-content: center;
 `;
 
 const EventFlow = () => {

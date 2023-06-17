@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import 'react-phone-number-input/style.css';
-import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { Icon } from '../shared';
-import { authActions } from '../shared/store';
-import ConversationItem from './ConversationItem';
-import { TABS_OPTIONS } from './NavBar';
-import { Layout } from '../shared/components';
-// import { photoAPIkey } from '../shared/constants';
-// import { default as ProfilePage } from '../ProfilePage/profilePage';
+import {useNavigate} from 'react-router-dom';
+import {useSelector, useDispatch} from 'react-redux';
+import {Icon} from '../shared';
+import {authActions} from '../shared/store';
+import ConversationItem from '../Conversations/ConversationItem';
+import {TABS_OPTIONS} from '../Conversations/NavBar';
+import {auth} from "../../firebase";
+import ProfileButton from "../Profile/ProfileButton";
 
-const Container = styled(Layout)`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.black};
+  background-color: ${({theme}) => theme.colors.background};
+  color: ${({theme}) => theme.colors.black};
+  padding: 8px;
 `;
 
 const CurrentPlaceWrapper = styled.div`
@@ -50,30 +50,15 @@ const ButtonEnterChat = styled.div`
   margin-bottom: 20px;
 `;
 
-// const Image = styled.img`
-//   width: 100vw;
-//   padding: 40px;
-// `;
-
 const RowWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-`;
-
-const SearchInput = styled.input`
-  border-radius: 100px;
-  padding: 12px;
-  border: none;
-  background-color: ${({ theme }) => theme.colors.lightGray};
-  width: 100%;
-  margin: 8px;
-  font-size: 24px;
+  align-items: start;
 `;
 
 const AddButton = styled.button`
-  color: ${({ theme }) => theme.colors.darkGray};
+  color: ${({theme}) => theme.colors.darkGray};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,9 +66,31 @@ const AddButton = styled.button`
   padding: 12px;
   border-radius: 1000px;
   border: none;
-  background-color: ${({ theme }) => theme.colors.lightGray};
+  background-color: ${({theme}) => theme.colors.lightGray};
   margin: 8px;
 `;
+
+const LogoutButton = styled.button`
+  display: flex;
+  align-items: center;
+  background-color: ${({theme}) => theme.colors.lightGray};
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+`;
+
+const LogoutText = styled.span`
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 8px; /* Added margin to create space between text and icon */
+`;
+
+const LogoutIcon = styled(Icon)`
+  font-size: 24px;
+`;
+
 
 const Location = styled.div`
   display: flex;
@@ -98,40 +105,16 @@ const Location = styled.div`
   border-radius: 8px;
 `;
 
-const ProfileWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-
-const ColumnWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Text = styled.div`
-  font-size: 24px;
-  font-weight: bold;
-  margin-top: 8px;
-`;
-
 const SubText = styled.div`
   font-size: 18px;
-  color: ${({ theme }) => theme.colors.darkGray};
+  color: ${({theme}) => theme.colors.darkGray};
 `;
 
-const ProfileImage = styled.img`
-  width: 80px;
-  height: 80px;
-  border-radius: 100px;
-  margin: 12px;
-  object-fit: cover;
-`;
 const Title = styled.div`
   font-size: 1.6rem;
   font-weight: bold;
   margin: 12px;
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({theme}) => theme.colors.black};
 `;
 
 const Wrapper = styled.div`
@@ -175,24 +158,46 @@ const ConversationItemsDummyData = [
 function Main() {
   const navigate = useNavigate();
   // const [image, setImage] = useState('');
-  const user = useSelector((state) => state.auth);
+  let user = useSelector((state) => state.auth.user);
   const [currentTab, setCurrentTab] = useState(TABS_OPTIONS.GROUPS);
   const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   const serializedUser = localStorage.getItem('auth');
+  //   // if (serializedUser === null) {
+  //   //   return navigate('/login');
+  //   // }
+  //   const { name, phoneNumber, currentLocation } = JSON.parse(serializedUser);
+  //   dispatch(
+  //     authActions.login({
+  //       name,
+  //       phoneNumber,
+  //       currentLocation,
+  //     }),
+  //   );
+  // }, [dispatch, navigate]);
   useEffect(() => {
-    const serializedUser = localStorage.getItem('auth');
-    // if (serializedUser === null) {
-    //   return navigate('/login');
-    // }
-    const { name, phoneNumber, currentLocation } = JSON.parse(serializedUser);
-    dispatch(
-      authActions.login({
-        name,
-        phoneNumber,
-        currentLocation,
-      }),
-    );
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      if (currentUser) {
+        user = currentUser;
+      } else {
+        navigate('/welcome');
+      }
+    });
+
+    return () => unsubscribe();
   }, [dispatch, navigate]);
+
+  const handleLogout = () => {
+    auth.signOut()
+      .then(() => {
+        dispatch(authActions.clearUser());
+        navigate('/signin');
+      })
+      .catch((error) => {
+        console.log('Logout error:', error);
+      });
+  };
 
   const ConversationItems = ConversationItemsDummyData.map((item) => (
     <ConversationItem
@@ -206,21 +211,20 @@ function Main() {
     <Container>
       {currentTab === TABS_OPTIONS.GROUPS && (
         <ContentContainer>
-          <ProfileWrapper onClick={() => navigate('/profile')}>
-            <ProfileImage src="https://images.unsplash.com/photo-1593529467220-9d721ceb9a78?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=430&q=80" />
-            <ColumnWrapper>
-              <SubText>Welcome back,</SubText>
-              <Text>Jordana Moore</Text>
-            </ColumnWrapper>
-          </ProfileWrapper>
-
+          <RowWrapper>
+            <ProfileButton onClick={() => navigate('/profile')}/>
+            <LogoutButton onClick={handleLogout}>
+              <LogoutText>Logout</LogoutText>
+              <LogoutIcon name="fa-right-from-bracket"/>
+            </LogoutButton>
+          </RowWrapper>
           <CurrentPlaceWrapper location={user.currentLocation}>
             <Location>You're in {user.currentLocation}</Location>
             <ButtonEnterChat
               onClick={() => navigate(`/chat?name=${user.name}&room=${user.currentLocation}`)}
             >
               Enter Chat! &nbsp;&nbsp;
-              <Icon name="chevron-right" />
+              <Icon name="chevron-right"/>
             </ButtonEnterChat>
           </CurrentPlaceWrapper>
 
@@ -231,7 +235,7 @@ function Main() {
             <Title>Your Events:</Title>
             {/* <SearchInput placeholder="Search..." /> */}
             <AddButton>
-              <Icon name="comment-medical" />
+              <Icon name="comment-medical"/>
             </AddButton>
           </RowWrapper>
 

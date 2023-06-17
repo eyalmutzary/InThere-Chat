@@ -3,14 +3,12 @@ import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import io from 'socket.io-client';
 import styled from 'styled-components';
-import TextContainer from '../TextContainer/TextContainer';
 import Messages from '../Messages/Messages';
 import InfoBar from '../InfoBar/InfoBar';
 import Input from '../Input/Input';
 import RoomDetails from './RoomDetails';
-import { Layout } from '../shared/components';
 
-const OuterContainer = styled(Layout)`
+const OuterContainer = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -102,7 +100,6 @@ function Chat() {
           <Input message={typedMessage} setMessage={setTypedMessage} sendMessage={sendMessage} />
         </InputContainer>
       </ChatContainer>
-      {/* <TextContainer users={users} /> */}
       {roomDetailsModal && <RoomDetails users={users} setRoomDetailsModal={setRoomDetailsModal} />}
     </OuterContainer>
   );

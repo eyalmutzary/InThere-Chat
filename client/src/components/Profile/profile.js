@@ -149,7 +149,7 @@ const dummyTags = [
   },
 ];
 
-function ProfilePage() {
+function Profile() {
   const navigate = useNavigate();
 
   const getRandomColor = useCallback(() => colors[Math.floor(Math.random() * colors.length)], []);
@@ -206,4 +206,4 @@ function ProfilePage() {
   );
 }
 
-export default ProfilePage;
+export default Profile;

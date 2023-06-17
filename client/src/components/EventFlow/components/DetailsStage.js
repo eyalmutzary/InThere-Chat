@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Layout } from '../../shared/components';
-import { Button } from '../../shared';
 
-const Container = styled(Layout)`
+const Container = styled.div`
 `;
 
 const Title = styled.div`
@@ -14,14 +12,14 @@ const Title = styled.div`
 `;
 
 const Input = styled.input`
-    width: 100%;
-    height: 40px;
-    border: none;
-    background-color: ${({ theme }) => theme.colors.main3};
-    border-radius: 5px;
-    padding: 0px 10px;
-    font-size: 20px;
-    `;
+  width: 100%;
+  height: 40px;
+  border: none;
+  background-color: ${({theme}) => theme.colors.main3};
+  border-radius: 5px;
+  padding: 0 10px;
+  font-size: 20px;
+`;
 
 const TextArea = styled.textarea`
     width: 100%;
@@ -35,7 +33,7 @@ const TextArea = styled.textarea`
 `;
 
 const RowWrapper = styled.div`
-    margin: 30px 0px;
+    margin: 30px 0;
 `;
 
 

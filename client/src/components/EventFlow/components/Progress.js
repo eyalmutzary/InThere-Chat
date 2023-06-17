@@ -4,19 +4,13 @@ import styled from 'styled-components';
 const Container = styled.div`
     margin: 40px;
     border: 1px solid ${({ theme }) => theme.colors.darkGray};
-    height: 0px;
+    height: 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     width: 90%;
     font-size: 20px;
-`;
-
-const StageWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    /* align-items: center; */
 `;
 
 const Stage = styled.div`
@@ -29,12 +23,6 @@ const Stage = styled.div`
     border: 3px solid ${({ theme, isSelected }) => isSelected ? theme.colors.main1 : theme.colors.darkGray};
     background-color: ${({ theme, isSelected }) => isSelected ? theme.colors.white : theme.colors.darkGray};
 `;
-
-const Text = styled.div`
-    margin-top: 5px;
-    color: ${({ theme }) => theme.colors.darkGray};
-`;
-
 
 const Progress = ({ stageNum }) => {
     

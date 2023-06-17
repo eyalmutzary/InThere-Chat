@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ReactMapGL, { Marker, Map, MapGL, FitBoundsOptions } from 'react-map-gl';
-
 const API_KEY = 'sk.eyJ1IjoiZXlhbG11dHphcnkiLCJhIjoiY2xpeGhnZWFmMDhiaTNtcWYzMXg3dWJ4eSJ9.mi8dwr6pAHob13pkRWIU0A';
 
 const MapComponent = () => {
