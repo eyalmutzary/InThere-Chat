@@ -7,6 +7,7 @@ import {GlobalStyle, theme} from './components/shared/theme';
 import Chat from './components/Chat/Chat';
 import Main from './components/Main/Main';
 import Profile from './components/Profile/profile';
+import EditProfile from './components/EditProfile/EditProfile';
 import RelevanceMessages from './components/Chat/RelevanceMessages';
 import Welcome from './components/Welcome/Welcome';
 import EventFlow from './components/EventFlow/EventFlow';
@@ -31,6 +32,7 @@ function App() {
             <Route path="/relevance/*" element={<PrivateRoute element={<RelevanceMessages />} />}/>
             <Route path="/main/*" element={<PrivateRoute element={<Main />} />}/>
             <Route path="/profile/*" element={<PrivateRoute element={<Profile />} />}/>
+            <Route path="/edit-profile/*" element={<PrivateRoute element={<EditProfile />} />}/>
             <Route path="/new-event/*" element={<PrivateRoute element={<EventFlow />} />}/>
             <Route path="/*" element={<PrivateRoute element={<Main />} />}/>
             <Route path="/" element={<Welcome/>}/>

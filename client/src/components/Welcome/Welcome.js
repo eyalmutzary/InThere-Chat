@@ -8,6 +8,7 @@ import {auth, firebase} from '../../firebase';
 import {authActions} from '../shared/store';
 
 const Container = styled.div`
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

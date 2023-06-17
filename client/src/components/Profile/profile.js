@@ -5,6 +5,8 @@ import { Button, Icon } from '../shared';
 import faceBookLogo from '../../assets/facebookLogo.png';
 import instagramIcon from '../../assets/instagramIcon.png';
 import { useSelector } from 'react-redux';
+import { FloatButton } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
 
 const Container = styled.div`
   display: flex;
@@ -125,6 +127,32 @@ const BackIcon = styled(Icon)`
   margin: 20px 0 0 20px;
 `;
 
+const IconRowWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 30px;
+  padding: 20px 20px 0 20px;
+`;
+
+const EditButton = styled.button`
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  z-index: 100;
+  background-color: ${({ theme }) => theme.colors.main1};
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+  border: 0;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: ${({ theme }) => theme.colors.white};
+`;
+
 const dummyTags = [
   {
     id: 1,
@@ -166,7 +194,11 @@ function Profile() {
 
   return (
     <>
-      <BackIcon name="arrow-left" onClick={() => navigate(-1)} />
+      <EditButton onClick={() => navigate('/edit-profile')}><Icon name={'pen'}/></EditButton>
+      <IconRowWrapper>
+        <Icon name="arrow-left" onClick={() => navigate(-1)} />
+        {/* <Icon name="arrow-left" /> */}
+      </IconRowWrapper>
       <Container>
         <ProfileContainer>
           <ProfileImage src={photoURL} />

@@ -132,8 +132,7 @@ const ProfileWrapper = styled.div`
 `;
 
 // Dummy data
-const ConversationItemsDummyData = [
-];
+const ConversationItemsDummyData = [];
 
 function Main() {
   const navigate = useNavigate();
