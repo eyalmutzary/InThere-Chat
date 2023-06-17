@@ -5,7 +5,7 @@ import Message, { MESSAGE_TYPES } from './Message/Message';
 import './Messages.css';
 
 function Messages({ messages }) {
-  const loggedUser = useSelector((state) => state.auth);
+  const loggedUser = useSelector((state) => state.auth.user);
   const messagesContainerRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -21,8 +21,8 @@ function Messages({ messages }) {
   return (
     <ScrollToBottom className="messages">
       <div ref={messagesContainerRef}>
-        {messages.map(({ text, user }, index) => {
-          const messageType = user.trim().toLowerCase() === loggedUser.name.trim().toLowerCase()
+        {messages.map(({ text, name }, index) => {
+          const messageType = name.trim().toLowerCase() === loggedUser.name.trim().toLowerCase()
             ? MESSAGE_TYPES.ME
             : MESSAGE_TYPES.USER_IN_LOCATION;
 
@@ -30,7 +30,7 @@ function Messages({ messages }) {
             <Message
               key={`message-${index}`}
               text={text}
-              name={user.trim().toLowerCase()}
+              name={name.trim().toLowerCase()}
               likes={0}
               messagetype={messageType}
             />

@@ -90,13 +90,12 @@ const Weclome = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider)
       .then((userCredential) => {
-        console.log(userCredential);
         const user = {
           name: userCredential.user.displayName,
           email: userCredential.user.email,
           location: location,
           photoURL: userCredential.user.photoURL,
-          // Add other user properties as needed
+          uid: userCredential.user.uid,
         };
         dispatch(authActions.setUser(user));
         return userCredential.user.getIdToken();
