@@ -4,12 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Icon } from '../shared';
 import faceBookLogo from '../../assets/facebookLogo.png';
 import instagramIcon from '../../assets/instagramIcon.png';
+import { useSelector } from 'react-redux';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 12px 12px 12px;
+  /* padding: 0 12px 12px 12px; */
+  padding: 0px 40px;
 `;
 
 const ContainerCard = styled.div`
@@ -26,6 +28,7 @@ const ProfileContainer = styled(ContainerCard)`
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme.colors.lightGray};
+  margin: 20px;
 `;
 
 const ContentContainer = styled(ContainerCard)`
@@ -151,6 +154,7 @@ const dummyTags = [
 
 function Profile() {
   const navigate = useNavigate();
+  const {name, photoURL} = useSelector((state) => state.auth.user);
 
   const getRandomColor = useCallback(() => colors[Math.floor(Math.random() * colors.length)], []);
 
@@ -165,8 +169,8 @@ function Profile() {
       <BackIcon name="arrow-left" onClick={() => navigate(-1)} />
       <Container>
         <ProfileContainer>
-          <ProfileImage src="https://images.unsplash.com/photo-1593529467220-9d721ceb9a78?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=430&q=80" />
-          <ProfileName>Aria Johnson</ProfileName>
+          <ProfileImage src={photoURL} />
+          <ProfileName>{name}</ProfileName>
           <OriginFrom>
             <Icon name="globe" />
             &nbsp;&nbsp;Israel, Hebrew
@@ -183,16 +187,16 @@ function Profile() {
             </CircleButton>
           </RowWrapper>
         </ProfileContainer>
-
+{/* 
         <ContentContainer>
-          {/* <Title>Level 3: Long tripper</Title>
+          <Title>Level 3: Long tripper</Title>
           <RowWrapper>
             <ProgressBarWrapper>
               <ProgressBar percentage={50} />
             </ProgressBarWrapper>
             <Precentage>50%</Precentage>
-          </RowWrapper> */}
-        </ContentContainer>
+          </RowWrapper>
+        </ContentContainer> */}
 
         <ContentContainer>
           <Title>About Me</Title>

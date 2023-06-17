@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom
 import {Provider, useSelector} from 'react-redux';
 import {ThemeProvider} from 'styled-components';
 import store from './components/shared/store';
-import {theme} from './components/shared/theme';
+import {GlobalStyle, theme} from './components/shared/theme';
 import Chat from './components/Chat/Chat';
 import Main from './components/Main/Main';
 import Profile from './components/Profile/profile';
@@ -24,6 +24,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
+       <GlobalStyle/>
         <Router>
           <Routes>
             <Route path="/chat/*" element={<PrivateRoute element={<Chat />} />} />

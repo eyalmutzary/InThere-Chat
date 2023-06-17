@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import 'react-phone-number-input/style.css';
-import {useNavigate} from 'react-router-dom';
-import {useSelector, useDispatch} from 'react-redux';
-import {Icon} from '../shared';
-import {authActions} from '../shared/store';
+import { useNavigate} from 'react-router-dom';
+import { useSelector, useDispatch} from 'react-redux';
+import { Icon} from '../shared';
+import { authActions} from '../shared/store';
 import ConversationItem from '../Conversations/ConversationItem';
-import {TABS_OPTIONS} from '../Conversations/NavBar';
-import {auth} from "../../firebase";
-import ProfileButton from "../Profile/ProfileButton";
+import { TABS_OPTIONS} from '../Conversations/NavBar';
+import { auth} from '../../firebase';
+import ProfileButton from './components/ProfileButton';
 
 const Container = styled.div`
   display: flex;
@@ -70,26 +70,26 @@ const AddButton = styled.button`
   margin: 8px;
 `;
 
-const LogoutButton = styled.button`
-  display: flex;
-  align-items: center;
-  background-color: ${({theme}) => theme.colors.lightGray};
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-`;
+// const LogoutButton = styled.button`
+//   display: flex;
+//   align-items: center;
+//   background-color: ${({theme}) => theme.colors.lightGray};
+//   border: none;
+//   padding: 8px 16px;
+//   border-radius: 8px;
+//   cursor: pointer;
+//   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+// `;
 
-const LogoutText = styled.span`
-  font-size: 18px;
-  font-weight: bold;
-  margin-right: 8px; /* Added margin to create space between text and icon */
-`;
+// const LogoutText = styled.span`
+//   font-size: 18px;
+//   font-weight: bold;
+//   margin-right: 8px; /* Added margin to create space between text and icon */
+// `;
 
-const LogoutIcon = styled(Icon)`
-  font-size: 24px;
-`;
+// const LogoutIcon = styled(Icon)`
+//   font-size: 24px;
+// `;
 
 
 const Location = styled.div`
@@ -123,36 +123,16 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
+const ProfileWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 1000px;
+`;
+
 // Dummy data
 const ConversationItemsDummyData = [
-  // {
-  //   title: 'New York',
-  //   notificationsAmount: 3,
-  // },
-  // {
-  //   title: 'Boston',
-  //   notificationsAmount: 12,
-  // },
-  // {
-  //   title: 'Los Angeles',
-  //   notificationsAmount: 7,
-  // },
-  // {
-  //   title: 'San Francisco',
-  //   notificationsAmount: 0,
-  // },
-  // {
-  //   title: 'Seattle',
-  //   notificationsAmount: 0,
-  // },
-  // {
-  //   title: 'Chicago',
-  //   notificationsAmount: 0,
-  // },
-  // {
-  //   title: 'Miami',
-  //   notificationsAmount: 0,
-  // },
 ];
 
 function Main() {
@@ -188,16 +168,16 @@ function Main() {
     return () => unsubscribe();
   }, [dispatch, navigate]);
 
-  const handleLogout = () => {
-    auth.signOut()
-      .then(() => {
-        dispatch(authActions.clearUser());
-        navigate('/signin');
-      })
-      .catch((error) => {
-        console.log('Logout error:', error);
-      });
-  };
+  // const handleLogout = () => {
+  //   auth.signOut()
+  //     .then(() => {
+  //       dispatch(authActions.clearUser());
+  //       navigate('/signin');
+  //     })
+  //     .catch((error) => {
+  //       console.log('Logout error:', error);
+  //     });
+  // };
 
   const ConversationItems = ConversationItemsDummyData.map((item) => (
     <ConversationItem
@@ -211,13 +191,11 @@ function Main() {
     <Container>
       {currentTab === TABS_OPTIONS.GROUPS && (
         <ContentContainer>
-          <RowWrapper>
-            <ProfileButton onClick={() => navigate('/profile')}/>
-            <LogoutButton onClick={handleLogout}>
-              <LogoutText>Logout</LogoutText>
+            <ProfileButton />
+            {/* <LogoutButton onClick={handleLogout}>
+              <LogoutText><Icon name={"logout"}/></LogoutText>
               <LogoutIcon name="fa-right-from-bracket"/>
-            </LogoutButton>
-          </RowWrapper>
+            </LogoutButton> */}
           <CurrentPlaceWrapper location={user.currentLocation}>
             <Location>You're in {user.currentLocation}</Location>
             <ButtonEnterChat
