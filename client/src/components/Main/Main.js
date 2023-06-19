@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import 'react-phone-number-input/style.css';
 import { useNavigate} from 'react-router-dom';
@@ -7,8 +7,18 @@ import { Icon} from '../shared';
 import { authActions} from '../shared/store';
 import ConversationItem from '../Conversations/ConversationItem';
 import { TABS_OPTIONS} from '../Conversations/NavBar';
-import { auth} from '../../firebase';
+import { auth, firestore} from '../../firebase';
 import ProfileButton from './components/ProfileButton';
+import {
+  query,
+  collection,
+  orderBy,
+  onSnapshot,
+  limit,
+  where,
+  addDoc,
+} from "firebase/firestore";
+import { MESSAGE_TYPES } from '../shared/constants';
 
 const Container = styled.div`
   display: flex;
@@ -70,27 +80,6 @@ const AddButton = styled.button`
   margin: 8px;
 `;
 
-// const LogoutButton = styled.button`
-//   display: flex;
-//   align-items: center;
-//   background-color: ${({theme}) => theme.colors.lightGray};
-//   border: none;
-//   padding: 8px 16px;
-//   border-radius: 8px;
-//   cursor: pointer;
-//   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-// `;
-
-// const LogoutText = styled.span`
-//   font-size: 18px;
-//   font-weight: bold;
-//   margin-right: 8px; /* Added margin to create space between text and icon */
-// `;
-
-// const LogoutIcon = styled(Icon)`
-//   font-size: 24px;
-// `;
-
 
 const Location = styled.div`
   display: flex;
@@ -131,22 +120,51 @@ const ProfileWrapper = styled.div`
   width: 1000px;
 `;
 
-// Dummy data
-const ConversationItemsDummyData = [];
 
 function Main() {
   const navigate = useNavigate();
   // const [image, setImage] = useState('');
   const user = useSelector((state) => state.auth.user);
   const [currentTab, setCurrentTab] = useState(TABS_OPTIONS.GROUPS);
+  const [events, setEvents] = useState([]);
 
-  const ConversationItems = ConversationItemsDummyData.map((item) => (
+  const fetchEvents = async () => {
+    const q = query(
+      collection(firestore, 'Events'),
+      // orderBy('createdAt', 'desc'),
+      where('room', '==', user.location),
+      where('members', 'array-contains', user.uid),
+      limit(50),
+    );
+
+    const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+      const fetchedEvents = [];
+      QuerySnapshot.forEach((doc) => {
+        fetchedEvents.push({ ...doc.data(), id: doc.id, messageType: MESSAGE_TYPES.EVENT });
+      });
+      const sortedEvents = fetchedEvents.sort(
+        (a, b) => a.createdAt - b.createdAt
+      );
+      setEvents(sortedEvents);
+    });
+    return () => unsubscribe;
+  };
+
+  useEffect(() => {
+    const unsubscribe = fetchEvents();
+    return () => unsubscribe;
+  }, []);
+
+  const EventItems = events.map(({ title, id, room }) => {
+    return (
     <ConversationItem
-      key={item.title}
-      title={item.title}
-      notificationsAmount={item.notificationsAmount}
+      key={id}
+      eventId={id}
+      title={title}
+      room={room}
+      notificationsAmount={0}
     />
-  ));
+    )});
 
   return (
     <Container>
@@ -171,7 +189,7 @@ function Main() {
             </AddButton>
           </RowWrapper>
 
-          {ConversationItems.length > 0 ? ConversationItem : <Wrapper><SubText>No upcoming events.</SubText></Wrapper>}
+          {EventItems.length > 0 ? EventItems : <Wrapper><SubText>No upcoming events.</SubText></Wrapper>}
         </ContentContainer>
       )}
     </Container>

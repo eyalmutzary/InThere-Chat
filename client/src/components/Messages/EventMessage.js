@@ -3,6 +3,11 @@ import styled from 'styled-components';
 import ReactEmoji from 'react-emoji';
 import { Button, Icon } from '../shared';
 import { flagDictionary, SENDER_TYPE } from '../shared/constants';
+import { firestore } from '../../firebase';
+import { FieldValue } from 'firebase/firestore';
+import useSelection from 'antd/es/table/hooks/useSelection';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const MyMessageContainer = styled.div`
   display: flex;
@@ -12,7 +17,7 @@ const MyMessageContainer = styled.div`
 `;
 
 const MessageWrapper = styled.div`
-  padding: 20px 20px 5px 20px;
+  padding: 20px;
   max-width: fit-content;
   margin-top: 8px;
   box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
@@ -102,9 +107,24 @@ const EventDetail = styled.div`
 `;
 
 
-function EventMessage({ name, senderType, likes, country, createdAt, title, membersLimit, membersRegistered, eventDate, eventHour, eventLocation }) {
+function EventMessage({ id, name, senderType, likes, country, createdAt, title, membersLimit, membersRegistered, eventDate, eventHour, eventLocation }) {
+  const user = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
+
+  const handleJoinToEvent = () => {
+    const eventRef = firestore.collection('events').doc(id);
+  
+    eventRef.update({
+      members: FieldValue.arrayUnion([user.uid]),
+      // TODO: update membersRegistered
+    //   membersRegistered: FieldValue.arraySize(members),
+    });
+
+    navigate(`/chat?room=${user.location}&eventId=${id}`);
+  };
+  
   return (
-      <MyMessageContainer isme={senderType === SENDER_TYPE.ME ? 'flex-end' : 'flex-start'}>
+    <MyMessageContainer isme={senderType === SENDER_TYPE.ME ? 'flex-end' : 'flex-start'}>
         { senderType !== SENDER_TYPE.ME
         && (
         <UsernameText>
@@ -120,7 +140,7 @@ function EventMessage({ name, senderType, likes, country, createdAt, title, memb
             <EventDetail><Icon name={'clock'} />&nbsp;&nbsp;{eventDate}, {eventHour}</EventDetail>
             <EventDetail><Icon name={'location-arrow'} />&nbsp;&nbsp;{eventLocation}</EventDetail>
             <EventDetail><Icon name={'user'} />&nbsp;&nbsp;{membersRegistered} / {membersLimit}</EventDetail>
-            <Button>Tap to Join!</Button>
+            {senderType !== SENDER_TYPE.ME && <Button onClick={() => handleJoinToEvent()}>Tap to Join!</Button>}
           </MyMessageWrapper>
 
           {senderType !== SENDER_TYPE.ME && likes > 0 && <LikesText><HeartIcon name="heart" />&nbsp;{likes}</LikesText>}

@@ -67,7 +67,7 @@ function InfoBar({ setRoomDetailsModal }) {
   const name = searchParams.get('name');
   const room = searchParams.get('room');
   const handleNavigation = () => {
-    navigate(`/relevance?name=${name}&room=${room}`);
+    navigate(`/relevance?room=${room}`);
   };
 
   // TODO: uncomment to get real photos

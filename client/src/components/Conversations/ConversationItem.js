@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import 'react-phone-number-input/style.css';
 import { useSelector } from 'react-redux';
 import { Icon } from '../shared';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -66,8 +67,8 @@ const TimeAgo = styled.div`
     /* margin-right: 8px; */
     `;
 
-function ConversationItem({ title, notificationsAmount }) {
-  // const user = useSelector((state) => state.auth);
+function ConversationItem({ title, notificationsAmount, eventId, createdBy, description, eventDate, eventHour, eventLocation, imageURL, membersLimit, membersRegisterd, room }) {
+  const navigate = useNavigate();
   // const [image, setImage] = useState('');
 
   // TODO: uncomment to get real photos
@@ -84,7 +85,7 @@ function ConversationItem({ title, notificationsAmount }) {
   // },[user.location])
 
   return (
-    <Container>
+    <Container onClick={() => navigate(`/chat?room=${room}&eventId=${eventId}`)}>
       <RowWrapper>
         {/* <Image src={image} /> */}
         <Image src="https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400" />

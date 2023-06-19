@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Messages from '../Messages/Messages';
 import InfoBar from '../InfoBar/InfoBar';
@@ -46,7 +46,13 @@ const InputContainer = styled.div`
 function Chat() {
   // const scrollBottom = useRef(null);
   // const location = useLocation();
-  const [room, setRoom] = useState('');
+  // get the url parms:
+  const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const eventId = searchParams.get('eventId') ?? '';
+  const room = searchParams.get('room');
+
   const [users, setUsers] = useState('');
   const [typedMessage, setTypedMessage] = useState('');
   const [messages, setMessages] = useState([]);
@@ -58,14 +64,18 @@ function Chat() {
     const q = query(
       collection(firestore, 'messages'),
       orderBy('createdAt', 'desc'),
-      where('room', '==', user.location),
+      where('room', '==', room),
+      // TODO: should add filter by event id
+      // where('relatedEventId', '==', eventId),
       limit(50),
     );
 
     const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
       const fetchedMessages = [];
       QuerySnapshot.forEach((doc) => {
-        fetchedMessages.push({ ...doc.data(), id: doc.id, messageType: MESSAGE_TYPES.MESSAGE });
+        if (doc.data().relatedEventId === eventId) {
+          fetchedMessages.push({ ...doc.data(), id: doc.id, messageType: MESSAGE_TYPES.MESSAGE });
+        }
       });
       const sortedMessages = fetchedMessages.sort(
         (a, b) => a.createdAt - b.createdAt
@@ -76,6 +86,9 @@ function Chat() {
   }, []);
 
   const fetchEvents = useCallback(async () => {
+    if (eventId) {
+      return;
+    }
     const q = query(
       collection(firestore, 'Events'),
       // orderBy('createdAt', 'desc'),
@@ -97,11 +110,12 @@ function Chat() {
   }, []);
 
   useEffect(() => {
+    if (!room) {
+      navigate('/main');
+    }
+
     const unsubscribeMessages = fetchMessages();
     const unsubscribeEvents = fetchEvents();
-
-
-
     return () => { return unsubscribeMessages && unsubscribeEvents; };
   }, []);
 
@@ -117,6 +131,7 @@ function Chat() {
         createdAt: new Date().toISOString(),
         avatar: user.photoURL,
         uid: user.uid,
+        relatedEventId: '',
       };
       
       addDoc(collection(firestore, 'messages'), newMessage);
