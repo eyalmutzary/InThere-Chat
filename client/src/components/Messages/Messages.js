@@ -3,10 +3,11 @@ import { useSelector } from 'react-redux';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import Message, { MESSAGE_TYPES } from './Message/Message';
 import './Messages.css';
+import { getTimeFromISOString, getTimeString } from '../shared/utils';
 
 function Messages({ messages }) {
   const loggedUser = useSelector((state) => state.auth.user);
-  const messagesContainerRef = useRef(null);
+  const messagesContainerRef = useRef();
 
   const scrollToBottom = () => {
     if (messagesContainerRef.current) {
@@ -15,29 +16,33 @@ function Messages({ messages }) {
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    scrollToBottom()
+  }, [messagesContainerRef, messages]);
+
+  const MessagesList = messages.map(({ text, name, createdAt }, index) => {
+    const messageType = name.trim().toLowerCase() === loggedUser.name.trim().toLowerCase()
+      ? MESSAGE_TYPES.ME
+      : MESSAGE_TYPES.USER_IN_LOCATION;
+
+    return (
+      <Message
+        key={`message-${index}`}
+        text={text}
+        name={name.trim()}
+        likes={1}
+        messagetype={messageType}
+        createdAt={getTimeFromISOString(createdAt)}
+      />
+    );
+  }).reverse();
 
   return (
-    <ScrollToBottom className="messages">
-      <div ref={messagesContainerRef}>
-        {messages.map(({ text, name }, index) => {
-          const messageType = name.trim().toLowerCase() === loggedUser.name.trim().toLowerCase()
-            ? MESSAGE_TYPES.ME
-            : MESSAGE_TYPES.USER_IN_LOCATION;
-
-          return (
-            <Message
-              key={`message-${index}`}
-              text={text}
-              name={name.trim().toLowerCase()}
-              likes={0}
-              messagetype={messageType}
-            />
-          );
-        })}
+    <div className="messages">
+      {MessagesList}
+      <div style={{ float:"left", clear: "both" }}
+        ref={messagesContainerRef}>
       </div>
-    </ScrollToBottom>
+    </div>
   );
 }
 

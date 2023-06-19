@@ -14,12 +14,15 @@ const BackIcon = styled(Icon)`
 `;
 
 const Container = styled.div`
+  position: fixed;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: ${({ theme }) => theme.colors.main2};
   border-radius: 4px 4px 0 0;
-  height: 60px;
+  /* height: 60px; */
+  padding: 12px;
   width: 100%;
 `;
 
@@ -69,7 +72,7 @@ function InfoBar({ setRoomDetailsModal }) {
 
   // TODO: uncomment to get real photos
   //   useEffect(() => {
-  //     console.log(user.currentLocation)
+  //     console.log(user.location)
   //     axios.get(`https://api.unsplash.com/search/photos?query=${title}&client_id=${photoAPIkey}`)
   //         .then((response) => {
   //             setImage(response.data.results[0].urls.small)
@@ -78,7 +81,7 @@ function InfoBar({ setRoomDetailsModal }) {
   //         .catch((error) => {
   //         console.log(error);
   //         });
-  // },[user.currentLocation])
+  // },[user.location])
 
   return (
     <Container>

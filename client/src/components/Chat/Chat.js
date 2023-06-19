@@ -13,10 +13,13 @@ import {
   orderBy,
   onSnapshot,
   limit,
+  where,
+  addDoc,
 } from "firebase/firestore";
 
 const OuterContainer = styled.div`
-  height: 100vh;
+  height: 100svh;
+  width: 100vw;
   display: flex;
   flex-direction: column;
 `;
@@ -27,11 +30,12 @@ const ChatContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   background: ${({ theme }) => theme.colors.background};
+  max-height: 100%;
 `;
 
 const MessagesContainer = styled.div`
   overflow-y: scroll;
-  padding: 20px;
+  padding: 40px 20px 0px 0px;
 `;
 
 const InputContainer = styled.div`
@@ -39,28 +43,26 @@ const InputContainer = styled.div`
 `;
 
 function Chat() {
-  const location = useLocation();
+  // const scrollBottom = useRef(null);
+  // const location = useLocation();
   const [room, setRoom] = useState('');
   const [users, setUsers] = useState('');
   const [typedMessage, setTypedMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [roomDetailsModal, setRoomDetailsModal] = useState(false);
-  let user = useSelector((state) => state.auth.user);
-
-  console.log('location:', location);
-  console.log('room:', user.currentLocation);
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     const q = query(
-      collection(firestore, "messages"),
-      orderBy("createdAt", "desc"),
-      limit(50)
+      collection(firestore, 'messages'),
+      orderBy('createdAt', 'desc'),
+      // where('room', '==', user.location),
+      limit(50),
     );
 
     const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
       const fetchedMessages = [];
       QuerySnapshot.forEach((doc) => {
-        console.log(doc.data());
         fetchedMessages.push({ ...doc.data(), id: doc.id });
       });
       const sortedMessages = fetchedMessages.sort(
@@ -68,14 +70,29 @@ function Chat() {
       );
       setMessages(sortedMessages);
     });
+
     return () => unsubscribe;
   }, []);
 
+  // useEffect(() => {
+  //   scrollBottom.current.scrollIntoView({ behavior: 'smooth' });
+  // }, [messages, scrollBottom]);
+
   const sendMessage = (event) => {
     event.preventDefault();
-
+  
     if (typedMessage) {
-      console.log('Sending message:', typedMessage); // Add this line
+      const newMessage = {
+        name: user.name,
+        room: user.location,
+        text: typedMessage,
+        createdAt: new Date().toISOString(),
+        avatar: user.photoURL,
+        uid: user.uid,
+      };
+      
+      addDoc(collection(firestore, 'messages'), newMessage);
+      setTypedMessage('');
     }
   };
 

@@ -72,7 +72,7 @@ function ConversationItem({ title, notificationsAmount }) {
 
   // TODO: uncomment to get real photos
   //   useEffect(() => {
-  //     console.log(user.currentLocation)
+  //     console.log(user.location)
   //     axios.get(`https://api.unsplash.com/search/photos?query=${title}&client_id=${photoAPIkey}`)
   //         .then((response) => {
   //             setImage(response.data.results[0].urls.small)
@@ -81,7 +81,7 @@ function ConversationItem({ title, notificationsAmount }) {
   //         .catch((error) => {
   //         console.log(error);
   //         });
-  // },[user.currentLocation])
+  // },[user.location])
 
   return (
     <Container>

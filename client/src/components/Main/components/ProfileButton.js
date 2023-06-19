@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import { Icon } from '../../shared';
 import { auth} from '../../../firebase';
 import { useNavigate } from 'react-router';
+import { authActions } from '../../shared/store';
 
 const ProfileWrapper = styled.div`
   display: flex;

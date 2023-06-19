@@ -22,9 +22,7 @@ const MessageWrapper = styled.div`
 `;
 export const MESSAGE_TYPES = {
   ME: 'ME',
-  LOCAL_USER: 'LOCAL_USER',
   USER_IN_LOCATION: 'USER_IN_LOCATION',
-  NOT_YET_IN_LOCATION_USER: 'NOT_YET_IN_LOCATION_USER',
   NONE: 'NONE',
 };
 
@@ -33,14 +31,10 @@ const MyMessageWrapper = styled(MessageWrapper)`
     switch (messagetype) {
       case MESSAGE_TYPES.ME:
         return theme.colors.blue;
-      case MESSAGE_TYPES.LOCAL_USER:
-        return theme.colors.yellow;
       case MESSAGE_TYPES.USER_IN_LOCATION:
-        return theme.colors.orange;
-      case MESSAGE_TYPES.NOT_YET_IN_LOCATION_USER:
         return theme.colors.green;
       default:
-        return theme.colors.black;
+        return theme.colors.yellow;
     }
   }};
   border-radius: ${({ messagetype }) => (messagetype === MESSAGE_TYPES.ME ? '8px 8px 0px 8px' : '8px 8px 8px 0px')};
@@ -87,38 +81,35 @@ const FlagIcon = styled.img`
   height: 28px;
   width: auto;
 `;
-// const ProfileImage = styled.img`
-//   height: 28px;
-//   width: 28px;
-//   border-radius: 50%;
-//   margin-left: 8px;
-// `;
+const ProfileImage = styled.img`
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  margin-left: 8px;
+`;
 
-function Message({ text, name, messagetype, likes, country }) {
-  // const loggedUser = useSelector(state => state.auth)
+function Message({ text, name, messagetype, likes, country, createdAt }) {
 
-  const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  const trimmedName = name.trim().toLowerCase();
-  // const issentbyme = trimmedName === loggedUser.name.trim().toLowerCase();
-
-  // console.log(flagDictionary["Israel"]["image"])
   return (
+      <MyMessageContainer isme={messagetype === MESSAGE_TYPES.ME ? 'flex-end' : 'flex-start'}>
+        { messagetype !== MESSAGE_TYPES.ME
+        && (
+        <UsernameText>
+          {name}&nbsp;&nbsp;
+          {flagDictionary[country] && <FlagIcon src={flagDictionary[country].image} />}
+        </UsernameText>
+        )}
+        <RowWrapper>
+          {messagetype === MESSAGE_TYPES.ME && likes > 0 && <LikesText><HeartIcon name="heart" />&nbsp;{likes}</LikesText>}
+          <MyMessageWrapper messagetype={messagetype}>
+            <MessageText>{ReactEmoji.emojify(text)}</MessageText>
+          </MyMessageWrapper>
+          {messagetype !== MESSAGE_TYPES.ME && likes > 0 && <LikesText><HeartIcon name="heart" />&nbsp;{likes}</LikesText>}
+        </RowWrapper>
 
-    <MyMessageContainer isme={messagetype === MESSAGE_TYPES.ME ? 'flex-end' : 'flex-start'}>
-      <UsernameText>
-        {trimmedName}&nbsp;&nbsp;
-        {messagetype !== MESSAGE_TYPES.ME && flagDictionary[country] && <FlagIcon src={flagDictionary[country].image} />}
-      </UsernameText>
-      <RowWrapper>
-        {messagetype === MESSAGE_TYPES.ME && likes > 0 && <LikesText><HeartIcon name="heart" />&nbsp;{likes}</LikesText>}
-        <MyMessageWrapper messagetype={messagetype}>
-          <MessageText>{ReactEmoji.emojify(text)}</MessageText>
-        </MyMessageWrapper>
-        {messagetype !== MESSAGE_TYPES.ME && likes > 0 && <LikesText><HeartIcon name="heart" />&nbsp;{likes}</LikesText>}
-      </RowWrapper>
+        <TimeText>{createdAt}</TimeText>
+      </MyMessageContainer>
 
-      <TimeText>{time}</TimeText>
-    </MyMessageContainer>
 
   );
 }

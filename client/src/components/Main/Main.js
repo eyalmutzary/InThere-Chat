@@ -137,52 +137,8 @@ const ConversationItemsDummyData = [];
 function Main() {
   const navigate = useNavigate();
   // const [image, setImage] = useState('');
-  let user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.auth.user);
   const [currentTab, setCurrentTab] = useState(TABS_OPTIONS.GROUPS);
-  const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   const serializedUser = localStorage.getItem('auth');
-  //   // if (serializedUser === null) {
-  //   //   return navigate('/login');
-  //   // }
-  //   const { name, phoneNumber, currentLocation } = JSON.parse(serializedUser);
-  //   dispatch(
-  //     authActions.login({
-  //       name,
-  //       phoneNumber,
-  //       currentLocation,
-  //     }),
-  //   );
-  // }, [dispatch, navigate]);
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      if (currentUser) {
-        dispatch(authActions.setUser({
-          name: currentUser.displayName,
-          phoneNumber: currentUser.phoneNumber,
-          currentLocation: 'New York'
-        }));
-        user = currentUser;
-
-      } else {
-        navigate('/welcome');
-      }
-    });
-
-    return () => unsubscribe();
-  }, [dispatch, navigate]);
-
-  // const handleLogout = () => {
-  //   auth.signOut()
-  //     .then(() => {
-  //       dispatch(authActions.clearUser());
-  //       navigate('/signin');
-  //     })
-  //     .catch((error) => {
-  //       console.log('Logout error:', error);
-  //     });
-  // };
 
   const ConversationItems = ConversationItemsDummyData.map((item) => (
     <ConversationItem
@@ -197,23 +153,16 @@ function Main() {
       {currentTab === TABS_OPTIONS.GROUPS && (
         <ContentContainer>
             <ProfileButton />
-            {/* <LogoutButton onClick={handleLogout}>
-              <LogoutText><Icon name={"logout"}/></LogoutText>
-              <LogoutIcon name="fa-right-from-bracket"/>
-            </LogoutButton> */}
-          <CurrentPlaceWrapper location={user.currentLocation}>
-            <Location>You're in {user.currentLocation}</Location>
+          <CurrentPlaceWrapper location={user.location}>
+            <Location>You're in {user.location}</Location>
             <ButtonEnterChat
-              onClick={() => navigate(`/chat?name=${user.name}&room=${user.currentLocation}`)}
+              onClick={() => navigate(`/chat?room=${user.location}`)}
             >
               Enter Chat! &nbsp;&nbsp;
               <Icon name="chevron-right"/>
             </ButtonEnterChat>
           </CurrentPlaceWrapper>
 
-          {/* <RowWrapper>
-            <Title>Your Events:</Title>
-          </RowWrapper> */}
           <RowWrapper>
             <Title>Your Events:</Title>
             {/* <SearchInput placeholder="Search..." /> */}
