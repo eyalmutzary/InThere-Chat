@@ -38,18 +38,32 @@ const RowWrapper = styled.div`
 
 
 
-const DetailsStage = () => {
-    
+const DetailsStage = ({form, setForm}) => {
+
   return (
     <Container>
         <RowWrapper>
             <Title>Event Title:</Title>
-            <Input />
+            <Input onChange={(e) => {
+              setForm((oldForm) => {
+                const newForm = { ...oldForm };
+                newForm.title = e.target.value;
+                return newForm;
+              });
+            }}
+            />
         </RowWrapper>
 
         <RowWrapper>
             <Title>Description:</Title>
-            <TextArea />
+            <TextArea onChange={(e) => {
+              setForm((oldForm) => {
+                const newForm = { ...oldForm };
+                newForm.description = e.target.value;
+                return newForm;
+              });
+            }}
+            />
         </RowWrapper>
     </Container>
   );

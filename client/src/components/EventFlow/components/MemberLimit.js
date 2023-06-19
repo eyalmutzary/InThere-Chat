@@ -49,22 +49,24 @@ const RowWrapper = styled.div`
 `;
 
 
-const MemberLimit = ({membersLimit, setMembersLimit}) => {
+const MemberLimit = ({ membersLimit, setForm }) => {
 
   const handleNumberClick = (num) => {
     if (num === '0' && membersLimit === '') return;
     if (num === 'X') {
       if (membersLimit.length === 0) return;
-      setMembersLimit((oldValue) => {
-        const newValue = oldValue.slice(0, -1);
-        return newValue;
+      setForm((oldForm) => {
+        const newForm = { ...oldForm };
+        newForm.membersLimit = oldForm.membersLimit.slice(0, -1);
+        return newForm;
       });
       return;
     }
     if (membersLimit.length >= 3) return;
-    setMembersLimit((oldValue) => {
-      const newValue = oldValue.concat(num);
-      return newValue;
+    setForm((oldForm) => {
+      const newForm = { ...oldForm };
+      newForm.membersLimit = oldForm.membersLimit.concat(num);
+      return newForm;
     });
   };
 

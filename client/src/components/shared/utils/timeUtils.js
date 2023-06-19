@@ -18,3 +18,22 @@ export function getTimeFromISOString(dateISOString) {
   const minutes = String(date.getMinutes()).padStart(2, '0');
   return (hours + ':' + minutes);
 }
+
+export function convertToHHmm(dateString) {
+  const date = new Date(dateString);
+  const options = {
+    hour: '2-digit',
+    minute: '2-digit',
+  };
+  return date.toLocaleTimeString(undefined, options);
+}
+
+
+export function convertToDayMonth(date) {
+  const options = {
+    day: '2-digit',
+    month: 'short',
+  };
+  return date.toLocaleDateString('en-US', options);
+}
+

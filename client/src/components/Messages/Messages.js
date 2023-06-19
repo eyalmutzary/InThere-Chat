@@ -28,9 +28,12 @@ function Messages({ messages, events }) {
   };
 
   useEffect(() => {
-    scrollToBottom();
     mergeAndSortMessages();
   }, [messagesContainerRef, messages, events]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [combinedMessages]);
 
   const MessagesList = combinedMessages.map((data, index) => {
     if (data.messageType === MESSAGE_TYPES.EVENT) {

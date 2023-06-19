@@ -1,9 +1,24 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Calendar } from 'antd';
+import { Calendar, Input, TimePicker } from 'antd';
 import Logo from '../../assets/logo.png';
 import { DetailsStage, Progress, Map, MemberLimit } from './components';
-import { Button } from '../shared';
+import { Button, Icon } from '../shared';
+import { useNavigate } from 'react-router-dom';
+import { convertToDayMonth, convertToHHmm } from '../shared/utils';
+import { useSelector } from 'react-redux';
+import { firestore } from '../../firebase';
+import {
+  query,
+  collection,
+  orderBy,
+  onSnapshot,
+  limit,
+  where,
+  addDoc,
+} from "firebase/firestore";
+// import dayjs from 'dayjs';
+
 
 const ScreenContainer = styled.div`
     padding: 20px;
@@ -35,15 +50,59 @@ const MapWrapper = styled.div`
   justify-content: center;
 `;
 
-const EventFlow = () => {
-  const [stage, setStage] = useState(1);
-  const [date, setDate] = useState(null);
-  const [membersLimit, setMembersLimit] = useState('');
+const BackIcon = styled(Icon)`
+  font-size: 30px;
+  color: ${({ theme }) => theme.colors.black};
+  margin: 20px 0 0 20px;
+  position: fixed;
+`;
 
+const BackButton = styled(Button)`
+  background: ${({theme}) => theme.colors.white};
+  border: 2px solid ${({theme}) => theme.colors.main1};
+  color: ${({theme}) => theme.colors.main1};
+`;
+
+const EventFlow = () => {
+  const user = useSelector((state) => state.auth.user);
+  const [stage, setStage] = useState(1);
+  const [form, setForm] = useState({
+    title: '',
+    description: '',
+    eventDate: '',
+    eventHour: '',
+    eventLocation: '',
+    membersLimit: '',
+  });
+  const navigate = useNavigate();
+
+  const createEventObject = () => {
+    
+    const event = {
+      ...form,
+      eventDate: convertToDayMonth(form.eventDate),
+      eventHour: convertToHHmm(form.eventHour),
+      membersLimit: Number(form.membersLimit),
+      createdAt: new Date().toISOString(),
+      membersRegistered: 0,
+      room: user.location,
+      createdBy: user.name,
+      createdByUid: user.uid,
+      members: [user.uid],
+    };
+    return event;
+  };
+
+  
+  const createEvent = (event) => {  
+    addDoc(collection(firestore, 'Events'), event);
+  };
 
   const handleNextStage = () => {
     if (stage === 4) {
-      console.log('submit');
+      const event = createEventObject();
+      createEvent(event);
+      navigate('/chat');
     } else {
       setStage(stage + 1);
     }
@@ -53,27 +112,68 @@ const EventFlow = () => {
 
   
   return (
+  <>
+    <BackIcon name="arrow-left" onClick={() => navigate(-1)} />
     <ScreenContainer>
         <ColWrapper>
             <LogoImage src={Logo} />
             <Progress stageNum={stage}/> 
-            {stage === 1 && <DetailsStage />}
-            {/* <DateCalendar
-                // defaultValue={dayjs('2022-04-17')}
-                views={['year', 'month', 'day']}
-            /> */}
+            {stage === 1 && <DetailsStage form={form} setForm={setForm}/>}
+            {stage === 2 
+            && (
+            <>
+              <Calendar 
+              fullscreen={false} 
+              onSelect={(e) => setForm((oldForm) => {
+                return {
+                  ...oldForm,
+                  eventDate: e.$d,
+                };
+              })}
+              />
+              <TimePicker 
+              size={'large'} 
+              format={'HH:mm'} 
+              onSelect={(e) => setForm((oldForm) => {
+                return {
+                  ...oldForm,
+                  eventHour: e.$d,
+                };
+              })}
+              />
+            </>
+            )}
 
-            {/* <DatePicker onChange={() => {}} /> */}
-            {stage === 2 && <Calendar fullscreen={false} onSelect={(e) => setDate(e.$d)}/>}
             <MapWrapper>
-                {stage === 3 && <Map />}
+                {stage === 3 
+                && (
+                <>
+                  <Map />
+                  <Input 
+                  style={{ fontSize: '24px', marginTop: '40px' }} 
+                  placeholder="Event Location" 
+                    onChange={(e) => setForm((oldForm) => {
+                      return {
+                        ...oldForm,
+                        eventLocation: e.target.value,
+                      };
+                    })}
+                  />
+                </>
+                )}
             </MapWrapper>
-            {stage === 4 && <MemberLimit membersLimit={membersLimit} setMembersLimit={setMembersLimit} />}
+
+            {stage === 4 && <MemberLimit membersLimit={form.membersLimit} setForm={setForm} />}
             
         </ColWrapper>
-
+          
+          <div>
+            {stage > 1 && <BackButton onClick={() => setStage(stage - 1)} disabled={stage === 1}>Back</BackButton>}
         <Button onClick={handleNextStage}>{stage === 4 ? 'Submit' : 'Next'}</Button>
+          </div>
+        
     </ScreenContainer>
+    </>
   );
 };
 

@@ -167,7 +167,7 @@ function Main() {
             <Title>Your Events:</Title>
             {/* <SearchInput placeholder="Search..." /> */}
             <AddButton>
-              <Icon name="comment-medical"/>
+              <Icon name="comment-medical" onClick={() => navigate('/new-event')}/>
             </AddButton>
           </RowWrapper>
 

@@ -1,1 +1,1 @@
-export { getTimeString, getTimeFromISOString } from './timeUtils';
+export { getTimeString, getTimeFromISOString, convertToHHmm, convertToDayMonth } from './timeUtils';
