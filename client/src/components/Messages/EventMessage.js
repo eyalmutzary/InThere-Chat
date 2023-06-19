@@ -1,9 +1,8 @@
 import React from 'react';
-import './Message.css';
 import styled from 'styled-components';
 import ReactEmoji from 'react-emoji';
-import { Icon } from '../../shared';
-import { SENDER_TYPE, flagDictionary } from '../../shared/constants';
+import { Button, Icon } from '../shared';
+import { flagDictionary, SENDER_TYPE } from '../shared/constants';
 
 const MyMessageContainer = styled.div`
   display: flex;
@@ -13,18 +12,14 @@ const MyMessageContainer = styled.div`
 `;
 
 const MessageWrapper = styled.div`
-  padding: 12px;
+  padding: 20px 20px 5px 20px;
   max-width: fit-content;
   margin-top: 8px;
   box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
   color: ${({ theme }) => theme.colors.black};
 
 `;
-// export const SENDER_TYPE = {
-//   ME: 'ME',
-//   USER_IN_LOCATION: 'USER_IN_LOCATION',
-//   NONE: 'NONE',
-// };
+
 
 const MyMessageWrapper = styled(MessageWrapper)`
   background-color: ${({ theme, messagetype }) => {
@@ -39,6 +34,9 @@ const MyMessageWrapper = styled(MessageWrapper)`
   }};
   border-radius: ${({ messagetype }) => (messagetype === SENDER_TYPE.ME ? '8px 8px 0px 8px' : '8px 8px 8px 0px')};
   max-width: max-content;
+  display: flex;
+    flex-direction: column;
+
   /* box-shadow: 2px 4px 2px 0 rgba(0, 0, 0, 0.2); */
 `;
 
@@ -88,8 +86,23 @@ const ProfileImage = styled.img`
   margin-left: 8px;
 `;
 
-function Message({ text, name, senderType, likes, country, createdAt }) {
+const EventTitle = styled.div`
+    font-size: 30px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+`;
 
+const EventDetail = styled.div`
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px;
+
+`;
+
+
+function EventMessage({ name, senderType, likes, country, createdAt, title, membersLimit, membersRegistered, eventDate, eventHour, eventLocation }) {
   return (
       <MyMessageContainer isme={senderType === SENDER_TYPE.ME ? 'flex-end' : 'flex-start'}>
         { senderType !== SENDER_TYPE.ME
@@ -101,9 +114,15 @@ function Message({ text, name, senderType, likes, country, createdAt }) {
         )}
         <RowWrapper>
           {senderType === SENDER_TYPE.ME && likes > 0 && <LikesText><HeartIcon name="heart" />&nbsp;{likes}</LikesText>}
+          
           <MyMessageWrapper messagetype={senderType}>
-            <MessageText>{ReactEmoji.emojify(text)}</MessageText>
+            <EventTitle>{title}</EventTitle>
+            <EventDetail><Icon name={'clock'} />&nbsp;&nbsp;{eventDate}, {eventHour}</EventDetail>
+            <EventDetail><Icon name={'location-arrow'} />&nbsp;&nbsp;{eventLocation}</EventDetail>
+            <EventDetail><Icon name={'user'} />&nbsp;&nbsp;{membersRegistered} / {membersLimit}</EventDetail>
+            <Button>Tap to Join!</Button>
           </MyMessageWrapper>
+
           {senderType !== SENDER_TYPE.ME && likes > 0 && <LikesText><HeartIcon name="heart" />&nbsp;{likes}</LikesText>}
         </RowWrapper>
 
@@ -114,4 +133,4 @@ function Message({ text, name, senderType, likes, country, createdAt }) {
   );
 }
 
-export default React.memo(Message);
+export default React.memo(EventMessage);

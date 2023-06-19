@@ -20,6 +20,8 @@ import {
   faArrowLeft,
   faRightFromBracket,
   faPen,
+  faClock,
+  faLocationArrow,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -40,6 +42,8 @@ library.add(
   faArrowLeft,
   faRightFromBracket,
   faPen,
+  faClock,
+  faLocationArrow,
 );
 
 const IconWrapper = styled.div``;

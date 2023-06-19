@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Messages from '../Messages/Messages';
@@ -16,6 +16,7 @@ import {
   where,
   addDoc,
 } from "firebase/firestore";
+import { MESSAGE_TYPES } from '../shared/constants';
 
 const OuterContainer = styled.div`
   height: 100svh;
@@ -49,34 +50,61 @@ function Chat() {
   const [users, setUsers] = useState('');
   const [typedMessage, setTypedMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [events, setEvents] = useState([]);
   const [roomDetailsModal, setRoomDetailsModal] = useState(false);
   const user = useSelector((state) => state.auth.user);
 
-  useEffect(() => {
+  const fetchMessages = useCallback(async () => {
     const q = query(
       collection(firestore, 'messages'),
       orderBy('createdAt', 'desc'),
-      // where('room', '==', user.location),
+      where('room', '==', user.location),
       limit(50),
     );
 
     const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
       const fetchedMessages = [];
       QuerySnapshot.forEach((doc) => {
-        fetchedMessages.push({ ...doc.data(), id: doc.id });
+        fetchedMessages.push({ ...doc.data(), id: doc.id, messageType: MESSAGE_TYPES.MESSAGE });
       });
       const sortedMessages = fetchedMessages.sort(
         (a, b) => a.createdAt - b.createdAt
       );
       setMessages(sortedMessages);
     });
-
     return () => unsubscribe;
   }, []);
 
-  // useEffect(() => {
-  //   scrollBottom.current.scrollIntoView({ behavior: 'smooth' });
-  // }, [messages, scrollBottom]);
+  const fetchEvents = useCallback(async () => {
+    const q = query(
+      collection(firestore, 'Events'),
+      // orderBy('createdAt', 'desc'),
+      where('room', '==', user.location),
+      limit(50),
+    );
+
+    const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+      const fetchedEvents = [];
+      QuerySnapshot.forEach((doc) => {
+        fetchedEvents.push({ ...doc.data(), id: doc.id, messageType: MESSAGE_TYPES.EVENT });
+      });
+      const sortedEvents = fetchedEvents.sort(
+        (a, b) => a.createdAt - b.createdAt
+      );
+      setEvents(sortedEvents);
+    });
+    return () => unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    const unsubscribeMessages = fetchMessages();
+    const unsubscribeEvents = fetchEvents();
+
+
+
+    return () => { return unsubscribeMessages && unsubscribeEvents; };
+  }, []);
+
 
   const sendMessage = (event) => {
     event.preventDefault();
@@ -96,12 +124,14 @@ function Chat() {
     }
   };
 
+
+
   return (
     <OuterContainer>
       <InfoBar room={room} setRoomDetailsModal={setRoomDetailsModal} />
       <ChatContainer>
         <MessagesContainer>
-          <Messages messages={messages} />
+          <Messages messages={messages} events={events}/>
         </MessagesContainer>
         <InputContainer>
           <Input message={typedMessage} setMessage={setTypedMessage} sendMessage={sendMessage} />

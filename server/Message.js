@@ -1,4 +1,4 @@
-const MESSAGE_TYPES = {
+const SENDER_TYPE = {
   ME: 'ME',
   LOCAL_USER: 'LOCAL_USER',
   USER_IN_LOCATION: 'USER_IN_LOCATION',
@@ -6,4 +6,4 @@ const MESSAGE_TYPES = {
   NONE: 'NONE',
 };
 
-module.exports = { MESSAGE_TYPES };
+module.exports = { SENDER_TYPE };

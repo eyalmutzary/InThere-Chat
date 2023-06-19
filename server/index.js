@@ -1,4 +1,4 @@
-const { MESSAGE_TYPES } = require('./Message');
+const { SENDER_TYPE } = require('./Message');
 const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
