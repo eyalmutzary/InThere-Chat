@@ -17,7 +17,6 @@ import {
   where,
   addDoc,
 } from "firebase/firestore";
-// import dayjs from 'dayjs';
 
 
 const ScreenContainer = styled.div`

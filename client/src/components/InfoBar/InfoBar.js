@@ -64,11 +64,8 @@ function InfoBar({ setRoomDetailsModal }) {
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
-  const name = searchParams.get('name');
+  const eventName = searchParams.get('eventName') ?? '';
   const room = searchParams.get('room');
-  const handleNavigation = () => {
-    navigate(`/relevance?room=${room}`);
-  };
 
   // TODO: uncomment to get real photos
   //   useEffect(() => {
@@ -90,10 +87,10 @@ function InfoBar({ setRoomDetailsModal }) {
           <BackIcon name="chevron-left" />
         </Link>
         <Image src="https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400" />
-        <RoomTitle>{room}</RoomTitle>
+        <RoomTitle>{eventName ? eventName : room}</RoomTitle>
       </LeftInnerContainer>
       <RightWrapper>
-        <HeartIcon name="heart" onClick={handleNavigation} />
+        <HeartIcon name="heart" onClick={() => {}} />
         <BackIcon name="ellipsis-h" onClick={() => setRoomDetailsModal(true)} />
       </RightWrapper>
     </Container>

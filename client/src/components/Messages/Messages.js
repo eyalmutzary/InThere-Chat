@@ -37,7 +37,7 @@ function Messages({ messages, events }) {
 
   const MessagesList = combinedMessages.map((data, index) => {
     if (data.messageType === MESSAGE_TYPES.EVENT) {
-      const senderType = data.createdBy.trim().toLowerCase() === loggedUser.name.trim().toLowerCase()
+      const senderType = data.createdByUid === loggedUser.uid
         ? SENDER_TYPE.ME
         : SENDER_TYPE.USER_IN_LOCATION;
       return (
@@ -54,10 +54,11 @@ function Messages({ messages, events }) {
           eventDate={data.eventDate}
           eventHour={data.eventHour}
           eventLocation={data.eventLocation}
+          members={data.members}
         />
       );
     }
-    const senderType = data.name.trim().toLowerCase() === loggedUser.name.trim().toLowerCase()
+    const senderType = data.uid === loggedUser.uid
       ? SENDER_TYPE.ME
       : SENDER_TYPE.USER_IN_LOCATION;
 

@@ -67,7 +67,7 @@ const TimeAgo = styled.div`
     /* margin-right: 8px; */
     `;
 
-function ConversationItem({ title, notificationsAmount, eventId, createdBy, description, eventDate, eventHour, eventLocation, imageURL, membersLimit, membersRegisterd, room }) {
+function ConversationItem({ title, notificationsAmount, eventId, room }) {
   const navigate = useNavigate();
   // const [image, setImage] = useState('');
 
@@ -83,9 +83,8 @@ function ConversationItem({ title, notificationsAmount, eventId, createdBy, desc
   //         console.log(error);
   //         });
   // },[user.location])
-
   return (
-    <Container onClick={() => navigate(`/chat?room=${room}&eventId=${eventId}`)}>
+    <Container onClick={() => navigate(`/chat?room=${room}&eventId=${eventId}&eventName=${title}`)}>
       <RowWrapper>
         {/* <Image src={image} /> */}
         <Image src="https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400" />

@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Icon } from '../shared';
 import 'react-phone-number-input/style.css';
+import { firestore, auth } from "../../firebase";
+import {
+  query,
+  collection,
+  orderBy,
+  onSnapshot,
+  limit,
+  where,
+  addDoc,
+} from "firebase/firestore";
 
 const Backdrop = styled.div`
     background: rgba(0, 0, 0, 0.6);
@@ -99,8 +109,34 @@ const MessageIcon = styled(Icon)`
     margin-right: 8px;
 `;
 
-function RoomDetails({ users, setRoomDetailsModal }) {
-  const membersList = users && users.map((user) => (
+function RoomDetails({ setRoomDetailsModal }) {
+  const [roomMembers, setRoomMembers] = React.useState([]);
+  const eventId = searchParams.get('eventId') ?? '';
+  const room = searchParams.get('room');
+  
+  // const fetchUsers = () => {
+  //   const q = query(
+  //     collection(firestore, 'users'),
+  //     limit(50),
+  //   );
+
+  //   const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+  //     const fetchedUsers = [];
+  //     QuerySnapshot.forEach((doc) => {
+  //       fetchedUsers.push({ ...doc.data() });
+  //     });
+  //     console.log(fetchedUsers);
+  //   });
+
+  //   return () => unsubscribe;
+  // };
+
+  useEffect(() => {
+    // TODO: fetch users
+    // should get the array of uids from the room and (if exists) the event id (which has members attribute in it)
+  }, []);
+
+  const membersList = roomMembers && roomMembers.map((user) => (
     <MemberWrapper key={user}>
       <Wrapper>
         <MemberImage src="https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400" />

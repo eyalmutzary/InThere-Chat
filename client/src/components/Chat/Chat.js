@@ -119,7 +119,6 @@ function Chat() {
     return () => { return unsubscribeMessages && unsubscribeEvents; };
   }, []);
 
-
   const sendMessage = (event) => {
     event.preventDefault();
   
@@ -131,7 +130,7 @@ function Chat() {
         createdAt: new Date().toISOString(),
         avatar: user.photoURL,
         uid: user.uid,
-        relatedEventId: '',
+        relatedEventId: eventId,
       };
       
       addDoc(collection(firestore, 'messages'), newMessage);
@@ -143,7 +142,7 @@ function Chat() {
 
   return (
     <OuterContainer>
-      <InfoBar room={room} setRoomDetailsModal={setRoomDetailsModal} />
+      <InfoBar setRoomDetailsModal={setRoomDetailsModal} />
       <ChatContainer>
         <MessagesContainer>
           <Messages messages={messages} events={events}/>
@@ -152,7 +151,7 @@ function Chat() {
           <Input message={typedMessage} setMessage={setTypedMessage} sendMessage={sendMessage} />
         </InputContainer>
       </ChatContainer>
-      {roomDetailsModal && <RoomDetails users={users} setRoomDetailsModal={setRoomDetailsModal} />}
+      {roomDetailsModal && <RoomDetails setRoomDetailsModal={setRoomDetailsModal} />}
     </OuterContainer>
   );
 }

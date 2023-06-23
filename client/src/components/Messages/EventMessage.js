@@ -1,13 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
 import ReactEmoji from 'react-emoji';
-import { Button, Icon } from '../shared';
-import { flagDictionary, SENDER_TYPE } from '../shared/constants';
-import { firestore } from '../../firebase';
-import { FieldValue } from 'firebase/firestore';
-import useSelection from 'antd/es/table/hooks/useSelection';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import useSelection from 'antd/es/table/hooks/useSelection';
+import {
+  query,
+  collection,
+  orderBy,
+  onSnapshot,
+  limit,
+  where,
+  addDoc,
+  doc,
+  updateDoc,
+  setDoc,
+} from 'firebase/firestore';
+import { firestore } from '../../firebase';
+import { Button, Icon } from '../shared';
+import { flagDictionary, MESSAGE_TYPES, SENDER_TYPE } from '../shared/constants';
+
 
 const MyMessageContainer = styled.div`
   display: flex;
@@ -107,21 +119,19 @@ const EventDetail = styled.div`
 `;
 
 
-function EventMessage({ id, name, senderType, likes, country, createdAt, title, membersLimit, membersRegistered, eventDate, eventHour, eventLocation }) {
+function EventMessage({ id, name, senderType, likes, country, createdAt, title, members, membersLimit, membersRegistered, eventDate, eventHour, eventLocation }) {
+  const [membersInEvent, setMembersInEvent] = React.useState([]);
   const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
 
   const handleJoinToEvent = () => {
-    const eventRef = firestore.collection('events').doc(id);
-  
-    eventRef.update({
-      members: FieldValue.arrayUnion([user.uid]),
-      // TODO: update membersRegistered
-    //   membersRegistered: FieldValue.arraySize(members),
-    });
-
-    navigate(`/chat?room=${user.location}&eventId=${id}`);
+    if (!members.includes(user.uid)) {
+      members.push(user.uid);
+      const eventRef = doc(collection(firestore, 'Events'), id);
+      updateDoc(eventRef, { members });
+    }
   };
+
   
   return (
     <MyMessageContainer isme={senderType === SENDER_TYPE.ME ? 'flex-end' : 'flex-start'}>
@@ -139,7 +149,7 @@ function EventMessage({ id, name, senderType, likes, country, createdAt, title, 
             <EventTitle>{title}</EventTitle>
             <EventDetail><Icon name={'clock'} />&nbsp;&nbsp;{eventDate}, {eventHour}</EventDetail>
             <EventDetail><Icon name={'location-arrow'} />&nbsp;&nbsp;{eventLocation}</EventDetail>
-            <EventDetail><Icon name={'user'} />&nbsp;&nbsp;{membersRegistered} / {membersLimit}</EventDetail>
+            <EventDetail><Icon name={'user'} />&nbsp;&nbsp;{members?.length ?? '?'} / {membersLimit}</EventDetail>
             {senderType !== SENDER_TYPE.ME && <Button onClick={() => handleJoinToEvent()}>Tap to Join!</Button>}
           </MyMessageWrapper>
 
