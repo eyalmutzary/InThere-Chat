@@ -65,8 +65,6 @@ function Chat() {
       collection(firestore, 'messages'),
       orderBy('createdAt', 'desc'),
       where('room', '==', room),
-      // TODO: should add filter by event id
-      // where('relatedEventId', '==', eventId),
       limit(50),
     );
 

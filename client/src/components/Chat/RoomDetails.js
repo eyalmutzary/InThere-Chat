@@ -132,8 +132,12 @@ function RoomDetails({ setRoomDetailsModal }) {
   // };
 
   useEffect(() => {
-    // TODO: fetch users
+    // TODO: fetch users to show the list of them
     // should get the array of uids from the room and (if exists) the event id (which has members attribute in it)
+
+    // TODO: show description of the room (only if it is an event => eventId != '')
+
+    // TODO: Add a button to leave the room (only if it is an event => eventId != '')
   }, []);
 
   const membersList = roomMembers && roomMembers.map((user) => (

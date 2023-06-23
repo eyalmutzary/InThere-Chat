@@ -38,6 +38,9 @@ const MapComponent = () => {
       }
     );
   }, []);
+
+  // TODO: map doesn't work. currently we use the string input instead
+  
   return (
     <Map
       initialViewState={{

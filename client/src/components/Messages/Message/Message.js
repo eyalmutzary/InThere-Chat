@@ -107,6 +107,7 @@ function Message({ text, name, senderType, likes, country, createdAt }) {
   };
 
   const handleLikeMessage = () => {
+    // TODO: increase the amount of likes by 1 in the server
     console.log('like message');
     setLikeButton(false);
   };

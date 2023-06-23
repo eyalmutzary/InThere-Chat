@@ -71,7 +71,7 @@ function ConversationItem({ title, notificationsAmount, eventId, room }) {
   const navigate = useNavigate();
   // const [image, setImage] = useState('');
 
-  // TODO: uncomment to get real photos
+  // TODO: uncomment to get real photos (Gilad ignore this comment)
   //   useEffect(() => {
   //     console.log(user.location)
   //     axios.get(`https://api.unsplash.com/search/photos?query=${title}&client_id=${photoAPIkey}`)
