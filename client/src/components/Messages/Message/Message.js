@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Message.css';
 import styled from 'styled-components';
 import ReactEmoji from 'react-emoji';
@@ -87,11 +87,34 @@ const ProfileImage = styled.img`
   border-radius: 50%;
   margin-left: 8px;
 `;
+const LikeButton = styled.button`
+  background-color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.red};
+  border: 1px solid ${({ theme }) => theme.colors.red};
+  border-radius: 4px;
+  padding: 8px;
+  margin: 4px;
+`;
+
 
 function Message({ text, name, senderType, likes, country, createdAt }) {
+  const [likeButton, setLikeButton] = useState(false);
+
+  const handleMessageClick = () => {
+    if (SENDER_TYPE.USER_IN_LOCATION === senderType) {
+      setLikeButton(!likeButton);
+    }
+  };
+
+  const handleLikeMessage = () => {
+    console.log('like message');
+    setLikeButton(false);
+  };
+
+
 
   return (
-      <MyMessageContainer isme={senderType === SENDER_TYPE.ME ? 'flex-end' : 'flex-start'}>
+      <MyMessageContainer isme={senderType === SENDER_TYPE.ME ? 'flex-end' : 'flex-start'} onClick={handleMessageClick}>
         { senderType !== SENDER_TYPE.ME
         && (
         <UsernameText>
@@ -106,8 +129,11 @@ function Message({ text, name, senderType, likes, country, createdAt }) {
           </MyMessageWrapper>
           {senderType !== SENDER_TYPE.ME && likes > 0 && <LikesText><HeartIcon name="heart" />&nbsp;{likes}</LikesText>}
         </RowWrapper>
-
-        <TimeText>{createdAt}</TimeText>
+        <RowWrapper>
+          <TimeText>{createdAt}</TimeText>
+          {likeButton && <LikeButton onClick={handleLikeMessage}><HeartIcon name={"heart"} /></LikeButton>}
+        </RowWrapper>
+        
       </MyMessageContainer>
 
 
