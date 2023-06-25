@@ -2,16 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Icon } from '../shared';
 import 'react-phone-number-input/style.css';
-import { firestore, auth } from "../../firebase";
-import {
-  query,
-  collection,
-  orderBy,
-  onSnapshot,
-  limit,
-  where,
-  addDoc,
-} from "firebase/firestore";
+import {firestore} from "../../firebase";
 
 const Backdrop = styled.div`
     background: rgba(0, 0, 0, 0.6);
@@ -111,27 +102,23 @@ const MessageIcon = styled(Icon)`
 
 function RoomDetails({ setRoomDetailsModal }) {
   const [roomMembers, setRoomMembers] = React.useState([]);
+  const searchParams = new URLSearchParams(location.search);
   const eventId = searchParams.get('eventId') ?? '';
   const room = searchParams.get('room');
-  
-  // const fetchUsers = () => {
-  //   const q = query(
-  //     collection(firestore, 'users'),
-  //     limit(50),
-  //   );
-
-  //   const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
-  //     const fetchedUsers = [];
-  //     QuerySnapshot.forEach((doc) => {
-  //       fetchedUsers.push({ ...doc.data() });
-  //     });
-  //     console.log(fetchedUsers);
-  //   });
-
-  //   return () => unsubscribe;
-  // };
 
   useEffect(() => {
+    const unsubscribe = firestore
+      .collection('users')
+      .where('location', '==', room)
+      .onSnapshot((snapshot) => {
+        const members = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setRoomMembers(members);
+      });
+
+    return () => unsubscribe();
     // TODO: fetch users to show the list of them
     // should get the array of uids from the room and (if exists) the event id (which has members attribute in it)
 

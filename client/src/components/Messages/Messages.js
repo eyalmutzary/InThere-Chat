@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import ScrollToBottom from 'react-scroll-to-bottom';
 import Message from './Message/Message';
 import './Messages.css';
-import { getTimeFromISOString, getTimeString } from '../shared/utils';
-import { MESSAGE_TYPES, SENDER_TYPE } from '../shared/constants';
+import {getTimeFromISOString} from '../shared/utils';
+import {MESSAGE_TYPES, SENDER_TYPE} from '../shared/constants';
 import EventMessage from './EventMessage';
 
 function Messages({ messages, events }) {
@@ -19,10 +18,7 @@ function Messages({ messages, events }) {
   };
 
   const mergeAndSortMessages = () => {
-    // Combine the two arrays into a single array
     const mergedArray = [...messages, ...events];
-  
-    // Sort the merged array based on the 'createdAt' field
     mergedArray.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
     setCombinedMessages(mergedArray);
   };

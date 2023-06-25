@@ -62,7 +62,7 @@ const GoogleLogo = styled.img`
 
 `;
 
-const Weclome = () => {
+const Welcome = () => {
   const [location, setLocation] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -128,4 +128,4 @@ const Weclome = () => {
   );
 };
 
-export default Weclome;
+export default Welcome;

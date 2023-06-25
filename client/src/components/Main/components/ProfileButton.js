@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from "react-redux";
-import { Icon } from '../../shared';
-import { auth} from '../../../firebase';
-import { useNavigate } from 'react-router';
-import { authActions } from '../../shared/store';
+import {Icon} from '../../shared';
+import {auth} from '../../../firebase';
+import {useNavigate} from 'react-router';
+import {authActions} from '../../shared/store';
 
 const ProfileWrapper = styled.div`
   display: flex;
@@ -23,6 +23,13 @@ const ColumnWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
+`;
+
+const RowWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex: 8;
+  align-items: center;
 `;
 
 const Text = styled.div`
@@ -44,28 +51,13 @@ const ProfileImage = styled.img`
   object-fit: cover;
 `;
 
-const LogoutButton = styled.button`
-  display: flex;
-  align-items: center;
-  background-color: ${({theme}) => theme.colors.lightGray};
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-`;
-
-const LogoutText = styled.span`
-  font-size: 18px;
-  font-weight: bold;
-  margin-right: 8px; /* Added margin to create space between text and icon */
-`;
-
 const LogoutIcon = styled(Icon)`
   font-size: 24px;
 `;
 
-const LogoutWrapper = styled.div``;
+const LogoutWrapper = styled.div`
+  flex: 1;
+`;
 
 const ProfileButton = () => {
   const navigate = useNavigate();
@@ -82,14 +74,16 @@ const ProfileButton = () => {
         console.log('Logout error:', error);
       });
   };
-  
+
   return (
     <ProfileWrapper>
-      <ProfileImage src={user.photoURL}/>
-      <ColumnWrapper onClick={() => navigate('/profile')}>
-        <SubText>Welcome back,</SubText>
-        <Text>{user.name}</Text>
-      </ColumnWrapper>
+      <RowWrapper onClick={() => navigate('/profile')}>
+        <ProfileImage src={user.photoURL}/>
+        <ColumnWrapper>
+          <SubText>Welcome back,</SubText>
+          <Text>{user.name}</Text>
+        </ColumnWrapper>
+      </RowWrapper>
       <LogoutWrapper onClick={handleLogout}>
         {/* <LogoutText><Icon name={"logout"}/></LogoutText> */}
         <LogoutIcon name="fa-right-from-bracket"/>
