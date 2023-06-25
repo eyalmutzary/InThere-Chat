@@ -35,23 +35,29 @@ const updateUserDocument = (user) => {
     });
 };
 
-
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     setUser: (state, {payload}) => {
       state.user = payload;
-      localStorage.setItem('user', JSON.stringify(payload)); // Store user in localStorage
-      updateUserDocument(payload);
+      // Store user in localStorage
+      updateUserDocument(payload)
+        .then(() => localStorage.setItem('user', JSON.stringify(payload)));
     },
     clearUser: (state) => {
       state.user = null;
       localStorage.removeItem('user'); // Remove user from localStorage
     },
-    setLoading: (state, { payload }) => {
+    setLoading: (state, {payload}) => {
       state.loading = payload;
     },
+    getUserFromLocalStorage: (state) => {
+      const user = localStorage.getItem('user');
+      if (user) {
+        state.user = JSON.parse(user);
+      }
+    }
   },
 });
 

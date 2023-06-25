@@ -22,7 +22,6 @@ const Container = styled.div`
 const CurrentPlaceWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  //align-items: center;
   justify-content: space-between;
   background-image: url("https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400");
   background-size: cover;
@@ -45,20 +44,6 @@ const StartContainer = styled.div`
 
 const ContentContainer = styled.div`
   padding-bottom: 50px;
-`;
-
-const ButtonEnterChat = styled.div`
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
-  font-size: 24px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  padding: 8px 16px 8px 16px;
-  border-radius: 100px;
-  margin-bottom: 20px;
 `;
 
 const PicButton = styled.div`
@@ -91,14 +76,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const ProfileWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 1000px;
 `;
 
 
@@ -151,22 +128,18 @@ function Main() {
     <Container>
       <ContentContainer>
         <ProfileButton/>
-        <CurrentPlaceWrapper location={user.location}>
+        <CurrentPlaceWrapper location={user.location} onClick={() => navigate(`/chat?room=${user.location}`)}>
           <StartContainer>
             <PicButton>You're in {user.location}</PicButton>
           </StartContainer>
           <EndContainer>
-            <PicButton
-              onClick={() => navigate(`/chat?room=${user.location}`)}
-            >
+            <PicButton>
               Enter Chat! &nbsp;&nbsp;
               <Icon name="chevron-right"/>
             </PicButton>
           </EndContainer>
-
         </CurrentPlaceWrapper>
         <Title>Your Events:</Title>
-
         {EventItems.length > 0 ? EventItems : <Wrapper><SubText>No upcoming events.</SubText></Wrapper>}
       </ContentContainer>
     </Container>

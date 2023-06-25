@@ -1,22 +1,14 @@
-import React, { useState } from 'react';
+import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
-import { Calendar, Input, TimePicker } from 'antd';
+import {Calendar, Input, TimePicker} from 'antd';
 import Logo from '../../assets/logo.png';
-import { DetailsStage, Progress, Map, MemberLimit } from './components';
-import { Button, Icon } from '../shared';
-import { useNavigate } from 'react-router-dom';
-import { convertToDayMonth, convertToHHmm } from '../shared/utils';
-import { useSelector } from 'react-redux';
-import { firestore } from '../../firebase';
-import {
-  query,
-  collection,
-  orderBy,
-  onSnapshot,
-  limit,
-  where,
-  addDoc,
-} from "firebase/firestore";
+import {DetailsStage, Map, MemberLimit, Progress} from './components';
+import {Button, Icon} from '../shared';
+import {useNavigate} from 'react-router-dom';
+import {convertToDayMonth, convertToHHmm} from '../shared/utils';
+import {useSelector} from 'react-redux';
+import {firestore} from '../../firebase';
+import {addDoc, collection,} from "firebase/firestore";
 
 
 const ScreenContainer = styled.div`
@@ -75,8 +67,15 @@ const EventFlow = () => {
   });
   const navigate = useNavigate();
 
+  const onTimePickerSelect = useCallback((e) => setForm((oldForm) => {
+    return {
+      ...oldForm,
+      eventHour: e.$d,
+    };
+  }), [])
+
   const createEventObject = () => {
-    
+
     const event = {
       ...form,
       eventDate: convertToDayMonth(form.eventDate),
@@ -130,15 +129,10 @@ const EventFlow = () => {
                 };
               })}
               />
-              <TimePicker 
-              size={'large'} 
-              format={'HH:mm'} 
-              onSelect={(e) => setForm((oldForm) => {
-                return {
-                  ...oldForm,
-                  eventHour: e.$d,
-                };
-              })}
+              <TimePicker
+                size={'large'}
+                format={'HH:mm'}
+                onSelect={onTimePickerSelect}
               />
             </>
             )}

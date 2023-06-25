@@ -68,7 +68,8 @@ const Welcome = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user = auth.currentUser;
+    // const user = auth.currentUser;
+    const user = JSON.parse(sessionStorage.getItem('user'));
     if (user) {
       navigate('/main');
     }
@@ -91,6 +92,7 @@ const Welcome = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider)
       .then((userCredential) => {
+        console.log(userCredential);
         const user = {
           name: userCredential.user.displayName,
           email: userCredential.user.email,
@@ -100,11 +102,6 @@ const Welcome = () => {
         };
 
         dispatch(authActions.setUser(user));
-        return userCredential.user.getIdToken();
-      })
-      .then((idToken) => {
-        // Store the token in sessionStorage
-        sessionStorage.setItem('firebaseToken', idToken);
         navigate('/main');
       })
       .catch((error) => {

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {useDispatch, useSelector} from "react-redux";
 import {Icon} from '../../shared';
 import {auth} from '../../../firebase';
-import {useNavigate} from 'react-router';
+import {useNavigate} from 'react-router-dom';
 import {authActions} from '../../shared/store';
 
 const ProfileWrapper = styled.div`
@@ -68,8 +68,9 @@ const ProfileButton = () => {
     auth.signOut()
       .then(() => {
         dispatch(authActions.clearUser());
-        navigate('/signin');
-      })
+      }).then(() => {
+      navigate('/');
+    })
       .catch((error) => {
         console.log('Logout error:', error);
       });

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Map, Marker } from 'react-map-gl';
+import React, {useEffect, useState} from 'react';
+// import { Map, Marker } from 'react-map-gl';
 import styled from 'styled-components';
 
 const API_KEY = 'sk.eyJ1IjoiZXlhbG11dHphcnkiLCJhIjoiY2xpeGhnZWFmMDhiaTNtcWYzMXg3dWJ4eSJ9.mi8dwr6pAHob13pkRWIU0A';
@@ -42,23 +42,24 @@ const MapComponent = () => {
   // TODO: map doesn't work. currently we use the string input instead
   
   return (
-    <Map
-      initialViewState={{
-        latitude: localStorage.getItem('latitude'),
-        longitude: localStorage.getItem('longitude'),
-        zoom: 14,
-        width: 800,
-        height: 600,
-      }}
-      mapboxAccessToken={API_KEY}
-      onClick={(e) => setSelectedLocation({ latitude: e.lngLat.lat, longitude: e.lngLat.lng })}
-      mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
-      onViewportChange={(newViewport) => setViewport(newViewport)}
-      FitBoundsOptions={{ padding: 20 }}
-    >
-      {selectedLocation && <Marker longitude={selectedLocation.longitude} latitude={selectedLocation.latitude} color="red" />}
-    </Map>
-    
+    <div></div>
+    // <Map
+    //   initialViewState={{
+    //     latitude: localStorage.getItem('latitude'),
+    //     longitude: localStorage.getItem('longitude'),
+    //     zoom: 14,
+    //     width: 800,
+    //     height: 600,
+    //   }}
+    //   mapboxAccessToken={API_KEY}
+    //   onClick={(e) => setSelectedLocation({ latitude: e.lngLat.lat, longitude: e.lngLat.lng })}
+    //   mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
+    //   onViewportChange={(newViewport) => setViewport(newViewport)}
+    //   FitBoundsOptions={{ padding: 20 }}
+    // >
+    //   {/*{selectedLocation && <Marker longitude={selectedLocation.longitude} latitude={selectedLocation.latitude} color="red" />}*/}
+    // </Map>
+
   );
 };
 
