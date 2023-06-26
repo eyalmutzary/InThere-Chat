@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {Icon} from '../shared';
 import './Input.css';
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from 'react-router-dom';
 
 const TextInput = styled.input`
   border-radius: 8px;
@@ -46,14 +46,17 @@ const AddButton = styled.button`
   width: 50px;
   height: 50px;
   padding: 20px;
-
   display: flex;
   align-items: center;
   justify-content: center;
+  display: ${({hide}) => (hide ? 'none' : 'flex')};
 `;
 
 function Input({setMessage, sendMessage, message}) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const eventId = searchParams.get('eventId') ?? '';
 
   return (
     <Form>
@@ -65,8 +68,10 @@ function Input({setMessage, sendMessage, message}) {
         onChange={({target: {value}}) => setMessage(value)}
         onKeyPress={(event) => (event.key === 'Enter' ? sendMessage(event) : null)}
       />
-      <SendButton className="sendButton" onClick={(e) => sendMessage(e)}><Icon name="paper-plane"/></SendButton>
-      <AddButton onClick={() => navigate('/new-event')}>
+      <SendButton className="sendButton" onClick={(e) => sendMessage(e)}>
+        <Icon name="paper-plane"/>
+      </SendButton>
+      <AddButton hide={eventId} onClick={() => navigate('/new-event')}>
         <Icon name="comment-medical"/>
       </AddButton>
     </Form>
