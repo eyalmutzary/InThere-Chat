@@ -1,9 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {useSelector} from 'react-redux';
-import Message from './MessageTypes/Message';
-import {getTimeFromISOString} from '../shared/utils';
-import {MESSAGE_TYPES, SENDER_TYPE} from '../shared/constants';
-import EventMessage from './MessageTypes/EventMessage';
+import MessageWrapper from "./MessageTypes/MessageWrapper";
 import styled from 'styled-components';
 
 
@@ -13,7 +9,6 @@ const Container = styled.div`
 
 function Messages({messages, events}) {
   const [combinedMessages, setCombinedMessages] = useState([]);
-  const loggedUser = useSelector((state) => state.auth.user);
   const messagesContainerRef = useRef();
 
   const scrollToBottom = () => {
@@ -36,50 +31,14 @@ function Messages({messages, events}) {
     scrollToBottom();
   }, [combinedMessages]);
 
-  const MessagesList = combinedMessages.map((data, index) => {
-    if (data.messageType === MESSAGE_TYPES.EVENT) {
-      const senderType = data.createdByUid === loggedUser.uid
-        ? SENDER_TYPE.ME
-        : SENDER_TYPE.USER_IN_LOCATION;
-      return (
-        <EventMessage
-          id={data.id}
-          key={`message-${index}`}
-          name={data.createdBy}
-          likes={0}
-          senderType={senderType}
-          createdAt={getTimeFromISOString(data.createdAt)}
-          title={data.title}
-          membersLimit={data.membersLimit}
-          membersRegistered={data.membersRegistered}
-          eventDate={data.eventDate}
-          eventHour={data.eventHour}
-          eventLocation={data.eventLocation}
-          members={data.members}
-        />
-      );
-    }
-    const senderType = data.uid === loggedUser.uid
-      ? SENDER_TYPE.ME
-      : SENDER_TYPE.USER_IN_LOCATION;
-
-    return (
-      <Message
-        key={`message-${index}`}
-        text={data.text}
-        name={data.name.trim()}
-        likes={0}
-        senderType={senderType}
-        createdAt={getTimeFromISOString(data.createdAt)}
-      />
-    );
-  });
-
   return (
     <Container>
-      {MessagesList.map((item) => (
+      {combinedMessages.map((data, index) => (
         <div>
-          {item}
+          <MessageWrapper
+            data={data}
+            index={index}
+          />
         </div>
       ))}
       <div style={{float: "left", clear: "both"}} ref={messagesContainerRef}/>
