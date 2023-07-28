@@ -2,14 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import {useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
-import {
-  collection,
-  doc,
-  updateDoc,
-} from 'firebase/firestore';
-import {firestore} from '../../firebase';
-import {Button, Icon} from '../shared';
-import {flagDictionary, SENDER_TYPE} from '../shared/constants';
+import {collection, doc, updateDoc,} from 'firebase/firestore';
+import {firestore} from '../../../firebase';
+import {Button, Icon} from '../../shared';
+import {flagDictionary, SENDER_TYPE} from '../../shared/constants';
 
 
 const MyMessageContainer = styled.div`
@@ -33,9 +29,9 @@ const MyMessageWrapper = styled(MessageWrapper)`
   background-color: ${({theme, messagetype}) => {
     switch (messagetype) {
       case SENDER_TYPE.ME:
-        return theme.colors.blue;
+        return theme.colors.subContainer;
       case SENDER_TYPE.USER_IN_LOCATION:
-        return theme.colors.green;
+        return theme.colors.unique2;
       default:
         return theme.colors.yellow;
     }

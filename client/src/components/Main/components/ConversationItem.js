@@ -1,73 +1,69 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import 'react-phone-number-input/style.css';
-import { useSelector } from 'react-redux';
-import { Icon } from '../shared';
-import { useNavigate } from 'react-router-dom';
+import {Icon} from '../../shared';
+import {useNavigate} from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-    justify-content: space-between;
-  /* border-top: 1px solid ${({ theme }) => theme.colors.main1}; */
-  padding: 12px 20px 12px 20px;
-  margin: 8px;
-  background-color: ${({ theme }) => theme.colors.lightGray};
-  border-radius: 100px;
+  justify-content: space-between;
+  padding: 12px;
+  margin: 12px;
+  background-color: ${({theme}) => theme.colors.subContainer};
+  border-radius: 50px;
 `;
 const Image = styled.img`
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    margin-right: 12px;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-right: 12px;
 `;
 const ChatTitle = styled.div`
-    font-size: 1.5rem;
-    font-weight: bold;
-    /* padding:; */
+  font-size: 1.5rem;
+  font-weight: bold;
 `;
 const ChatSubtitle = styled.div`
-    font-size: 1rem;
-    color: ${({ theme }) => theme.colors.darkGray};
+  font-size: 1rem;
+  color: ${({theme}) => theme.colors.darkGray};
 `;
 const Notification = styled.div`
-    font-size: 1rem;
-    font-weight: bold;
-    color: white;
-    background-color: ${({ theme }) => theme.colors.main2};
-    border-radius: 100px;
-    width: fit-content;
-    padding: 8px;
-    margin: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background-color: ${({theme}) => theme.colors.main2};
+  border-radius: 100px;
+  width: fit-content;
+  padding: 8px;
+  margin: 12px;
 `;
 
 const RowWrapper = styled.div`
-    display: flex;
-    width: fit-content;
-    flex-direction: row;
-    align-items: center;
-    `;
+  display: flex;
+  width: fit-content;
+  flex-direction: row;
+  align-items: center;
+`;
 
 const ColumnWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    /* align-items: center; */
-    /* justify-content: space-between; */
-    `;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* justify-content: space-between; */
+`;
 
 const BoldName = styled.span`
-    font-weight: bold;
-    margin-right: 8px;
+  font-weight: bold;
+  margin-right: 8px;
 `;
 const TimeAgo = styled.div`
-    font-size: 1rem;
-    color: ${({ theme }) => theme.colors.darkGray};
-    /* margin-right: 8px; */
-    `;
+  font-size: 1rem;
+  color: ${({theme}) => theme.colors.darkGray};
+`;
 
-function ConversationItem({ title, notificationsAmount, eventId, room }) {
+function ConversationItem({title, notificationsAmount, eventId, room}) {
   const navigate = useNavigate();
   // const [image, setImage] = useState('');
 
@@ -83,11 +79,13 @@ function ConversationItem({ title, notificationsAmount, eventId, room }) {
   //         console.log(error);
   //         });
   // },[user.location])
+  // style={style}
   return (
     <Container onClick={() => navigate(`/chat?room=${room}&eventId=${eventId}&eventName=${title}`)}>
       <RowWrapper>
         {/* <Image src={image} /> */}
-        <Image src="https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400" />
+        <Image
+          src="https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400"/>
         <ColumnWrapper>
           <ChatTitle>{title}</ChatTitle>
           <ChatSubtitle><BoldName>Eyal:</BoldName>lorem ipsum</ChatSubtitle>
@@ -99,7 +97,7 @@ function ConversationItem({ title, notificationsAmount, eventId, room }) {
           {notificationsAmount > 0 && <Notification>{notificationsAmount}</Notification>}
           <TimeAgo>5 min</TimeAgo>
         </ColumnWrapper>
-        <Icon name="chevron-right" />
+        <Icon name="chevron-right"/>
       </RowWrapper>
     </Container>
 

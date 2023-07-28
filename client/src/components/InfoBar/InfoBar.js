@@ -4,37 +4,30 @@ import styled from 'styled-components';
 
 // import onlineIcon from '../../icons/onlineIcon.png';
 // import closeIcon from '../../icons/closeIcon.png';
-import './InfoBar.css';
 import {Icon} from '../shared';
 
 const Container = styled.div`
   position: fixed;
   z-index: 100;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: ${({theme}) => theme.colors.main2};
+  flex-direction: row;
+  background: ${({theme}) => theme.colors.subContainer};
+  color: ${({theme}) => theme.colors.mainText};
   border-radius: 4px 4px 0 0;
   padding: 12px;
   width: 100%;
 `;
 
+const Button = styled.button`
+  border: none;
+  background: none;
+`;
+
 const BasicIcon = styled(Icon)`
   padding-right: 12px;
-  color: white;
+  font-size: 1.5rem;
 `;
 
-const HeartIcon = styled(Icon)`
-  margin-right: 30px;
-  color: ${({theme}) => theme.colors.white};
-  font-size: 1.3rem;
-`;
-
-const RightWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: 16px;
-`;
 const RoomDetails = styled.div`
   display: flex;
   align-items: center;
@@ -52,14 +45,6 @@ const Image = styled.img`
   height: 45px;
   margin-right: 12px;
   object-fit: cover;
-`;
-const LeftInnerContainer = styled.div`
-  flex: 0.5;
-  display: flex;
-  align-items: center;
-  min-width: fit-content;
-  margin-left: 5%;
-  color: white;
 `;
 
 function InfoBar({setRoomDetailsModal}) {
@@ -86,16 +71,17 @@ function InfoBar({setRoomDetailsModal}) {
 
   return (
     <Container>
-      <LeftInnerContainer>
+      {/*<LeftInnerContainer>*/}
+      <Button>
         <BasicIcon onClick={() => navigate("/main")} name="chevron-left"/>
-        <RoomDetails onClick={() => setRoomDetailsModal(true)}>
-          <Image
-            src="https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400"/>
-          <RoomTitle>{eventName ? eventName : room}</RoomTitle>
-        </RoomDetails>
-      </LeftInnerContainer>
-      <HeartIcon name="heart" onClick={() => {
-      }}/>
+
+      </Button>
+      <RoomDetails onClick={() => setRoomDetailsModal(true)}>
+        <Image
+          src="https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400"/>
+        <RoomTitle>{eventName ? eventName : room}</RoomTitle>
+      </RoomDetails>
+      {/*</LeftInnerContainer>*/}
     </Container>
   );
 }

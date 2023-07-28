@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import {Icon} from '../shared';
 import './Input.css';
-import {useLocation, useNavigate} from 'react-router-dom';
 
 const TextInput = styled.input`
   border-radius: 8px;
@@ -37,27 +36,7 @@ const SendButton = styled.button`
   justify-content: center;
 `;
 
-const AddButton = styled.button`
-  color: ${({theme}) => theme.colors.white};
-  background: ${({theme}) => theme.colors.main1};
-  border-radius: 50%;
-  font-size: 1.2em;
-  margin: 8px;
-  width: 50px;
-  height: 50px;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  display: ${({hide}) => (hide ? 'none' : 'flex')};
-`;
-
 function Input({setMessage, sendMessage, message}) {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const eventId = searchParams.get('eventId') ?? '';
-
   return (
     <Form>
       <TextInput
@@ -71,9 +50,6 @@ function Input({setMessage, sendMessage, message}) {
       <SendButton className="sendButton" onClick={(e) => sendMessage(e)}>
         <Icon name="paper-plane"/>
       </SendButton>
-      <AddButton hide={eventId} onClick={() => navigate('/new-event')}>
-        <Icon name="comment-medical"/>
-      </AddButton>
     </Form>
   );
 }

@@ -4,7 +4,7 @@ import 'react-phone-number-input/style.css';
 import {useNavigate} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {Icon} from '../shared';
-import ConversationItem from '../Conversations/ConversationItem';
+import ConversationItem from './components/ConversationItem';
 import {firestore} from '../../firebase';
 import ProfileButton from './components/ProfileButton';
 import {collection, limit, onSnapshot, query, where,} from "firebase/firestore";
@@ -15,61 +15,41 @@ const Container = styled.div`
   flex-direction: column;
   height: 100vh;
   background-color: ${({theme}) => theme.colors.background};
-  color: ${({theme}) => theme.colors.black};
-  padding: 8px;
+  color: ${({theme}) => theme.colors.mainText};
 `;
 
-const CurrentPlaceWrapper = styled.div`
+const SubContainer = styled.div`
+  background-color: ${({theme}) => theme.colors.container};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-image: url("https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400");
-  background-size: cover;
-  position: relative;
-  height: 30vh;
-  margin: 12px;
+  padding: 8px;
   border-radius: 30px;
+  margin: 12px;
 `;
 
-const EndContainer = styled.div`
-  display: flex;
-  justify-content: end;
-  flex: 1;
-  align-items: end;
-`;
-const StartContainer = styled.div`
-  display: flex;
-  flex: 1;
-`;
-
-const ContentContainer = styled.div`
-  padding-bottom: 50px;
-`;
-
-const PicButton = styled.div`
+const TextContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
-  width: fit-content;
-  height: fit-content;
-  font-size: 20px;
-  padding: 8px;
-  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 12px;
+  color: ${({theme}) => theme.colors.black};
+`;
+
+const LocationImage = styled.img`
+  width: 100%;
+  height: 28vh;
+  object-fit: cover;
+  border-radius: 30px;
+  background-image: url("https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400");
 `;
 
 const SubText = styled.div`
   font-size: 18px;
   color: ${({theme}) => theme.colors.darkGray};
-`;
-
-const Title = styled.div`
-  font-size: 1.6rem;
-  font-weight: bold;
-  margin: 12px;
-  color: ${({theme}) => theme.colors.black};
 `;
 
 const Wrapper = styled.div`
@@ -78,12 +58,33 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
+const AddButton = styled.button`
+  background: ${({theme}) => theme.colors.subContainer};
+  border-radius: 30px;
+  font-size: 1.2em;
+  border: none;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const colorList = ['#90f1ef', '#ffd6e0', '#ffef9f', '#c1fba4', '#7bf1a8'];
+
+function getRandomColor() {
+  const randomIndex = Math.floor(Math.random() * colorList.length);
+  return colorList[randomIndex];
+}
+
 
 function Main() {
   const navigate = useNavigate();
   // const [image, setImage] = useState('');
   const user = useSelector((state) => state.auth.user);
   const [events, setEvents] = useState([]);
+  const searchParams = new URLSearchParams(location.search);
+  const eventId = searchParams.get('eventId') ?? '';
 
   const fetchEvents = async () => {
     const q = query(
@@ -113,6 +114,8 @@ function Main() {
   }, []);
 
   const EventItems = events.map(({title, id, room}) => {
+    const randomBackgroundColor = getRandomColor();
+
     return (
       <ConversationItem
         key={id}
@@ -126,22 +129,20 @@ function Main() {
 
   return (
     <Container>
-      <ContentContainer>
-        <ProfileButton/>
-        <CurrentPlaceWrapper location={user.location} onClick={() => navigate(`/chat?room=${user.location}`)}>
-          <StartContainer>
-            <PicButton>You're in {user.location}</PicButton>
-          </StartContainer>
-          <EndContainer>
-            <PicButton>
-              Enter Chat! &nbsp;&nbsp;
-              <Icon name="chevron-right"/>
-            </PicButton>
-          </EndContainer>
-        </CurrentPlaceWrapper>
-        <Title>Your Events:</Title>
+      <ProfileButton/>
+      <SubContainer onClick={() => navigate(`/chat?room=${user.location}`)}>
+        <TextContainer>You're in {user.location}<Icon name="chevron-right"/></TextContainer>
+        <LocationImage></LocationImage>
+      < /SubContainer>
+      <SubContainer>
+        <TextContainer>Your Events:
+          <AddButton hide={eventId} onClick={() => navigate('/new-event')}>
+            <Icon name="comment-medical"/>
+          </AddButton>
+        </TextContainer>
+
         {EventItems.length > 0 ? EventItems : <Wrapper><SubText>No upcoming events.</SubText></Wrapper>}
-      </ContentContainer>
+      </SubContainer>
     </Container>
   );
 }

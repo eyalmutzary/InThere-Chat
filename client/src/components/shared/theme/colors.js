@@ -1,12 +1,13 @@
 const colors = {
-  main1: '#0069cc',
-  main2: '#66b5ff',
-  main3: '#b3d1ff',
-  background: '#ffffff',
+  background: '#f8f7ff',
+  container: '#ffeedd',
+  subContainer: '#ffd8be',
+  mainText: '#111522',
+  unique1: '#b8b8ff',
+  unique2: '#9381ff',
+
   white: '#ffffff',
-  lightGray: '#F5F4F4',
   darkGray: '#A6A6A6',
-  black: '#111522',
   red: '#ff4d4d',
 
   yellow: '#fff1cc',

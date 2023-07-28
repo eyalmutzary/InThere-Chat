@@ -8,13 +8,11 @@ import {auth, firebase} from '../../firebase';
 import {authActions} from '../shared/store';
 
 const Container = styled.div`
-  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
   height: 100vh;
-  max-height: 100svh;
   align-items: center;
   background-color: ${({theme}) => theme.colors.background};
   color: ${({theme}) => theme.colors.black};
@@ -29,10 +27,8 @@ const Title = styled.div`
 `;
 
 const Img = styled.img`
-  //margin-top: 100px;
-  //margin-bottom: 100px;
   max-width: 60vw;
-  //margin: 30px;
+  margin: 30px;
 `;
 const SignInButton = styled.button`
   background-color: #4285F4;

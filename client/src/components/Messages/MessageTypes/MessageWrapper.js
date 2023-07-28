@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import ReactEmoji from 'react-emoji';
 import {Icon} from '../../shared';
-import {SENDER_TYPE, flagDictionary} from '../../shared/constants';
+import {flagDictionary, SENDER_TYPE} from '../../shared/constants';
 
 const MyMessageContainer = styled.div`
   display: flex;
@@ -29,9 +28,9 @@ const MyMessageWrapper = styled(MessageWrapper)`
   background-color: ${({theme, messagetype}) => {
     switch (messagetype) {
       case SENDER_TYPE.ME:
-        return theme.colors.blue;
+        return theme.colors.container;
       case SENDER_TYPE.USER_IN_LOCATION:
-        return theme.colors.green;
+        return theme.colors.unique1;
       default:
         return theme.colors.yellow;
     }
@@ -101,13 +100,6 @@ function Message({text, name, senderType, likes, country, createdAt}) {
     }
   };
 
-  const handleLikeMessage = () => {
-    // TODO: increase the amount of likes by 1 in the server
-    console.log('like message');
-    setLikeButton(false);
-  };
-
-
   return (
     <MyMessageContainer isme={senderType === SENDER_TYPE.ME ? 'flex-end' : 'flex-start'} onClick={handleMessageClick}>
       <RowWrapper>
@@ -120,16 +112,7 @@ function Message({text, name, senderType, likes, country, createdAt}) {
           )}
         <TimeText>{createdAt}</TimeText>
       </RowWrapper>
-
-      <RowWrapper>
-        {senderType === SENDER_TYPE.ME && likes > 0 && <LikesText><HeartIcon name="heart"/>&nbsp;{likes}</LikesText>}
-        <MyMessageWrapper messagetype={senderType}>
-          <MessageText>{ReactEmoji.emojify(text)}</MessageText>
-        </MyMessageWrapper>
-        {senderType !== SENDER_TYPE.ME && likes > 0 && <LikesText><HeartIcon name="heart"/>&nbsp;{likes}</LikesText>}
-        {likeButton && <LikeButton onClick={handleLikeMessage}><HeartIcon name={"heart"}/></LikeButton>}
-      </RowWrapper>
-
+      <
 
     </MyMessageContainer>
 

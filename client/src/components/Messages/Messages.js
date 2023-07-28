@@ -1,19 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import Message from './Message/Message';
-import './Messages.css';
+import React, {useEffect, useRef, useState} from 'react';
+import {useSelector} from 'react-redux';
+import Message from './MessageTypes/Message';
 import {getTimeFromISOString} from '../shared/utils';
 import {MESSAGE_TYPES, SENDER_TYPE} from '../shared/constants';
-import EventMessage from './EventMessage';
+import EventMessage from './MessageTypes/EventMessage';
+import styled from 'styled-components';
 
-function Messages({ messages, events }) {
+
+const Container = styled.div`
+  padding: 5% 0;
+`;
+
+function Messages({messages, events}) {
   const [combinedMessages, setCombinedMessages] = useState([]);
   const loggedUser = useSelector((state) => state.auth.user);
   const messagesContainerRef = useRef();
 
   const scrollToBottom = () => {
     if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollIntoView({ behavior: 'instant' });
+      messagesContainerRef.current.scrollIntoView({behavior: 'instant'});
     }
   };
 
@@ -37,7 +42,7 @@ function Messages({ messages, events }) {
         ? SENDER_TYPE.ME
         : SENDER_TYPE.USER_IN_LOCATION;
       return (
-        <EventMessage 
+        <EventMessage
           id={data.id}
           key={`message-${index}`}
           name={data.createdBy}
@@ -60,21 +65,25 @@ function Messages({ messages, events }) {
 
     return (
       <Message
-          key={`message-${index}`}
-          text={data.text}
-          name={data.name.trim()}
-          likes={0}
-          senderType={senderType}
-          createdAt={getTimeFromISOString(data.createdAt)}
-      /> 
+        key={`message-${index}`}
+        text={data.text}
+        name={data.name.trim()}
+        likes={0}
+        senderType={senderType}
+        createdAt={getTimeFromISOString(data.createdAt)}
+      />
     );
   });
 
   return (
-    <div className="messages">
-      {MessagesList}
-      <div style={{ float:"left", clear: "both" }} ref={messagesContainerRef} />
-    </div>
+    <Container>
+      {MessagesList.map((item) => (
+        <div>
+          {item}
+        </div>
+      ))}
+      <div style={{float: "left", clear: "both"}} ref={messagesContainerRef}/>
+    </Container>
   );
 }
 

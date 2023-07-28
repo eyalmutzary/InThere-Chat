@@ -11,12 +11,11 @@ const ProfileWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   cursor: pointer;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-  background-color: ${({theme}) => theme.colors.lightGray};
+  //box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  background-color: ${({theme}) => theme.colors.container};
   border-radius: 100px;
-  //padding: 8px 16px;
   padding-right: 12px;
-  margin: 12px 22px;
+  margin: 20px 12px;
 `;
 
 const ColumnWrapper = styled.div`
@@ -44,8 +43,8 @@ const SubText = styled.div`
 `;
 
 const ProfileImage = styled.img`
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
   border-radius: 100px;
   margin: 12px;
   object-fit: cover;
