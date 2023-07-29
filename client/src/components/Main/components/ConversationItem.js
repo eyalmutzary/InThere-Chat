@@ -27,7 +27,7 @@ const ChatTitle = styled.div`
 `;
 const ChatSubtitle = styled.div`
   font-size: 1rem;
-  color: ${({theme}) => theme.colors.darkGray};
+  color: ${({theme}) => theme.colors.nonMainText};
 `;
 const Notification = styled.div`
   font-size: 1rem;
@@ -60,7 +60,7 @@ const BoldName = styled.span`
 `;
 const TimeAgo = styled.div`
   font-size: 1rem;
-  color: ${({theme}) => theme.colors.darkGray};
+  color: ${({theme}) => theme.colors.nonMainText};
 `;
 
 function ConversationItem({title, notificationsAmount, eventId, room}) {

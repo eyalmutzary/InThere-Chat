@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import MessageWrapper from "./MessageTypes/MessageWrapper";
+import MessageWrapper from "./MessageTypes/MessageMeta";
 import styled from 'styled-components';
 
 

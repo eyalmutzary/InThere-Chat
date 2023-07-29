@@ -3,11 +3,12 @@ const colors = {
   container: '#ffeedd',
   subContainer: '#ffd8be',
   mainText: '#111522',
+  nonMainText: '#A6A6A6',
+
   unique1: '#b8b8ff',
   unique2: '#9381ff',
 
   white: '#ffffff',
-  darkGray: '#A6A6A6',
   red: '#ff4d4d',
 
   yellow: '#fff1cc',

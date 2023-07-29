@@ -39,7 +39,7 @@ const Text = styled.div`
 
 const SubText = styled.div`
   font-size: 18px;
-  color: ${({theme}) => theme.colors.darkGray};
+  color: ${({theme}) => theme.colors.nonMainText};
 `;
 
 const ProfileImage = styled.img`

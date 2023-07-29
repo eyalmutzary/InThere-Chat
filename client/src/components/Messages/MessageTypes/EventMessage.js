@@ -13,11 +13,23 @@ const MyMessageContainer = styled.div`
   flex-direction: column;
   align-items: ${({isme}) => (isme)};
   margin-top: 8px;
-  padding: 12px;
+  padding: 20px 20px 10px 20px;
   max-width: fit-content;
   box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
   color: ${({theme}) => theme.colors.black};
+`;
 
+const JoinButton = styled(Button)`
+  background-color: ${({theme}) => theme.colors.unique1};
+  font-size: 20px;
+  color: ${({theme}) => theme.colors.mainText};
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
 `;
 
 const MyMessageWrapper = styled(MyMessageContainer)`
@@ -38,9 +50,8 @@ const MyMessageWrapper = styled(MyMessageContainer)`
 `;
 
 const EventTitle = styled.div`
-  font-size: 30px;
-  margin-bottom: 10px;
-  line-height: 1.4;
+  font-size: 28px;
+  margin-bottom: 8px;
 `;
 
 const EventDetail = styled.div`
@@ -48,7 +59,7 @@ const EventDetail = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 5px;
+  padding: 4px;
 `;
 
 
@@ -87,7 +98,10 @@ function EventMessage({
         <Icon name={'user'}/>&nbsp;&nbsp;
         {membersLimit <= 0 ? `${members?.length} Members` : `${members?.length} / ${membersLimit} Memberss`}
       </EventDetail>
-      {senderType !== SENDER_TYPE.ME && <Button onClick={() => handleJoinToEvent()}>Tap to Join!</Button>}
+      {senderType !== SENDER_TYPE.ME &&
+        <ButtonWrapper>
+          <JoinButton onClick={() => handleJoinToEvent()}>Tap to Join!</JoinButton>
+        </ButtonWrapper>}
     </MyMessageWrapper>
   );
 }

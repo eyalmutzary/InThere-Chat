@@ -28,7 +28,7 @@ const RowWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-  color: ${({theme}) => theme.colors.darkGray};
+  color: ${({theme}) => theme.colors.nonMainText};
 `;
 
 const FlagIcon = styled.img`
@@ -62,7 +62,7 @@ function createEventMessage(key, senderType, title, membersLimit, membersRegiste
   )
 }
 
-function MessageWrapper({data, index}) {
+function MessageMeta({data, index}) {
   const loggedUser = useSelector((state) => state.auth.user);
   let message;
   let name;
@@ -73,7 +73,7 @@ function MessageWrapper({data, index}) {
       : SENDER_TYPE.USER_IN_LOCATION;
 
     message = createEventMessage(data.id, senderType,
-      data.title, data.membersLimit, data.membersRegistered, data.eventDate, data.eventHour, data.eventLocation)
+      data.title, data.membersLimit, data.members, data.eventDate, data.eventHour, data.eventLocation)
     name = data.createdBy;
   } else {
     senderType = data.uid === loggedUser.uid
@@ -100,4 +100,4 @@ function MessageWrapper({data, index}) {
   );
 }
 
-export default React.memo(MessageWrapper);
+export default React.memo(MessageMeta);
