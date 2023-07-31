@@ -11,20 +11,12 @@ import {addDoc, collection, limit, onSnapshot, orderBy, query, where,} from "fir
 import {MESSAGE_TYPES} from '../shared/constants';
 
 const OuterContainer = styled.div`
-  height: 100svh;
+  height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
   background: ${({theme}) => theme.colors.background};
-`;
 
-const MessagesContainer = styled.div`
-  overflow-y: scroll;
-  padding: 40px 20px 0 0;
-`;
-
-const InputContainer = styled.div`
-  padding: 20px;
 `;
 
 function Chat() {
@@ -125,12 +117,8 @@ function Chat() {
   return (
     <OuterContainer>
       <InfoBar setRoomDetailsModal={setRoomDetailsModal}/>
-      <MessagesContainer>
-        <Messages messages={messages} events={events}/>
-      </MessagesContainer>
-      <InputContainer>
-        <Input message={typedMessage} setMessage={setTypedMessage} sendMessage={sendMessage}/>
-      </InputContainer>
+      <Messages messages={messages} events={events}/>
+      <Input message={typedMessage} setMessage={setTypedMessage} sendMessage={sendMessage}/>
       {roomDetailsModal && <RoomDetails setRoomDetailsModal={setRoomDetailsModal}/>}
     </OuterContainer>
   );

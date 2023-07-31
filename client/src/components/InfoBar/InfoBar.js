@@ -7,15 +7,12 @@ import styled from 'styled-components';
 import {Icon} from '../shared';
 
 const Container = styled.div`
-  position: fixed;
-  z-index: 100;
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
   background: ${({theme}) => theme.colors.subContainer};
   color: ${({theme}) => theme.colors.mainText};
-  border-radius: 4px 4px 0 0;
   padding: 12px;
-  width: 100%;
 `;
 
 const Button = styled.button`
@@ -71,17 +68,14 @@ function InfoBar({setRoomDetailsModal}) {
 
   return (
     <Container>
-      {/*<LeftInnerContainer>*/}
       <Button>
         <BasicIcon onClick={() => navigate("/main")} name="chevron-left"/>
-
       </Button>
       <RoomDetails onClick={() => setRoomDetailsModal(true)}>
         <Image
           src="https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400"/>
         <RoomTitle>{eventName ? eventName : room}</RoomTitle>
       </RoomDetails>
-      {/*</LeftInnerContainer>*/}
     </Container>
   );
 }

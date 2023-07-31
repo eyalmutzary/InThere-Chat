@@ -2,6 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import {Icon} from '../shared';
 
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+  box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+  margin: 4px 12px;
+`;
+
 const TextInput = styled.textarea`
   border-radius: 30px;
   background-color: ${({theme}) => theme.colors.background};
@@ -10,24 +21,15 @@ const TextInput = styled.textarea`
   padding: 8px;
   border: none;
   font-size: 16px;
-  width: 100%;
   font-family: inherit;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: end;
+  height: 20px;
   width: 100%;
-  box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.25);
-  border-radius: 50px;
-
 `;
+
 
 const SendButton = styled.button`
   color: ${({theme}) => theme.colors.white};

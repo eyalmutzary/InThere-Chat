@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
 import {Provider, useDispatch, useSelector} from 'react-redux';
 import {ThemeProvider} from 'styled-components';
-import store, { authActions } from './components/shared/store';
+import store, {authActions} from './components/shared/store';
 import {GlobalStyle, theme} from './components/shared/theme';
 import Chat from './components/Chat/Chat';
 import Main from './components/Main/Main';
 import Profile from './components/Profile/profile';
 import EditProfile from './components/EditProfile/EditProfile';
-// import RelevanceMessages from './components/Chat/RelevanceMessages';
 import Welcome from './components/Welcome/Welcome';
 import EventFlow from './components/EventFlow/EventFlow';
 

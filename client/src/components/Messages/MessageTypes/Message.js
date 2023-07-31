@@ -9,10 +9,8 @@ const MyMessageContainer = styled.div`
   align-items: ${({isme}) => (isme)};
   font-size: 1.2em;
   padding: 12px;
-  max-width: fit-content;
   margin-top: 8px;
   box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
-  color: ${({theme}) => theme.colors.black};
 `;
 
 const MyMessageWrapper = styled(MyMessageContainer)`
@@ -27,7 +25,8 @@ const MyMessageWrapper = styled(MyMessageContainer)`
     }
   }};
   border-radius: ${({messagetype}) => (messagetype === SENDER_TYPE.ME ? '20px 20px 0px 20px' : '20px 20px 20px 0px')};
-  max-width: max-content;
+  word-break: break-all;
+
 `;
 
 function Message({text, senderType}) {
@@ -38,5 +37,4 @@ function Message({text, senderType}) {
   );
 }
 
-// export default React.memo(Message);
 export default Message;

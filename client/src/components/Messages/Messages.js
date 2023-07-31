@@ -4,7 +4,12 @@ import styled from 'styled-components';
 
 
 const Container = styled.div`
-  padding: 5% 0;
+  //padding: 4px 0;
+  overflow-y: scroll;
+  //height: 100%;
+  //width: 100%;
+  flex: 1;
+
 `;
 
 function Messages({messages, events}) {
@@ -34,12 +39,10 @@ function Messages({messages, events}) {
   return (
     <Container>
       {combinedMessages.map((data, index) => (
-        <div>
-          <MessageWrapper
-            data={data}
-            index={index}
-          />
-        </div>
+        <MessageWrapper
+          data={data}
+          index={index}
+        />
       ))}
       <div style={{float: "left", clear: "both"}} ref={messagesContainerRef}/>
     </Container>
