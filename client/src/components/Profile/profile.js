@@ -5,14 +5,11 @@ import { Button, Icon } from '../shared';
 import faceBookLogo from '../../assets/facebookLogo.png';
 import instagramIcon from '../../assets/instagramIcon.png';
 import { useSelector } from 'react-redux';
-import { FloatButton } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* padding: 0 12px 12px 12px; */
   padding: 0px 40px;
 `;
 
@@ -26,35 +23,35 @@ const ContainerCard = styled.div`
 
 const ProfileContainer = styled(ContainerCard)`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.colors.lightGray};
+  background-color: ${({ theme }) => theme.colors.container};
   margin: 20px;
 `;
 
 const ContentContainer = styled(ContainerCard)`
-  background-color: ${({ theme }) => theme.colors.main3};
-  color: ${({ theme }) => theme.colors.black};
+  background-color: ${({ theme }) => theme.colors.container};
+  color: ${({ theme }) => theme.colors.mainText};
 `;
 
 const ProfileImage = styled.img`
-  width: 200px;
+  width: 160px;
   height: 200px;
-  border-radius: 50%;
+  border-radius: 5%;
   object-fit: cover;
 `;
 
 const ProfileName = styled.div`
   font-size: 26px;
   font-weight: bold;
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.mainText};
   margin-top: 20px;
 `;
 
 const OriginFrom = styled.div`
   font-size: 20px;
-  color: ${({ theme }) => theme.colors.darkGray};
+  color: ${({ theme }) => theme.colors.nonMainText};
   margin-top: 8px;
   display: flex;
   flex-direction: row;
@@ -67,6 +64,14 @@ const RowWrapper = styled.div`
   justify-content: center;
 `;
 
+
+const ColumnWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
 const CircleButton = styled(Button)`
   width: 50px;
   height: 50px;
@@ -74,8 +79,10 @@ const CircleButton = styled(Button)`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: ${({ theme }) => theme.colors.unique2};
   color: ${({ theme }) => theme.colors.white};
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  margin: 8px;
 `;
 
 const IconImage = styled.img`
@@ -92,7 +99,7 @@ const Title = styled.div`
 
 const Text = styled.div`
   font-size: 18px;
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.mainText};
 `;
 
 const colors = [
@@ -108,7 +115,7 @@ const colors = [
 
 const Tag = styled.div`
   font-size: 22px;
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.mainText};
   margin: 8px;
   background-color: ${({ color }) => color};
   padding: 4px 12px;
@@ -119,12 +126,6 @@ const TagsContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-`;
-
-const BackIcon = styled(Icon)`
-  font-size: 30px;
-  color: ${({ theme }) => theme.colors.black};
-  margin: 20px 0 0 20px;
 `;
 
 const IconRowWrapper = styled.div`
@@ -140,7 +141,7 @@ const EditButton = styled.button`
   bottom: 40px;
   right: 40px;
   z-index: 100;
-  background-color: ${({ theme }) => theme.colors.main1};
+  background-color: ${({ theme }) => theme.colors.unique2};
   box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.4);
   border-radius: 50%;
   border: 0;
@@ -197,11 +198,11 @@ function Profile() {
       <EditButton onClick={() => navigate('/edit-profile')}><Icon name={'pen'}/></EditButton>
       <IconRowWrapper>
         <Icon name="arrow-left" onClick={() => navigate(-1)} />
-        {/* <Icon name="arrow-left" /> */}
       </IconRowWrapper>
       <Container>
         <ProfileContainer>
           <ProfileImage src={photoURL} />
+          <ColumnWrapper>
           <ProfileName>{name}</ProfileName>
           <OriginFrom>
             <Icon name="globe" />
@@ -218,17 +219,8 @@ function Profile() {
               <IconImage src={faceBookLogo} />
             </CircleButton>
           </RowWrapper>
+          </ColumnWrapper>
         </ProfileContainer>
-{/* 
-        <ContentContainer>
-          <Title>Level 3: Long tripper</Title>
-          <RowWrapper>
-            <ProgressBarWrapper>
-              <ProgressBar percentage={50} />
-            </ProgressBarWrapper>
-            <Precentage>50%</Precentage>
-          </RowWrapper>
-        </ContentContainer> */}
 
         <ContentContainer>
           <Title>About Me</Title>
