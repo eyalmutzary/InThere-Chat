@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Icon } from '../shared';
 import 'react-phone-number-input/style.css';
 import {firestore} from "../../firebase";
+import { useNavigate } from 'react-router';
 
 const Backdrop = styled.div`
     background: rgba(0, 0, 0, 0.6);
@@ -99,12 +100,14 @@ const MessageIcon = styled(Icon)`
     font-size: 1.5rem;
     margin-right: 8px;
 `;
+const DUMMY_IMAGE = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
 
 function RoomDetails({ setRoomDetailsModal }) {
   const [roomMembers, setRoomMembers] = React.useState([]);
   const searchParams = new URLSearchParams(location.search);
   const eventId = searchParams.get('eventId') ?? '';
   const room = searchParams.get('room');
+  const navigate = useNavigate()
 
   useEffect(() => {
     const unsubscribe = firestore
@@ -126,18 +129,21 @@ function RoomDetails({ setRoomDetailsModal }) {
 
     // TODO: Add a button to leave the room (only if it is an event => eventId != '')
   }, []);
+  console.log("roomMembers", roomMembers)
 
-  const membersList = roomMembers && roomMembers.map((user) => (
-    <MemberWrapper key={user}>
+  const membersList = roomMembers && roomMembers.map(({uid, name, photoURL, phone}) => (
+    <MemberWrapper key={uid} onClick={() => navigate(`/profile?uid=${uid}`)}>
       <Wrapper>
-        <MemberImage src="https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400" />
+        <MemberImage src={photoURL ||DUMMY_IMAGE } />
         <MemberDetailsWrapper>
-          <MemberName>{user.name}</MemberName>
-          <MemberLastSeen>Active 2 hours ago</MemberLastSeen>
+          <MemberName>{name}</MemberName>
+          {/* <MemberLastSeen>{phone}</MemberLastSeen> */}
         </MemberDetailsWrapper>
       </Wrapper>
       <MessageIcon name="comment" />
     </MemberWrapper>
+
+
   ));
   return (
     <Backdrop>

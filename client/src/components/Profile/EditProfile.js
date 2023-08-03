@@ -80,8 +80,6 @@ const EditProfile = () => {
     instagramUrl: '',
     facebookUrl: '',
     about: '',
-    nationality: '',
-    language: '',
     intrests: [],
   });
 
@@ -106,11 +104,11 @@ const EditProfile = () => {
 
   useEffect(() => {
     setFormState({
-      phone: userDetails.phone,
-      instagramUrl: userDetails.instagramUrl,
-      facebookUrl: userDetails.facebookUrl,
-      about: userDetails.about,
-      intrests: userDetails.intrests,
+      phone: userDetails.phone ?? '',
+      instagramUrl: userDetails.instagramUrl ?? '',
+      facebookUrl: userDetails.facebookUrl ?? '',
+      about: userDetails.about ?? '',
+      intrests: userDetails.intrests  ?? [],
       });
   }, [userDetails]);
 

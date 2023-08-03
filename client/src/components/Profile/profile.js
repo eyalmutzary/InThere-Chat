@@ -198,11 +198,9 @@ function Profile() {
     </Tag>
   ));
 
-  console.log(userDetails)
-
   return (
     <>
-      {uid === userDetails?.uid && <EditButton onClick={() => navigate(`/edit-profile?uid=${userDetails.uid}`)}><Icon name={'pen'}/></EditButton>}
+      {JSON.parse(localStorage.getItem("user")).uid === uid && <EditButton onClick={() => navigate(`/edit-profile?uid=${userDetails.uid}`)}><Icon name={'pen'}/></EditButton>}
       <IconRowWrapper>
         <Icon name="arrow-left" onClick={() => navigate("/main")} />
       </IconRowWrapper>

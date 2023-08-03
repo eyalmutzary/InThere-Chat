@@ -17,7 +17,9 @@ const ScreenContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    height: 90svh;
+    height: 100svh;
+    background-color: ${({theme}) => theme.colors.container};
+
 `;
 
 const LogoImage = styled.img`
@@ -162,7 +164,7 @@ const EventFlow = () => {
           
           <div>
             {stage > 1 && <BackButton onClick={() => setStage(stage - 1)} disabled={stage === 1}>Back</BackButton>}
-        <Button onClick={handleNextStage}>{stage === 4 ? 'Submit' : 'Next'}</Button>
+            <Button onClick={handleNextStage}>{stage === 4 ? 'Submit' : 'Next'}</Button>
           </div>
         
     </ScreenContainer>
