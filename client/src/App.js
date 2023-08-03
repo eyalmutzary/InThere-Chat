@@ -53,7 +53,7 @@ function App() {
             <Route path="/chat/*" element={<PrivateRoute element={<Chat/>}/>}/>
             <Route path="/main/*" element={<PrivateRoute element={<Main/>}/>}/>
             <Route path="/profile/*" element={<PrivateRoute element={<Profile/>}/>}/>
-            <Route path="/edit- profile/*" element={<PrivateRoute element={<EditProfile/>}/>}/>
+            <Route path="/edit-profile/*" element={<PrivateRoute element={<EditProfile/>}/>}/>
             <Route path="/new-event/*" element={<PrivateRoute element={<EventFlow/>}/>}/>
             <Route path="/*" element={<PrivateRoute element={<Main/>}/>}/>
             <Route path="/" element={<Welcome/>}/>

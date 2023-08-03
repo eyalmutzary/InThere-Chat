@@ -77,7 +77,7 @@ const ProfileButton = () => {
 
   return (
     <ProfileWrapper>
-      <RowWrapper onClick={() => navigate('/profile')}>
+      <RowWrapper onClick={() => navigate(`/profile?uid=${user.uid}`)}>
         <ProfileImage src={user.photoURL}/>
         <ColumnWrapper>
           <SubText>Welcome back,</SubText>

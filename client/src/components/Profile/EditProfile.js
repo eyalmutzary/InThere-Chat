@@ -1,15 +1,18 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { Button, Form, Input, Select, Space } from 'antd';
 import { Icon } from '../shared';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { firestore } from '../../firebase';
+
 
 const FormWrapper = styled.div`
-    padding: 30px;
+    padding: 10px 30px 30px 30px;
+    background-color: ${({ theme }) => theme.colors.container};
 `;
 
 const Text = styled.div`
-    font-size: 24px;
+    font-size: 20px;
 `;
 
 const BackIcon = styled(Icon)`
@@ -20,88 +23,146 @@ const BackIcon = styled(Icon)`
 
 const HOBBIES_DUMMY_DATA = [{
   label: 'Basketball',
-  value: 'basketball',
+  value: 'Basketball',
 }, {
   label: 'Soccer',
-  value: 'soccer',
+  value: 'Boccer',
 }, {
   label: 'Tennis',
-  value: 'tennis',
+  value: 'Tennis',
 }, {
   label: 'Volleyball',
-  value: 'volleyball',
+  value: 'Volleyball',
 }, {
   label: 'Hiking',
-  value: 'hiking',
+  value: 'Hiking',
 }, {
   label: 'Running',
-  value: 'running',
+  value: 'Running',
 }, {
   label: 'Swimming',
-  value: 'swimming',
+  value: 'Swimming',
 }, {
   label: 'Netflix',
-  value: 'netflix',
+  value: 'Netflix',
 }, {
   label: 'Gaming',
-  value: 'gaming',
+  value: 'Gaming',
 }, {
   label: 'Reading',
-  value: 'reading',
+  value: 'Reading',
 }, {
   label: 'Cooking',
-  value: 'cooking',
+  value: 'Cooking',
 }, {
   label: 'Baking',
-  value: 'baking',
+  value: 'Baking',
 }, {
   label: 'Gardening',
-  value: 'gardening',
+  value: 'Gardening',
 }, {
   label: 'Photography',
-  value: 'photography',
+  value: 'Photography',
 }, {
   label: 'Painting',
-  value: 'painting',
+  value: 'Painting',
 }];
 
 const EditProfile = () => {
-  const navigate = useNavigate();
-  const [form] = Form.useForm();
+  const [searchParams] = useSearchParams();
+  const uid = searchParams.get('uid');
 
-  const onFinish = (values) => {
-    console.log(values);
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [form] = Form.useForm();
+  const [formState, setFormState] = useState({
+    phone: '',
+    instagramUrl: '',
+    facebookUrl: '',
+    about: '',
+    nationality: '',
+    language: '',
+    intrests: [],
+  });
+
+
+  const [userDetails, setUserDetails] = useState({});
+  useEffect(() => {
+    setIsLoading(true);
+    const unsubscribe = firestore
+      .collection('users')
+      .where('uid', '==', uid)
+      .onSnapshot((snapshot) => {
+        const user = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setIsLoading(false);
+        setUserDetails(user[0] ?? {});
+      });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    setFormState({
+      phone: userDetails.phone,
+      instagramUrl: userDetails.instagramUrl,
+      facebookUrl: userDetails.facebookUrl,
+      about: userDetails.about,
+      intrests: userDetails.intrests,
+      });
+  }, [userDetails]);
+
+  const onFinish = () => {
+    const user = {
+      ...userDetails,
+      ...formState,
+    };
+  
+    firestore
+      .collection('users')
+      .doc(userDetails.uid)
+      .update(user)
+      .then(() => {
+        console.log('User updated successfully');
+      })
+      .catch((error) => {
+        console.log('Error updating user:', error);
+      });
   };
 
+  console.log(formState)
   return (
     <>
-        <BackIcon name="arrow-left" onClick={() => navigate(-1)} />
+        
         <FormWrapper>
-
+          <BackIcon name="arrow-left" onClick={() => navigate(-1)} />
+            {isLoading ? <div>Loading...</div> : 
             <Form form={form} autoComplete="off" onFinish={onFinish}>
                 <Form.Item 
-                    name="phoneNumber"
+                    name="phone"
                 >
                     <Text>Phone Number:</Text>
-                    <Input size={'large'} style={{ height: 70, fontSize: 24 }}/>
+                    <Input size={'large'} style={{ height: 50, fontSize: 20 }} defaultValue={userDetails.phone} onChange={(e) => setFormState((oldState) => {return {...oldState, phone: e.target.value}})}/>
                 </Form.Item>
                 <Form.Item
-                    name="instagram"
+                    name="instagramUrl"
                 >
                     <Text>Instagram URL:</Text>
-                    <Input size={'large'} style={{ height: 70, fontSize: 24 }}/>
+                    <Input size={'large'} style={{ height: 50, fontSize: 20 }} defaultValue={userDetails.instagramUrl} onChange={(e) => setFormState((oldState) => {return {...oldState, instagramUrl: e.target.value}})}/>
                 </Form.Item>
                 <Form.Item
-                    name="facebook"
+                    name="facebookUrl"
                 >
                     <Text>Facebook URL:</Text>
-                    <Input size={'large'} style={{ height: 70, fontSize: 24 }}/>
+                    <Input size={'large'} style={{ height: 50, fontSize: 20 }} defaultValue={userDetails.facebookUrl} onChange={(e) => setFormState((oldState) => {return {...oldState, facebookUrl: e.target.value}})}/>
                 </Form.Item>
                     <Form.Item
-                    name="description"
+                    name="about"
                     >
-                    <Text>Description:</Text>
-                    <Input.TextArea maxLength={200} size={'large'} style={{ height: 180, fontSize: 24 }}/>
+                    <Text>About:</Text>
+                    <Input.TextArea maxLength={200} size={'large'} style={{ height: 180, fontSize: 20 }} defaultValue={userDetails.about} onChange={(e) => setFormState((oldState) => {return {...oldState, about: e.target.value}})}/>
                 </Form.Item>
 
                 <Form.Item>
@@ -111,8 +172,8 @@ const EditProfile = () => {
                         mode="multiple"
                         style={{ width: '100%', fontSize: 20 }}
                         placeholder="Please select"
-                        defaultValue={[]}
-                        onChange={()=>{}}
+                        defaultValue={userDetails?.intrests ?? []}
+                        onChange={(interstsList) => setFormState((oldState) => {return {...oldState, intrests: interstsList}})}
                         options={HOBBIES_DUMMY_DATA}
                     /> 
                 </Form.Item>
@@ -123,7 +184,7 @@ const EditProfile = () => {
                         <Button htmlType="reset" style={{ width: 100, height: 60, fontSize: 20 }}>Reset</Button>
                     </Space>
                 </Form.Item>
-            </Form>
+            </Form>}
         </FormWrapper>
     </>
     
