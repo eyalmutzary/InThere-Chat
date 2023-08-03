@@ -128,9 +128,10 @@ const EditProfile = () => {
       .catch((error) => {
         console.log('Error updating user:', error);
       });
+
+      navigate(-1);
   };
 
-  console.log(formState)
   return (
     <>
         
@@ -178,8 +179,8 @@ const EditProfile = () => {
 
                 <Form.Item>
                     <Space>
-                        <Button type="primary" htmlType="submit" style={{ width: 100, height: 60, fontSize: 20 }}>Submit</Button>
-                        <Button htmlType="reset" style={{ width: 100, height: 60, fontSize: 20 }}>Reset</Button>
+                        <Button type="primary" htmlType="submit" style={{ width: 100, height: 60, fontSize: 20, backgroundColor: "#9381ff"}}>Submit</Button>
+                        {/* <Button htmlType="reset" style={{ width: 100, height: 60, fontSize: 20 }}>Reset</Button> */}
                     </Space>
                 </Form.Item>
             </Form>}
