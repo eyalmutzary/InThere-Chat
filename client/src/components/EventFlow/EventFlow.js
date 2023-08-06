@@ -1,8 +1,8 @@
 import React, {useCallback, useState} from 'react';
 import styled from 'styled-components';
-import {Calendar, Input, TimePicker} from 'antd';
+// import {Input} from 'antd';
 import Logo from '../../assets/logo.png';
-import {DetailsStage, Map, MemberLimit, Progress} from './components';
+import {DateTimePicker, DetailsStage, LocationPicker, MemberLimit, Progress} from './components';
 import {Button, Icon} from '../shared';
 import {useNavigate} from 'react-router-dom';
 import {convertToDayMonth, convertToHHmm} from '../shared/utils';
@@ -12,40 +12,40 @@ import {addDoc, collection,} from "firebase/firestore";
 
 
 const ScreenContainer = styled.div`
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    height: 100svh;
-    background-color: ${({theme}) => theme.colors.container};
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  //height: 100svh;
+    // background-color: ${({theme}) => theme.colors.container};
 
 `;
 
 const LogoImage = styled.img`
-    width: 140px;
-    height: 140px;
-    object-fit: contain;
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
 `;
 
 const ColWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-
-`;
-
-const MapWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  width: 100%;
+
 `;
+
+// const MapWrapper = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+// `;
 
 const BackIcon = styled(Icon)`
   font-size: 30px;
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({theme}) => theme.colors.black};
   margin: 20px 0 0 20px;
   position: fixed;
 `;
@@ -106,70 +106,58 @@ const EventFlow = () => {
     } else {
       setStage(stage + 1);
     }
-    
+
   };
 
 
-  
   return (
-  <>
-    <BackIcon name="arrow-left" onClick={() => navigate(-1)} />
-    <ScreenContainer>
+    <>
+      <BackIcon name="arrow-left" onClick={() => navigate(-1)}/>
+      <ScreenContainer>
         <ColWrapper>
-            <LogoImage src={Logo} />
-            <Progress stageNum={stage}/> 
-            {stage === 1 && <DetailsStage form={form} setForm={setForm}/>}
-            {stage === 2 
+          <LogoImage src={Logo}/>
+          <Progress stageNum={stage}/>
+          {stage === 1 && <DetailsStage form={form} setForm={setForm}/>}
+          {stage === 2
             && (
-            <>
-              <Calendar 
-              fullscreen={false} 
-              onSelect={(e) => setForm((oldForm) => {
-                return {
-                  ...oldForm,
-                  eventDate: e.$d,
-                };
-              })}
-              />
-              <TimePicker
-                size={'large'}
-                format={'HH:mm'}
-                onSelect={onTimePickerSelect}
-              />
-            </>
+              <DateTimePicker form={form} setForm={setForm}/>
             )}
 
-            <MapWrapper>
-                {stage === 3 
-                && (
-                <>
-                  <Map />
-                  <Input 
-                  style={{ fontSize: '24px', marginTop: '40px' }} 
-                  placeholder="Event Location" 
-                    onChange={(e) => setForm((oldForm) => {
-                      return {
-                        ...oldForm,
-                        eventLocation: e.target.value,
-                      };
-                    })}
-                  />
-                </>
-                )}
-            </MapWrapper>
+          {/*<MapWrapper>*/}
+          {stage === 3
+            && (
+              // <ErrorBoundary>
+              <LocationPicker form={form} setForm={setForm}/>
+              // </ErrorBoundary>
+            )}
+          {/*</MapWrapper>*/}
 
-            {stage === 4 && <MemberLimit membersLimit={form.membersLimit} setForm={setForm} />}
-            
+          {stage === 4 && <MemberLimit membersLimit={form.membersLimit} setForm={setForm}/>}
+
         </ColWrapper>
-          
-          <div>
-            {stage > 1 && <BackButton onClick={() => setStage(stage - 1)} disabled={stage === 1}>Back</BackButton>}
-            <Button onClick={handleNextStage}>{stage === 4 ? 'Submit' : 'Next'}</Button>
-          </div>
-        
-    </ScreenContainer>
+
+        <div>
+          {stage > 1 && <BackButton onClick={() => setStage(stage - 1)} disabled={stage === 1}>Back</BackButton>}
+          <Button onClick={handleNextStage}>{stage === 4 ? 'Submit' : 'Next'}</Button>
+        </div>
+
+      </ScreenContainer>
     </>
   );
 };
 
 export default EventFlow;
+//
+// <>
+//   <Map/>
+//   <Input
+//     style={{fontSize: '24px', marginTop: '40px'}}
+//     placeholder="Event Location"
+//     onChange={(e) => setForm((oldForm) => {
+//       return {
+//         ...oldForm,
+//         eventLocation: e.target.value,
+//       };
+//     })}
+//   />
+// </>

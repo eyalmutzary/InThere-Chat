@@ -1,39 +1,38 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Container = styled.div`
-    margin: 40px;
-    border: 1px solid ${({ theme }) => theme.colors.darkGray};
-    height: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 90%;
-    font-size: 20px;
+const ProgressContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Stage = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: 3px solid ${({ theme, isSelected }) => isSelected ? theme.colors.main1 : theme.colors.darkGray};
-    background-color: ${({ theme, isSelected }) => isSelected ? theme.colors.white : theme.colors.darkGray};
+  background-color: ${(props) => (props.active ? props.theme.colors.unique2 : props.theme.colors.container)};
+  color: ${(props) => (props.active ? props.theme.colors.mainText : props.theme.colors.nonMainText)};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 12px;
 `;
 
-const Progress = ({ stageNum }) => {
-    
+const Progress = ({stageNum}) => {
+  const stages = [1, 2, 3, 4];
+
   return (
-    <Container>
-        <Stage isSelected={stageNum === 1}>1</Stage>
-        <Stage isSelected={stageNum === 2}>2</Stage>
-        <Stage isSelected={stageNum === 3}>3</Stage>
-        <Stage isSelected={stageNum === 4}>4</Stage>
-    </Container> 
+    <ProgressContainer>
+      {stages.map((stage) => (
+        <Stage key={stage} active={stage === stageNum}>
+          {stage}
+        </Stage>
+      ))}
+    </ProgressContainer>
   );
 };
 
 export default Progress;
+

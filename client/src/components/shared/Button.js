@@ -7,5 +7,5 @@ export const Button = styled.button`
   padding: 12px 24px 12px 24px;
   margin: 20px;
   cursor: pointer;
-
+  background-color: ${({theme}) => theme.colors.unique1};
 `;
