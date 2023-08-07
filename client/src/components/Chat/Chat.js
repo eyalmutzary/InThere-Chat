@@ -11,8 +11,8 @@ import {addDoc, collection, limit, onSnapshot, orderBy, query, where,} from "fir
 import {MESSAGE_TYPES} from '../shared/constants';
 
 const OuterContainer = styled.div`
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   background: ${({theme}) => theme.colors.background};
