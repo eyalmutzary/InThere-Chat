@@ -15,7 +15,8 @@ export const AppContainer = styled.div`
   //min-height: 100vh;
   //display: flex;
   ////flex-direction: column;
-  height: 100%;
+  height: 99%;
+  position: fixed;
   //height: calc(var(--vh, 1vh) * 100);
 `;
 
