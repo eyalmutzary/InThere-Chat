@@ -93,8 +93,8 @@ const EventFlow = () => {
     return event;
   };
 
-  
-  const createEvent = (event) => {  
+
+  const createEvent = (event) => {
     addDoc(collection(firestore, 'Events'), event);
   };
 
@@ -123,14 +123,10 @@ const EventFlow = () => {
               <DateTimePicker form={form} setForm={setForm}/>
             )}
 
-          {/*<MapWrapper>*/}
           {stage === 3
             && (
-              // <ErrorBoundary>
               <LocationPicker form={form} setForm={setForm}/>
-              // </ErrorBoundary>
             )}
-          {/*</MapWrapper>*/}
 
           {stage === 4 && <MemberLimit membersLimit={form.membersLimit} setForm={setForm}/>}
 

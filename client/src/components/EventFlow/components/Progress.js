@@ -4,20 +4,23 @@ import styled from 'styled-components';
 const ProgressContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  width: 70%;
 `;
 
 const Stage = styled.div`
-  background-color: ${(props) => (props.active ? props.theme.colors.unique2 : props.theme.colors.container)};
+  background-color: ${(props) => (props.active ? props.theme.colors.unique2 : props.theme.colors.subContainer)};
   color: ${(props) => (props.active ? props.theme.colors.mainText : props.theme.colors.nonMainText)};
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: ${(props) => (props.active ? '50px' : '25px')};
+  height: ${(props) => (props.active ? '50px' : '25px')};
   font-weight: bold;
   font-size: 20px;
   margin: 12px;
+
 `;
 
 const Progress = ({stageNum}) => {
@@ -27,7 +30,7 @@ const Progress = ({stageNum}) => {
     <ProgressContainer>
       {stages.map((stage) => (
         <Stage key={stage} active={stage === stageNum}>
-          {stage}
+          {/*{stage}*/}
         </Stage>
       ))}
     </ProgressContainer>

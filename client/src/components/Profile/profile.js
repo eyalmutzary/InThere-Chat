@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'styled-components';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, Icon } from '../shared';
+import {useNavigate, useSearchParams} from 'react-router-dom';
+import {Button, Icon} from '../shared';
 import faceBookLogo from '../../assets/facebookLogo.png';
 import instagramIcon from '../../assets/instagramIcon.png';
-import { useSelector } from 'react-redux';
-import { firestore } from '../../firebase';
+import {firestore} from '../../firebase';
 
 const Container = styled.div`
   display: flex;
@@ -33,11 +32,11 @@ const ContentContainer = styled(ContainerCard)`
   color: ${({ theme }) => theme.colors.mainText};
 `;
 const ProfileImage = styled.img`
-  width: 100%;
-  height: 200px;
+  width: 75%;
+  height: 75%;
   border-radius: 5%;
   object-fit: cover;
-  
+
 `;
 const ProfileName = styled.div`
   font-size: 26px;
