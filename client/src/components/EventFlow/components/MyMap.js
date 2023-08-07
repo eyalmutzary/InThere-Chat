@@ -2,7 +2,7 @@ import {MapContainer, Marker, TileLayer} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-search/dist/leaflet-search.src.css";
 import L from "leaflet";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import styled from 'styled-components';
 import OpenCageGeocode from 'opencage-api-client';
 
@@ -71,12 +71,24 @@ const IconPerson = new L.Icon({
 
 
 export default function MyMap() {
-  const [map, setMap] = useState(null);
+  const mapRef = useRef(null);
+
   const [latitude, setLatitude] = useState(localStorage.getItem('latitude') || 0);
   const [longitude, setLongitude] = useState(localStorage.getItem('longitude') || 0);
   const [address, setAddress] = useState("");
   const [markerPosition, setMarkerPosition] = useState([latitude, longitude]);
   const [searchResults, setSearchResults] = useState([]);
+
+  useEffect(() => {
+
+    if (mapRef.current) {
+      mapRef.current.setView(markerPosition, 14);
+    }
+  }, [markerPosition]);
+
+  const handleMapCreated = (mapInstance) => {
+    mapRef.current = mapInstance;
+  };
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -100,6 +112,7 @@ export default function MyMap() {
     setLongitude(lng);
   };
 
+
   const handleSearch = async () => {
     try {
       const response = await OpenCageGeocode.geocode({
@@ -107,7 +120,6 @@ export default function MyMap() {
         key: 'c310ab5564694ced808257c995239af2', // Replace this with your OpenCage API key
       });
 
-      console.log(response);
       if (response.status.code === 200 && response.results.length > 0) {
         const results = response.results.slice(0, 3); // Take the top 3 results
         setSearchResults(results);
@@ -157,7 +169,7 @@ export default function MyMap() {
         </List>
       )}
 
-      <Container center={markerPosition} zoom={14} scrollWheelZoom={true} whenCreated={setMap}>
+      <Container center={markerPosition} zoom={14} scrollWheelZoom={true} whenCreated={handleMapCreated}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
