@@ -14,9 +14,9 @@ import EventFlow from './components/EventFlow/EventFlow';
 export const AppContainer = styled.div`
   //min-height: 100vh;
   //display: flex;
-  //flex-direction: column;
-  height: 100vh;
-  height: calc(var(--vh, 1vh) * 100);
+  ////flex-direction: column;
+  //height: 100vh;
+  //height: calc(var(--vh, 1vh) * 100);
 `;
 
 function PrivateRoute({element}) {
@@ -36,6 +36,13 @@ function PrivateRoute({element}) {
 }
 
 function App() {
+  const resizeOps = () => {
+    document.documentElement.style.setProperty("--vh", window.innerHeight * 0.01 + "px");
+  };
+
+  resizeOps();
+  window.addEventListener("resize", resizeOps);
+
   useEffect(() => {
     // Get the user's location
     navigator.geolocation.getCurrentPosition((position) => {
@@ -51,6 +58,7 @@ function App() {
         });
     });
   }, []);
+
 
   return (
     <ThemeProvider theme={theme}>
