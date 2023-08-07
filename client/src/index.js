@@ -5,7 +5,7 @@ import App from './App';
 
 const meta = document.createElement('meta');
 meta.name = 'viewport';
-meta.content = 'width=device-width, height= device-height, initial-scale=1, shrink-to-fit=no';
+meta.content = 'width=device-width, height=device-height, initial-scale=1';
 document.head.appendChild(meta);
 
 createRoot(document.getElementById('root')).render(<App/>);

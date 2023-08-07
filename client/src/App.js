@@ -12,9 +12,9 @@ import Welcome from './components/Welcome/Welcome';
 import EventFlow from './components/EventFlow/EventFlow';
 
 export const AppContainer = styled.div`
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  //min-height: 100vh;
+  //display: flex;
+  //flex-direction: column;
 `;
 
 function PrivateRoute({element}) {
