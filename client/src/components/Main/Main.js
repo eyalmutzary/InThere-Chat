@@ -8,7 +8,8 @@ import ConversationItem from './components/ConversationItem';
 import {firestore} from '../../firebase';
 import ProfileButton from './components/ProfileButton';
 import {collection, limit, onSnapshot, query, where,} from "firebase/firestore";
-import {MESSAGE_TYPES} from '../shared/constants';
+import {MESSAGE_TYPES, photoAPIkey} from '../shared/constants';
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -44,12 +45,12 @@ const LocationImage = styled.img`
   height: 28vh;
   object-fit: cover;
   border-radius: 30px;
-  background-image: url("https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400");
+  //background-image: url("https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400");
 `;
 
 const SubText = styled.div`
   font-size: 18px;
-  color: ${({theme}) => theme.colors.darkGray};
+  color: ${({theme}) => theme.colors.nonMainText};
 `;
 
 const Wrapper = styled.div`
@@ -80,11 +81,12 @@ function getRandomColor() {
 
 function Main() {
   const navigate = useNavigate();
-  // const [image, setImage] = useState('');
+  const [image, setImage] = useState('');
   const user = useSelector((state) => state.auth.user);
   const [events, setEvents] = useState([]);
   const searchParams = new URLSearchParams(location.search);
   const eventId = searchParams.get('eventId') ?? '';
+  const title = user.location;
 
   const fetchEvents = async () => {
     const q = query(
@@ -127,12 +129,22 @@ function Main() {
     )
   });
 
+  useEffect(() => {
+    axios.get(`https://api.unsplash.com/search/photos?query=${title}&client_id=${photoAPIkey}`)
+      .then((response) => {
+        setImage(response.data.results[0].urls.small)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [user.location])
+
   return (
     <Container>
       <ProfileButton/>
       <SubContainer onClick={() => navigate(`/chat?room=${user.location}`)}>
         <TextContainer>You're in {user.location}<Icon name="chevron-right"/></TextContainer>
-        <LocationImage></LocationImage>
+        <LocationImage src={image}/>
       < /SubContainer>
       <SubContainer>
         <TextContainer>Your Events:

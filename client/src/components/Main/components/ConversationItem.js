@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import 'react-phone-number-input/style.css';
 import {Icon} from '../../shared';
 import {useNavigate} from 'react-router-dom';
+import {useSelector} from "react-redux";
+import {photoAPIkey} from "../../shared/constants";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -50,8 +53,6 @@ const RowWrapper = styled.div`
 const ColumnWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  /* justify-content: space-between; */
 `;
 
 const BoldName = styled.span`
@@ -65,27 +66,32 @@ const TimeAgo = styled.div`
 
 function ConversationItem({title, notificationsAmount, eventId, room}) {
   const navigate = useNavigate();
-  // const [image, setImage] = useState('');
+  const [image, setImage] = useState('');
+  const user = useSelector((state) => state.auth.user);
 
-  // TODO: uncomment to get real photos (Gilad ignore this comment)
-  //   useEffect(() => {
-  //     console.log(user.location)
-  //     axios.get(`https://api.unsplash.com/search/photos?query=${title}&client_id=${photoAPIkey}`)
-  //         .then((response) => {
-  //             setImage(response.data.results[0].urls.small)
-  //             console.log(response.data.results); // display the photos in the console
-  //         })
-  //         .catch((error) => {
-  //         console.log(error);
-  //         });
-  // },[user.location])
+  useEffect(() => {
+    axios.get(`https://api.unsplash.com/search/photos?query=${title.replace(/ /g, '-')}&client_id=${photoAPIkey}`)
+      .then((response) => {
+        if (response.data.results.length > 0) {
+          setImage(response.data.results[0].urls.small);
+        } else {
+          console.log("No results found.");
+          // Optionally, set a default image URL when no results are found:
+          setImage("https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400");
+        }
+      })
+      .catch((error) => {
+        console.log("Error fetching data:", error);
+        // Optionally, set a default image in case of an error:
+        setImage("https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400");
+      });
+  }, [user.location]);
+
   // style={style}
   return (
     <Container onClick={() => navigate(`/chat?room=${room}&eventId=${eventId}&eventName=${title}`)}>
       <RowWrapper>
-        {/* <Image src={image} /> */}
-        <Image
-          src="https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400"/>
+        <Image src={image}/>
         <ColumnWrapper>
           <ChatTitle>{title}</ChatTitle>
           <ChatSubtitle><BoldName>Eyal:</BoldName>lorem ipsum</ChatSubtitle>

@@ -5,6 +5,7 @@ import L from "leaflet";
 import {useEffect, useRef, useState} from "react";
 import styled from 'styled-components';
 import OpenCageGeocode from 'opencage-api-client';
+import {mapAPIkey} from "../../shared/constants/allConstants";
 
 
 const Wrapper = styled.div`
@@ -117,7 +118,7 @@ export default function MyMap() {
     try {
       const response = await OpenCageGeocode.geocode({
         q: address,
-        key: 'c310ab5564694ced808257c995239af2', // Replace this with your OpenCage API key
+        key: mapAPIkey, // Replace this with your OpenCage API key
       });
 
       if (response.status.code === 200 && response.results.length > 0) {

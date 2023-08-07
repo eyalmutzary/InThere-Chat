@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
-import { Icon } from '../shared';
+import {Icon} from '../shared';
 import 'react-phone-number-input/style.css';
 import {firestore} from "../../firebase";
-import { useNavigate } from 'react-router';
+import {useNavigate} from 'react-router';
 
 const Backdrop = styled.div`
     background: rgba(0, 0, 0, 0.6);
@@ -110,18 +110,60 @@ function RoomDetails({ setRoomDetailsModal }) {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const unsubscribe = firestore
-      .collection('users')
-      .where('location', '==', room)
-      .onSnapshot((snapshot) => {
+    // const unsubscribe = firestore
+    //   .collection('users')
+    //   .where('location', '==', room)
+    //   .onSnapshot((snapshot) => {
+    //     const members = snapshot.docs.map((doc) => ({
+    //       id: doc.id,
+    //       ...doc.data(),
+    //     }));
+    //     setRoomMembers(members);
+    //   });
+    //
+    // return () => unsubscribe();
+
+    let firestoreQuery = firestore.collection('users');
+
+    if (eventId) {
+      // If eventId has a value, fetch the event document from the "events" collection
+      firestore
+        .collection('events')
+        .doc(eventId)
+        .get()
+        .then((eventDoc) => {
+          if (eventDoc.exists) {
+            // If the event document exists, retrieve the list of members from the "members" field
+            const eventMembers = eventDoc.data().members || [];
+            // Filter users from the "users" collection whose id is in the eventMembers list
+            firestoreQuery = firestoreQuery.where('id', 'in', eventMembers);
+            // Execute the query and listen for real-time updates
+            const unsubscribe = firestoreQuery.onSnapshot((snapshot) => {
+              const members = snapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+              }));
+              setRoomMembers(members);
+            });
+          } else {
+            console.log("Event not found.");
+          }
+        })
+        .catch((error) => {
+          console.log("Error fetching event document:", error);
+        });
+    } else {
+      // If eventId is not provided, execute the default query based on the 'room'
+      firestoreQuery = firestoreQuery.where('location', '==', room);
+      // Execute the query and listen for real-time updates
+      const unsubscribe = firestoreQuery.onSnapshot((snapshot) => {
         const members = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
         setRoomMembers(members);
       });
-
-    return () => unsubscribe();
+    }
     // TODO: fetch users to show the list of them
     // should get the array of uids from the room and (if exists) the event id (which has members attribute in it)
 
@@ -140,7 +182,6 @@ function RoomDetails({ setRoomDetailsModal }) {
           {/* <MemberLastSeen>{phone}</MemberLastSeen> */}
         </MemberDetailsWrapper>
       </Wrapper>
-      <MessageIcon name="comment" />
     </MemberWrapper>
 
 

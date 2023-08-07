@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
-
-// import onlineIcon from '../../icons/onlineIcon.png';
-// import closeIcon from '../../icons/closeIcon.png';
 import {Icon} from '../shared';
+import {useSelector} from "react-redux";
+import axios from "axios";
+import {photoAPIkey} from "../shared/constants";
 
 const Container = styled.div`
   display: flex;
@@ -45,26 +45,25 @@ const Image = styled.img`
 `;
 
 function InfoBar({setRoomDetailsModal}) {
-  // const [image, setImage] = useState('');
-
+  const [image, setImage] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const eventName = searchParams.get('eventName') ?? '';
   const room = searchParams.get('room');
+  const user = useSelector((state) => state.auth.user);
+  const title = user.location;
 
-  // TODO: uncomment to get real photos  (Gilad ignore this comment)
-  //   useEffect(() => {
-  //     console.log(user.location)
-  //     axios.get(`https://api.unsplash.com/search/photos?query=${title}&client_id=${photoAPIkey}`)
-  //         .then((response) => {
-  //             setImage(response.data.results[0].urls.small)
-  //             console.log(response.data.results); // display the photos in the console
-  //         })
-  //         .catch((error) => {
-  //         console.log(error);
-  //         });
-  // },[user.location])
+  useEffect(() => {
+    console.log(user.location)
+    axios.get(`https://api.unsplash.com/search/photos?query=${title}&client_id=${photoAPIkey}`)
+      .then((response) => {
+        setImage(response.data.results[0].urls.small)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [user.location])
 
   return (
     <Container>
@@ -72,8 +71,7 @@ function InfoBar({setRoomDetailsModal}) {
         <BasicIcon onClick={() => navigate("/main")} name="chevron-left"/>
       </Button>
       <RoomDetails onClick={() => setRoomDetailsModal(true)}>
-        <Image
-          src="https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw0MzMwMjZ8MHwxfHNlYXJjaHwxfHxOZXclMjBZb3JrfGVufDB8fHx8MTY4MDg3MjcwMA&ixlib=rb-4.0.3&q=80&w=400"/>
+        <Image src={image}/>
         <RoomTitle>{eventName ? eventName : room}</RoomTitle>
       </RoomDetails>
     </Container>

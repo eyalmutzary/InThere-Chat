@@ -20,9 +20,6 @@ const OuterContainer = styled.div`
 `;
 
 function Chat() {
-  // const scrollBottom = useRef(null);
-  // const location = useLocation();
-  // get the url parms:
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
