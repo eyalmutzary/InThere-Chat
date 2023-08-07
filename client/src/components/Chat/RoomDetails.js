@@ -67,7 +67,7 @@ const SecondTitle = styled.div`
 const Description = styled.p`
   font-size: 1rem;
   padding: 8px 28px;
-  background-color: ${({theme}) => theme.colors.unique2};
+  background-color: ${({theme}) => theme.colors.subContainer};
   border-radius: 20px;
 `;
 
@@ -110,7 +110,7 @@ const DescriptionWrapper = styled.div`
   margin: 8px;
   padding: 8px;
   border-radius: 20px;
-  background-color: ${({theme}) => theme.colors.unique1};
+  background-color: ${({theme}) => theme.colors.container};
 `;
 
 const DUMMY_IMAGE = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
@@ -124,6 +124,7 @@ function RoomDetails({setRoomDetailsModal}) {
   const navigate = useNavigate();
   const eventName = searchParams.get('eventName') ?? '';
   const user = useSelector((state) => state.auth.user);
+  const [membersLimit, setMembersLimit] = React.useState(0); // Step 1: Add a state variable to store the members limit
 
   useEffect(() => {
     let firestoreQuery = firestore.collection('users');
@@ -135,10 +136,10 @@ function RoomDetails({setRoomDetailsModal}) {
         .then((eventDoc) => {
           if (eventDoc.exists) {
             const eventData = eventDoc.data();
-            setEventDescription(eventData.description || ''); // Step 2
+            setEventDescription(eventData.description || '');
+            setMembersLimit(eventData.membersLimit || 0);
             const eventMembers = eventData.members || [];
             firestoreQuery = firestoreQuery.where('id', 'in', eventMembers);
-            // Execute the query and listen for real-time updates
             const unsubscribe = firestoreQuery.onSnapshot((snapshot) => {
               const members = snapshot.docs.map((doc) => ({
                 id: doc.id,
@@ -214,6 +215,7 @@ function RoomDetails({setRoomDetailsModal}) {
       <ModalWrapper>
         <TopWrapper>
           <Title>{eventName ? eventName : room}</Title>
+
           {eventId && <Icon onClick={handleLeave} name="fa-right-from-bracket"/>}
           <Icon name="times" onClick={() => setRoomDetailsModal(false)}/>
         </TopWrapper>
@@ -224,7 +226,11 @@ function RoomDetails({setRoomDetailsModal}) {
           </DescriptionWrapper>
         )}
 
-        <SecondTitle>Group Members</SecondTitle>
+        <TopWrapper>
+          <SecondTitle>Group Members</SecondTitle>
+          {membersLimit <= 0 ? `${roomMembers?.length} members` : `${roomMembers?.length} / ${membersLimit} members`}
+          <Icon name={'user'}/>&nbsp;&nbsp;
+        </TopWrapper>
         {membersList}
       </ModalWrapper>
     </Backdrop>
