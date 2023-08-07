@@ -20,7 +20,7 @@ const Container = styled.div`
 
 const Title = styled.div`
   font-size: 2rem;
-  color: ${({theme}) => theme.colors.main1};
+  color: ${({theme}) => theme.colors.mainText};
   font-weight: bold;
   margin-bottom: 30px;
 
@@ -31,7 +31,7 @@ const Img = styled.img`
   margin: 30px;
 `;
 const SignInButton = styled.button`
-  background-color: #4285F4;
+  background-color: ${({theme}) => theme.colors.unique2};
   color: white;
   display: flex;
   align-items: center;

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
 import {Provider, useDispatch, useSelector} from 'react-redux';
-import {ThemeProvider} from 'styled-components';
+import styled, {ThemeProvider} from 'styled-components';
 import store, {authActions} from './components/shared/store';
 import {GlobalStyle, theme} from './components/shared/theme';
 import Chat from './components/Chat/Chat';
@@ -11,11 +11,17 @@ import EditProfile from './components/Profile/EditProfile';
 import Welcome from './components/Welcome/Welcome';
 import EventFlow from './components/EventFlow/EventFlow';
 
+export const AppContainer = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+
 function PrivateRoute({element}) {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   if (!localStorage.getItem('user')) return <Navigate to="/"/>;
-  
+
   if (Object.keys(user).length === 0 && localStorage.getItem('user').length > 0) {
     const loggedUser = JSON.parse(localStorage.getItem('user'));
     dispatch(authActions.setUser(loggedUser));
@@ -47,17 +53,19 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
-       <GlobalStyle/>
+        <GlobalStyle/>
         <Router>
-          <Routes>
-            <Route path="/chat/*" element={<PrivateRoute element={<Chat/>}/>}/>
-            <Route path="/main/*" element={<PrivateRoute element={<Main/>}/>}/>
-            <Route path="/profile/*" element={<PrivateRoute element={<Profile/>}/>}/>
-            <Route path="/edit-profile/*" element={<PrivateRoute element={<EditProfile/>}/>}/>
-            <Route path="/new-event/*" element={<PrivateRoute element={<EventFlow/>}/>}/>
-            <Route path="/*" element={<PrivateRoute element={<Main/>}/>}/>
-            <Route path="/" element={<Welcome/>}/>
-          </Routes>
+          <AppContainer>
+            <Routes>
+              <Route path="/chat/*" element={<PrivateRoute element={<Chat/>}/>}/>
+              <Route path="/main/*" element={<PrivateRoute element={<Main/>}/>}/>
+              <Route path="/profile/*" element={<PrivateRoute element={<Profile/>}/>}/>
+              <Route path="/edit-profile/*" element={<PrivateRoute element={<EditProfile/>}/>}/>
+              <Route path="/new-event/*" element={<PrivateRoute element={<EventFlow/>}/>}/>
+              <Route path="/*" element={<PrivateRoute element={<Main/>}/>}/>
+              <Route path="/" element={<Welcome/>}/>
+            </Routes>
+          </AppContainer>
         </Router>
       </Provider>
     </ThemeProvider>
