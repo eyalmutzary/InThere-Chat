@@ -71,7 +71,7 @@ const IconPerson = new L.Icon({
 })
 
 
-export default function MyMap() {
+export default function MyMap({form, setForm}) {
   const mapRef = useRef(null);
 
   const [latitude, setLatitude] = useState(localStorage.getItem('latitude') || 0);
@@ -111,6 +111,11 @@ export default function MyMap() {
     setMarkerPosition([lat, lng]);
     setLatitude(lat);
     setLongitude(lng);
+    setForm((prevForm) => ({
+      ...prevForm,
+      eventLocationLat: lat,
+      eventLocationLng: lng,
+    }));
   };
 
 
@@ -139,6 +144,13 @@ export default function MyMap() {
     setMarkerPosition([geometry.lat, geometry.lng]);
     setLatitude(geometry.lat);
     setLongitude(geometry.lng);
+
+    setForm((prevForm) => ({
+      ...prevForm,
+      eventLocationLat: geometry.lat,
+      eventLocationLng: geometry.lng,
+    }));
+
     setAddress("");
     setSearchResults([]); // Clear search results after selecting a location
   };

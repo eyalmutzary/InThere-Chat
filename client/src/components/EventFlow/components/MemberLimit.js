@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-    /* margin: 40px; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -64,31 +63,39 @@ const MemberLimit = ({ membersLimit, setForm }) => {
     }
     if (membersLimit.length >= 3) return;
     setForm((oldForm) => {
-      const newForm = { ...oldForm };
+      const newForm = {...oldForm};
       newForm.membersLimit = oldForm.membersLimit.concat(num);
       return newForm;
     });
   };
 
+  const handleInputChange = (e) => {
+    const newValue = e.target.value;
+    setForm((oldForm) => ({
+      ...oldForm,
+      membersLimit: newValue,
+    }));
+  };
+
   return (
-      <Container>
-          <Title>Members Limit</Title>
-          <Input value={membersLimit}/>
-          <RowWrapper>
-              <NumberButton onClick={() => handleNumberClick('1')}>1</NumberButton>
-              <NumberButton onClick={() => handleNumberClick('2')}>2</NumberButton>
-              <NumberButton onClick={() => handleNumberClick('3')}>3</NumberButton>
-          </RowWrapper>
-          <RowWrapper>
-              <NumberButton onClick={() => handleNumberClick('4')}>4</NumberButton>
-              <NumberButton onClick={() => handleNumberClick('5')}>5</NumberButton>
-              <NumberButton onClick={() => handleNumberClick('6')}>6</NumberButton>
-          </RowWrapper>
-          <RowWrapper>
-              <NumberButton onClick={() => handleNumberClick('7')}>7</NumberButton>
-              <NumberButton onClick={() => handleNumberClick('8')}>8</NumberButton>
-              <NumberButton onClick={() => handleNumberClick('9')}>9</NumberButton>
-          </RowWrapper>
+    <Container>
+      <Title>Members Limit</Title>
+      <Input value={membersLimit} onChange={handleInputChange}/>
+      <RowWrapper>
+        <NumberButton onClick={() => handleNumberClick('1')}>1</NumberButton>
+        <NumberButton onClick={() => handleNumberClick('2')}>2</NumberButton>
+        <NumberButton onClick={() => handleNumberClick('3')}>3</NumberButton>
+      </RowWrapper>
+      <RowWrapper>
+        <NumberButton onClick={() => handleNumberClick('4')}>4</NumberButton>
+        <NumberButton onClick={() => handleNumberClick('5')}>5</NumberButton>
+        <NumberButton onClick={() => handleNumberClick('6')}>6</NumberButton>
+      </RowWrapper>
+      <RowWrapper>
+        <NumberButton onClick={() => handleNumberClick('7')}>7</NumberButton>
+        <NumberButton onClick={() => handleNumberClick('8')}>8</NumberButton>
+        <NumberButton onClick={() => handleNumberClick('9')}>9</NumberButton>
+      </RowWrapper>
           <RowWrapper>
               <div style={{width: '60px', margin: '12px'}}/>
               <NumberButton onClick={() => handleNumberClick('0')}>0</NumberButton>

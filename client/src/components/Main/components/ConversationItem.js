@@ -94,14 +94,14 @@ function ConversationItem({title, notificationsAmount, eventId, room}) {
         <Image src={image}/>
         <ColumnWrapper>
           <ChatTitle>{title}</ChatTitle>
-          <ChatSubtitle><BoldName>Eyal:</BoldName>lorem ipsum</ChatSubtitle>
+          {/*<ChatSubtitle><BoldName>Eyal:</BoldName>lorem ipsum</ChatSubtitle>*/}
         </ColumnWrapper>
       </RowWrapper>
 
       <RowWrapper>
         <ColumnWrapper>
           {notificationsAmount > 0 && <Notification>{notificationsAmount}</Notification>}
-          <TimeAgo>5 min</TimeAgo>
+          {/*<TimeAgo>5 min</TimeAgo>*/}
         </ColumnWrapper>
         <Icon name="chevron-right"/>
       </RowWrapper>
