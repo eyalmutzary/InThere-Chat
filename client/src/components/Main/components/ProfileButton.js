@@ -67,6 +67,8 @@ const ProfileButton = () => {
     auth.signOut()
       .then(() => {
         dispatch(authActions.clearUser());
+        // delete all local storag
+        localStorage.clear();
       }).then(() => {
       navigate('/');
     })

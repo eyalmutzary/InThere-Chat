@@ -65,11 +65,18 @@ const EventFlow = () => {
   //     eventHour: e.$d,
   //   };
   // }), [])
-
+  const ISOTImeToString = (ISOTime) => {
+    // converts ISO Date string to template like "Jun 21"
+    const date = new Date(ISOTime);
+    // month shold be in english
+    const month = date.toLocaleString('en-US', {month: 'short'});
+    const day = date.getDate();
+    return `${month} ${day}`;
+  };
   const createEventObject = () => {
     return {
       ...form,
-      eventDate: form.eventDate.toISOString(),
+      eventDate: ISOTImeToString(form.eventDate.toISOString()),
       eventHour: convertToHHmm(form.eventHour),
       membersLimit: Number(form.membersLimit),
       createdAt: new Date().toISOString(),
@@ -85,6 +92,7 @@ const EventFlow = () => {
 
 
   const createEvent = (event) => {
+    // TODO: uncomment
     addDoc(collection(firestore, 'Events'), event);
   };
 
